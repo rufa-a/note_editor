@@ -174,48 +174,6 @@ NewNotes::NewNotes()
 //    note_scene->setSceneRect(0,0,50,50);
 //    QPen penBlack(Qt::red); // Задаём чёрную кисть
 //    group_1->addToGroup(note_scene->addLine(20,20, 100, 20, penBlack));
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-//    *lbl_note = new QLabel(scr); // на лэйбле рисуем ноту
-//    for (int i = 0; i<3; i++){
-//        lbl_note[i] = new QLabel(scr);
-//    }
-
-//    lbl_note[1] = new QLabel(area);
-//    lbl_note[2] = new QLabel(area);
-////    lbl_note->setStyleSheet("background-color: rgba(230, 204, 255, 50);");
-//    new_note = new MsNote(0, 0, 11, 9);
-//    QVBoxLayout *v_note = new QVBoxLayout(lbl_note);
-//    lbl_note->setLayout(v_note);
-//    v_note->addWidget(new_note);
-//    v_note->setMargin(0);
-//    lbl_note->setGeometry(0, 0, 50, 50);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-//    v_note->setMargin(0);
-//    v_ex->setGeometry(QRect(0, 0, 50, 100));
-//    lbl_note->setMouseTracking(true);
-
-//    QWidget *w = new QWidget(area);
-//    w->setStyleSheet("background-color: rgba(60, 204, 200, 50);");
-//    w->setGeometry(150, 150, 50, 50);
-
-//    emit clicked(area);
-//     connect(area, SIGNAL(clicked()), this, SLOT(createNote(QMouseEvent *e)));//try to create a note
-//    lbl_note = new QLabel *[100];
-//    lbl_note = new QVector<QLabel>;
-//    lbl_note.push_back(new QLabel);
-//    QLabel *lbl = new QLabel;
-
-//    *lbl_note = new QLabel(area);
-////    lbl_note.append(new QLabel);
-//    lbl_note[notes_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
-//    new_note[notes_amount] = new MsNote(0, 0, 11, 9);
-//    QVBoxLayout *v_note = new QVBoxLayout(lbl_note[notes_amount]);
-//    lbl_note[notes_amount]/*[notes_amount]*/->setLayout(v_note);
-//    v_note->addWidget(new_note[notes_amount]);
-//    v_note->setMargin(0);
-
-//    lbl_note << new QLabel(area);
 }
 
 void NewNotes::slotFunc(){
