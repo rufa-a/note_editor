@@ -5,7 +5,7 @@
 //#include <QFont>
 //#include <QTextCodec>
 
-NewNotes::NewNotes()
+NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 {
     codec = QTextCodec::codecForName("UTF-8");
 //    QTextCodec::setCodecForTr(codec);
@@ -25,34 +25,67 @@ NewNotes::NewNotes()
 
 
 
+//    /*note_window*/scr = new QMdiArea(this);/////////////////////
+//    QVBoxLayout *scr_layout = new QVBoxLayout(/*note_window*/scr);
+//    /*note_window*/scr->setLayout(scr_layout);
+////    scr = new QScrollArea(/*note_window*/);//QScrollArea(this);
+
+
+//    area = new NoteArea(/*note_window*/scr);
+//    scr_layout->addWidget(area);
+//    /*note_window*/scr->resize(1150, 500);
+//    /*note_window*/scr->setMaximumWidth(1150);////////////////////////////////
+//    /*note_window*/scr->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+//       /* note_window*/scr->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+//        setCentralWidget(/*note_window*/scr);
+
     scr = new QScrollArea(this);
-    area = new NoteArea(scr);
-    scr->setFixedSize(1150, 500);
-    scr->setWidget(area);
-    scr->setBackgroundRole(QPalette::Light);
+       area = new NoteArea(scr);
+       scr->setFixedSize(1150, 500);
+       scr->setWidget(area);
+       scr->setBackgroundRole(QPalette::Light);
+
+//    scr->setWidget(area);
+
+
+//    scr->setBackgroundRole(QPalette::Light);
 
     // = new QLabel(area);
-    lblName = new QLabel(area);
-    lblComp = new QLabel(area);
+    lblName = new QLineEdit(area);
+    lblComp = new QLineEdit(area);
     lblName->setText("Name");
-    lblName->setStyleSheet("font: 28pt 'Courier New' bond;");
-    lblName->setGeometry(500, 5, lblName->width(), lblName->height());
+    lblName->setStyleSheet("font: 24pt 'Courier New' bond; border:  1px dashed");
+    lblName->setGeometry(10, 5, 1100, 1.5*lblName->height());
+    lblName->setAlignment(Qt::AlignCenter);
+    lblName->setMaxLength(50);
+//    lblName->setFrame(false);
 
     lblComp->setText("Composer");
-    lblComp->setStyleSheet("font: 14pt 'Courier New';");
-    lblComp->setGeometry(900, 25, lblComp->width(), lblComp->height());
+    lblComp->setStyleSheet("font: 14pt 'Courier New';  border:  1px dashed");
+    lblComp->setGeometry(10, 55, 1100, lblComp->height());
+    lblComp->setAlignment(Qt::AlignRight);
+    lblComp->setMaxLength(60);
+//    lblComp->setFrame(false);
 
 
-    btn_exit = new QPushButton(codec->toUnicode("Завершить"),this );
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+
+//    btn_exit = new QPushButton(codec->toUnicode("Завершить"),this );
+
+    QWidget *w = new QWidget(this);
+
+    QHBoxLayout *mainLayout = new QHBoxLayout(/*this*/);
+    this->setCentralWidget(w);
+    w->setLayout(mainLayout);
+
+
     QVBoxLayout *layout1 = new QVBoxLayout;
     QVBoxLayout *layout2 = new QVBoxLayout;
     mainLayout->addLayout(layout1);
     mainLayout->addLayout(layout2);
     layout2->addWidget(scr);
-    layout2->addWidget(btn_exit);
+//    layout2->addWidget(btn_exit);
     layout1->addWidget(tools);
-    connect(btn_exit, SIGNAL(clicked(bool)),this,SLOT(close()));
+//    connect(btn_exit, SIGNAL(clicked(bool)),this,SLOT(SaveFile()));
 
 
 //    lbl->setStyleSheet("font:  bold italic large 'FreeSerifMscore'");
@@ -174,6 +207,41 @@ NewNotes::NewNotes()
 //    note_scene->setSceneRect(0,0,50,50);
 //    QPen penBlack(Qt::red); // Задаём чёрную кисть
 //    group_1->addToGroup(note_scene->addLine(20,20, 100, 20, penBlack));
+
+//    QMenuBar *menu = new QMenuBar;
+//    QMenu *file = new QMenu();
+//    file->addMenu("&File");
+//    menu->addMenu(file);
+
+//    QSlider *s1 = new QSlider(Qt::Horizontal, w);
+//    QSlider *s2 = new QSlider(Qt::Vertical, w);
+//    QSpinBox *sb = new QSpinBox;
+
+//    QHBoxLayout *L = new QHBoxLayout(w);
+//    L->addWidget(s1);
+//    L->addWidget(s2);
+//    L->addWidget(sb);
+
+        QMenu *fileMenu = new QMenu("&Файл");
+        QMenu *editMenu = new QMenu("&Редактировать");
+        QMenu *helpMenu = new QMenu("&Помощь");
+        helpMenu->addAction("&AboutQt", this, SLOT(aboutQt()));
+
+        fileMenu->addAction("Создать...", this, SLOT(create_note()));
+        fileMenu->addAction("Открыть...", this, SLOT(create_note()));
+        fileMenu->addAction("Сохранить", this, SLOT(SaveFile()));
+        fileMenu->addAction("Сохранить как...", this, SLOT(SaveFile()));
+        fileMenu->addAction("В&ыход", this, SLOT(close()));
+
+//        QHBoxLayout *h = new QHBoxLayout;
+
+        QMenuBar * mainMenu = new QMenuBar;
+        mainMenu->addMenu(fileMenu);
+        mainMenu->addMenu(helpMenu);
+//        w->setLayout(layout);
+//        QVBoxLayout * layout = new QVBoxLayout;
+
+        mainLayout->setMenuBar(mainMenu);
 }
 
 void NewNotes::slotFunc(){
@@ -198,80 +266,43 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
 //        note1.drawEllipse(QRect((( area->ex->area_position.x()-3)/25*25+10), (( area->ex->area_position.y()-8)/5*5+5), 11, 9));
 //    }
 
-    int px = area->ex->area_position.x();
+    int px = area->ex->ex_note_position.x();
     int ppx = area->lbl_ex->pos().x(); /////////////// позиция вспомогательной области
     int current_x = e->pos().x();
 
     int xx = e->pos().x() - scr->pos().x();//не то
-    int xxx = area->lbl_ex->pos().x();//(area_position.x()-5)/25*25+9), ((area_position.y()-8)/5*5+5)
+    int xxx = area->lbl_ex->pos().x();//(ex_note_position.x()-5)/25*25+9), ((ex_note_position.y()-8)/5*5+5)
     if (e->button() == Qt::LeftButton && (e->pos().x() - scr->pos().x()) >= (area->lbl_ex->pos().x())/* + 20*/ &&
                                             (e->pos().y() - scr->pos().y()) >= area->lbl_ex->pos().y() &&
-                                            (e->pos().y() - scr->pos().y()) <= (area->lbl_ex->pos().y() + area->lbl_ex->height())/*(area->ex->area_position.x() + 20)*/){
-//        new_note = new MsNote(0, 0, 10, 8);
-//        QVBoxLayout *v_note = new QVBoxLayout(lbl_note);
-//        lbl_note->setLayout(v_note);
-//        v_note->addWidget(new_note);
+                                            (e->pos().y() - scr->pos().y()) <= (area->lbl_ex->pos().y() + area->lbl_ex->height())/*(area->ex->ex_note_position.x() + 20)*/){
 
-//        lbl_note[notes_amount] = new QLabel(area); // на лэйбле рисуем ноту
-//    //    lbl_note->setStyleSheet("background-color: rgba(230, 204, 255, 50);");
-//        new_note[notes_amount] = new MsNote(0, 0, 11, 9);
-//        QVBoxLayout *v_note = new QVBoxLayout(lbl_note[notes_amount]);
-//        lbl_note[notes_amount]->setLayout(v_note);
-//        v_note->addWidget(new_note[notes_amount]);
-//        v_note->setMargin(0);
-
-        /*lbl_note[notes_amount] = new QLabel(area);*/ // на лэйбле рисуем ноту
-    //    lbl_note->setStyleSheet("background-color: rgba(230, 204, 255, 50);");
-//        lbl_note[notes_amount] = new QLabel(area);
-
-//        *lbl_note = new QLabel(scr);
-
-//        for (int i = 0; i<3; i++){
-//            lbl_note[i] = new QLabel(scr);
-//        }
-
-
-//        lbl_note[notes_amount] = new QLabel(area);
-//        lbl_note.append(new QLabel);
-//        *lbl_note[notes_amount] = notes_amount;
-//        lbl_note[notes_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
-//        new_note[notes_amount] = new MsNote(0, 0, 11, 9);
-//        QVBoxLayout *v_note = new QVBoxLayout(lbl_note[notes_amount]);
-//        lbl_note[notes_amount]/*[notes_amount]*/->setLayout(v_note);
-//        v_note->addWidget(new_note[notes_amount]);
-//        v_note->setMargin(0);
-
-//        QLabel *lbl = new QLabel(area);
-//        lbl_note << new QLabel(area);
         lbl_note.append(new QLabel(area));
-
-//        lbl_note.push_back(new QLabel);
-
-//        lbl_note[notes_amount] = new QLabel(area);
         lbl_note[notes_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
 
-        new_note.append(new MsNote(0,0,11,9));
+
+        new_note.append(new MsNote(/*0,0,*/(area->ex->ex_note_position.x()-5)/25*25+9,
+                                   (area->ex->ex_note_position.y()-10)/5*5+5, 11,9));
 //        new_note[notes_amount] = new MsNote(0, 0, 11, 9);
         QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_note[notes_amount]);
         lbl_note[notes_amount]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
         v_note/*[notes_amount]*/->addWidget(new_note[notes_amount]);
         v_note/*[notes_amount]*/->setMargin(0);
 
-        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 12, 10);
+//        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 30, 120/*12, 10*/);
+        lbl_note[notes_amount]->setGeometry(area->x_ex, area->y_ex, 30, 120);
         lbl_note[notes_amount]->setVisible(true);
-
-
-//        QWidget *w = new QWidget(area);
-//        w->setStyleSheet("background-color: rgba(60, 204, 200, 50);");
-//        w->setGeometry(150, 150, 50, 50);
-//        QVBoxLayout *v = new QVBoxLayout();
-//        w->setLayout(v);
-//        v->addWidget(lbl_note[notes_amount]);
-
 
         qDebug() << "Value " << notes_amount << ": " << lbl_note[notes_amount];
 
         notes_amount++;
+        area->x_ex += 30;/////
+        int pos_x_area = scr->pos().x();
+        int width_area = area->width();
+        int pos_x_ex = area->x_ex;
+        if (area->x_ex > /*area->pos().x() + area->width()*/area->width()){
+            area->y_ex += 140;
+            area->x_ex = area->first_x_ex;
+        }
 
 
 //        QPainter painter(new_note);
@@ -333,6 +364,28 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
 //    }
 //    return false;
 //}
+
+void NewNotes::SaveFile(){
+    QString filename = QFileDialog::getSaveFileName(
+                        this,
+                        tr("Save Document"),
+                        QDir::currentPath(),
+                        tr("Documents (*.msnote)") );
+    if( !filename.isNull()){
+        qDebug(filename.toUtf8() );
+
+        QFile new_file(filename);
+        if (!new_file.open(QIODevice::WriteOnly)) {
+            // error message
+        } else {
+            QTextStream data_stream(&new_file);
+            data_stream << lblName->text();
+            data_stream.flush();
+            new_file.close();
+        }
+
+    }
+}
 
 NewNotes::~NewNotes()
 {

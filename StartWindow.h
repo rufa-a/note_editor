@@ -1,12 +1,12 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef STARTWINDOW_H
+#define STARTWINDOW_H
 
 #include <QWidget>
 #include <QtWidgets>
 #define RUS(str) codec->toUnicode(str)
 #include "NewScore.h"
 
-class MainWindow : public QMainWindow//QWidget
+class StartWindow : public QWidget/*QMainWindow*///QWidget
 {
     Q_OBJECT
     QPushButton *btnExit, *btnCreate, *btnLoad;
@@ -15,12 +15,13 @@ class MainWindow : public QMainWindow//QWidget
 //    NewNotes wnNewNotes;
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    StartWindow(/*QWidget *parent = 0*/);
+    ~StartWindow();
 public slots:
     void showNewScore();
+    void openDir();
 //    void showNewNotes();
 
 };
 
-#endif // MAINWINDOW_H
+#endif // STARTWINDOW_H

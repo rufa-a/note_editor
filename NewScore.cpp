@@ -1,4 +1,5 @@
 #include "NewScore.h"
+#include <QFile>
 NewScore::NewScore()
                  //: QWizard(parent)
 {
@@ -52,11 +53,19 @@ void NewScore::showHelp()
 void NewScore::accept(){
 //    QString strName = field("NewName").toString();
 //    QString strComposer = field("NewComposer").toString();
+
+//    QFile NoteFile(field("NewName").toString() + "_" + field("NewComposer").toString()); //попытка создать файл
+////    NoteFile.setFileName(field("NewName").toString() + '_' + field("NewComposer").toString);
+//    QString note_name = "name";
+////    note_name += field("NewName").toString();
+//    NoteFile.write(note_name);
+
     QString file_clef;
 
-    wnNewNotes.lblName->setText(field("NewName").toString());
+    wnNewNotes.lblName->setText(field("NewName").toString()); //Ставим название и композитора
     wnNewNotes.lblComp->setText(field("NewComposer").toString());
-    wnNewNotes.show();
+    wnNewNotes.show();//////////////////////////////окно с нотным листом
+//    wnNewNotes.area->setVisible(true);
 
 
 
@@ -67,7 +76,7 @@ void NewScore::accept(){
         x_clef = 20, y_clef = 118, w_clef = 30, h_clef = 70;
         x_sign = 50, y_sign = 111;//координаты ключевых знаков
     }
-    if (field("bass.btn").toBool()){//ключевые знаки на 10 ниже
+    if (field("bass.btn").toBool()){//ключевые знаки на 10 ниже при басовом ключе
         file_clef = "C:/Users/User/qt_projects/try/try2/images/Bas_Clef.png";
 //        QPixmap(file_clef).scaled(40, 40, Qt::KeepAspectRatio);
         x_clef = 20, y_clef = 122, w_clef = 30, h_clef = 50;
@@ -162,8 +171,9 @@ void NewScore::accept(){
     wnNewNotes.str_temp = "=" + field("temp").toString();
     wnNewNotes.lbl_tempo->setText(wnNewNotes.str_temp);
 
-    wnNewNotes.area->x_ex = x_signature + w_sign + wnNewNotes.fr_signature->width() + 10;
-    wnNewNotes.area->y_ex = y_signature - 48;
+    wnNewNotes.area->x_ex = wnNewNotes.area->first_x_ex = x_signature + w_sign + wnNewNotes.fr_signature->width() + 10;
+
+    wnNewNotes.area->y_ex = wnNewNotes.area->first_y_ex = y_signature - 28/*48*/;
 
     QDialog::accept();
 
@@ -186,9 +196,11 @@ NewName::NewName(QWidget *parent)
 //    this->setPixmap(QWizard::WatermarkPixmap, QPixmap("treble_clef.jpg"));
 
     edtName = new QLineEdit(RUS(""), this);
+    edtName->setMaxLength(50);
     lblName = new QLabel(RUS("Название"), this);
     lblName->setFixedWidth(70);
     edtComposer = new QLineEdit(RUS(""), this);
+    edtComposer->setMaxLength(60);
     lblComposer = new QLabel(RUS("Композитор"), this);
     lblComposer->setFixedWidth(70);
 
@@ -322,7 +334,9 @@ NewSign::NewSign(QWidget *parent)
     setTitle(RUS("Новая партитура"));
     setSubTitle(RUS("Выберите ключевые знаки:"));
 
+    QHBoxLayout *scr_layout = new QHBoxLayout(this);
     scr = new QScrollArea(this);
+    scr_layout->addWidget(scr);
     mainWidget = new QWidget(scr);
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainWidget->setLayout(mainLayout);
@@ -472,8 +486,9 @@ NewSign::NewSign(QWidget *parent)
     mainLayout->addLayout(hb);
 
     scr->setWidget(mainWidget);
-    this->setFixedSize(600, 300);
-    scr->setFixedSize(600, 250);
+    this->resize(600, 300);
+    scr->setMinimumSize(600, 250);
+    scr->setMaximumSize(1000, 500);
     scr->setAlignment(Qt::AlignTop);
 
     scr->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);

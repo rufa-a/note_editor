@@ -30,7 +30,7 @@ class ExLines : public QWidget
 //public:
 //    int x, y;
     ExLines(/*QPoint &area_position*/);//: x(X), y(Y) {}
-    QPoint area_position;
+    QPoint ex_note_position;
     friend NoteArea;
     friend NewNotes;
 //    QLabel *lbl_ex;
@@ -39,7 +39,7 @@ class ExLines : public QWidget
 
 //    ~ExLines();
 
-    MyLine *lines[15];
+    MyLine *lines[11/*15*/];
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -53,7 +53,7 @@ class NoteArea:public QWidget
 //public:
     QString file_clef;
     QPixmap *px_clef;
-    int x_ex, y_ex;
+    int x_ex, y_ex, first_x_ex, first_y_ex;
 //    QLabel *lbl[8];
     /*My*/QLabel *lbl_ex;
 //    QVBoxLayout *v_ex;

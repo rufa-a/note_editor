@@ -1,7 +1,6 @@
-#include "MainWindow.h"
+#include "StartWindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)//QWidget(parent)
+StartWindow::StartWindow()/*(QWidget *parent): QMainWindow(parent)*///QWidget(parent)
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     this->setWindowTitle(RUS("Нотный редактор"));
@@ -22,13 +21,13 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    QWidget *w = new QWidget(this);
+//    QWidget *w = new QWidget(this);
     QVBoxLayout *vl = new QVBoxLayout;//////////////
 
 ////    w->setBackgroundRole(QPalette::Light);
 ////    w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-    this->setCentralWidget(w);
-    w->setLayout(vl);
+//    this->setCentralWidget(w);
+    this/*w*/->setLayout(vl);
 //    w->setLayout(layout);
 
 //    QMenuBar *menu = new QMenuBar;
@@ -62,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     vl->addWidget(btnExit);
 
     QPixmap px("C:/Users/User/qt_projects/try/try2/images/flower.jpg");
-    QLabel *lbl_treble = new QLabel(w);
+    QLabel *lbl_treble = new QLabel(/*w*/);
     lbl_treble->setPixmap(px.scaled(100, 100, Qt::KeepAspectRatio));
 
     vl->addWidget(lbl_treble);///////////////////////
@@ -79,21 +78,44 @@ MainWindow::MainWindow(QWidget *parent)
 
     resize(300, 200);
     connect(btnCreate, SIGNAL(clicked(bool)), this, SLOT(showNewScore()));
-//    connect(btnLoad, SIGNAL(clicked(bool)), this, SLOT(showNewNotes()));
+    connect(btnLoad, SIGNAL(clicked(bool)), this, SLOT(openDir()));
     connect(btnExit, SIGNAL(clicked(bool)), this, SLOT(close()));
 }
 
-MainWindow::~MainWindow()
+StartWindow::~StartWindow()
 {
     delete btnExit;
     delete btnCreate;
     delete btnLoad;
 }
 
-void MainWindow::showNewScore()
+void StartWindow::showNewScore()
 {
     wnNewScore.show();
+    this->setVisible(false);
 //    wnNewScore.edtName->setFocus();
+}
+
+void StartWindow::openDir(){
+//    QString dirname = QFileDialog::getExistingDirectory(
+//                       this,
+//                       tr("Select a Directory"),
+//                       QDir::currentPath() );
+//    if( !dirname.isNull() )
+//    {
+//       qDebug(dirname.toUtf8());
+//    }
+
+
+    QString filename = QFileDialog::getSaveFileName(
+                        this,
+                        tr("Save Document"),
+                        QDir::currentPath(),
+                        tr("Documents (*.txt)") );
+            if( !filename.isNull() )
+    {
+        qDebug(filename.toUtf8() );
+    }
 }
 
 //void MainWindow::showNewNotes()//работает

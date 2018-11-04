@@ -13,13 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        MainWindow.cpp \
     NewScore.cpp \
     NoteArea.cpp \
     NewNotes.cpp \
-    MsNote.cpp
+    MsNote.cpp \
+    StartWindow.cpp
 
-HEADERS  += MainWindow.h \
+HEADERS  += \
     NewScore.h \
     NewName.h \
     NewClef.h \
@@ -27,4 +27,5 @@ HEADERS  += MainWindow.h \
     NewRythm.h \
     NoteArea.h \
     NewNotes.h \
-    MsNote.h
+    MsNote.h \
+    StartWindow.h

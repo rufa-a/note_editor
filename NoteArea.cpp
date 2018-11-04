@@ -12,7 +12,7 @@ void MyLine::draw(QPainter *Painter)
 ExLines::ExLines(){
     setStyleSheet("background-color: rgba(102, 204, 255, 50);");//фон+прозрачность
     int x1 = 0, x2 = 30, y = 10;
-    for (int i=0; i<15; i++){
+    for (int i=0; i<11/*15*/; i++){
         lines[i]=new MyLine(x1,y, x2, y);// создаем объект Линия
         y += 10;
     }
@@ -22,14 +22,14 @@ ExLines::ExLines(){
 void ExLines::paintEvent(QPaintEvent *){    //рисование дополнительных мигающих линий
     QPainter painter(this);    // создаем контент рисования на Холсте
     painter.setPen(Qt::blue);      // задаем голубое Перо
-    for (int i=0; i<15; i++){
+    for (int i=0; i<11/*15*/; i++){
         lines[i]->draw(&painter);         // рисуем доп линию
     }
     QPainter note(this);    //расположение ноты
     note.setPen(Qt::red);
-    note.drawEllipse(QRect(((area_position.x()-5)/25*25+9), ((area_position.y()-8)/5*5+5), 11, 9));//рисуем кружочек в области дополнительных линий
+    note.drawEllipse(QRect(((ex_note_position.x()-5)/25*25+9), ((ex_note_position.y()-8)/5*5+5), 11, 9));//рисуем кружочек в области дополнительных линий
     //x - серединка линии(области разделяются по 25), y - между линиями
-    //    note.drawEllipse(QRect(area_position.x(), /*((area_position.y()-3)/5*5+3)*/area_position.y(), 10, 7));
+    //    note.drawEllipse(QRect(ex_note_position.x(), /*((ex_note_position.y()-3)/5*5+3)*/ex_note_position.y(), 10, 7));
 }
 
 //void ExLines::mouseMoveEvent(QMoveEvent *event){
@@ -81,6 +81,7 @@ NoteArea::NoteArea(QWidget *parent)
     v_ex->setMargin(0);
 //    v_ex->setGeometry(QRect(0, 0, 50, 100));
     lbl_ex->setMouseTracking(true);
+    lbl_ex->setVisible(false);
 
 //    lbl_ex->setStyleSheet("background-color: rgba(50, 204, 255, 50);");
 //    lbl_ex->setVisible(false);
@@ -106,7 +107,7 @@ void NoteArea::paintEvent(QPaintEvent *)    //рисование 8 нотоно�
 }
 
 
-void NoteArea::mouseMoveEvent(QMouseEvent *event){
+void NoteArea::mouseMoveEvent(QMouseEvent *event){//появление области вспомогательных линий
 //    ex->update();
 //    position = event->pos();    //где расположена мышь на экране в целом
 //    ex->area_position = position - ex->pos();   //координаты мыши относительно (в) notearea
@@ -128,10 +129,10 @@ void NoteArea::mouseMoveEvent(QMouseEvent *event){
 //    QPoint p = lbl_ex->pos();
     ex->update();
     position = event->pos();    //где расположена мышь на экране в целом
-    ex->area_position = position - lbl_ex->pos();   //координаты мыши в области доп линий
+    ex->ex_note_position = position - lbl_ex->pos();   //координаты мыши в области доп линий
     if ((position.x() >= (x_ex)) && (position.x() < (x_ex + 30)) && (position.y() >= y_ex) && (position.y() <= (y_ex+160))){//для рисования кружочка в области доп линий
 //
-        lbl_ex->setGeometry(QRect(x_ex, y_ex, 30, 160));
+        lbl_ex->setGeometry(QRect(x_ex, y_ex, 30, 120/*160*/));
         lbl_ex->setVisible(true);
         ex->setVisible(true);
     }
