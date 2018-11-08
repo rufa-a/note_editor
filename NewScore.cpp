@@ -82,7 +82,7 @@ void NewScore::accept(){
         x_clef = 20, y_clef = 122, w_clef = 30, h_clef = 50;
         x_sign = 55, y_sign = 121;
     }
-    for (int i = 0; i < 8; i++){//расстановка ключей
+    for (int i = 0; i < 6/*8*/; i++){//расстановка ключей
         wnNewNotes.lbl_clef[i]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
 //        wnNewNotes.area->lbl[i]->setPixmap(QPixmap(file_clef).scaled(w, h, Qt::KeepAspectRatio));
         wnNewNotes./*area->*/lbl_clef[i]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
@@ -91,7 +91,7 @@ void NewScore::accept(){
 
 
     if (field("r0").toBool()){//размещение размера при наличии ключевых знаков
-        for (int i=0; i<8; i++){
+        for (int i=0; i<6/*8*/; i++){
 //            wnNewNotes.lbl_signs[i]->setGeometry(0,0,0,0);
             wnNewNotes.lbl_signs[i]->setVisible(false);//невидимые лейблы ключевых знаков
         }
@@ -155,7 +155,7 @@ void NewScore::accept(){
             w_sign = 70, h_sign = 55, y_sign += 6;
             file_sign += "7b_clef.svg.png";
         }
-        for (int i=0; i<8; i++){
+        for (int i=0; i<6/*8*/; i++){
             wnNewNotes.lbl_signs[i]->setVisible(true);
             wnNewNotes.lbl_signs[i]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
             wnNewNotes.lbl_signs[i]->setGeometry(x_sign, y_sign, w_sign, h_sign);

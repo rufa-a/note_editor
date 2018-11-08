@@ -92,7 +92,7 @@ StartWindow::~StartWindow()
 void StartWindow::showNewScore()
 {
     wnNewScore.show();
-    this->setVisible(false);
+//    this->setVisible(false);
 //    wnNewScore.edtName->setFocus();
 }
 

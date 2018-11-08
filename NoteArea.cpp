@@ -58,16 +58,16 @@ void ExLines::paintEvent(QPaintEvent *){    //рисование дополни�
 
 NoteArea::NoteArea(QWidget *parent)
 {
-    setFixedSize(QSize(1110,1250)); // фиксируем размер Холста
+    setFixedSize(QSize(1115,1250)); // фиксируем размер Холста
 //    this->setStyleSheet("color: white");
-    int x1 = 20, x2 = 1100, y = 130;
+    int x1 = 20, x2 = 1110, y = 130;
 
-    for (int j=0; j<8; j++){
+    for (int j=0; j<6/*8*/; j++){
         for (int i=0; i<5; i++){
-            line[j][i]=new MyLine(x1,y, x2, y);// создаем объект Линия
+            line[j][i]=new MyLine(x1,y, x2, y);// создаем линии нотоносца
             y += 10;
         }
-        connectLine[j] = new MyLine(x2, y-50, x2, y-10);//убрать
+//        connectLine[j] = new MyLine(x2, y-50, x2, y-10);//убрать
         y += 90;
     }
     setMouseTracking(true);
@@ -93,16 +93,16 @@ NoteArea::NoteArea(QWidget *parent)
 //{
 //    myTimer=startTimer(50);      // включаем таймер(мб вариант для проигрывания)
 //}
-void NoteArea::paintEvent(QPaintEvent *)    //рисование 8 нотоносцев
+void NoteArea::paintEvent(QPaintEvent *)    //рисование 6(8) нотоносцев
 {
     QPainter painter(this);    // создаем контент рисования на Холсте
     painter.setPen(Qt::black);      // задаем черное Перо
 //    line1[0]->draw(&painter);
-    for (int j=0; j<8; j++){
+    for (int j=0; j<6/*8*/; j++){
         for (int i=0; i<5; i++){
             line[j][i]->draw(&painter);         // рисуем Линию
         }
-        connectLine[j]->draw(&painter);
+//        connectLine[j]->draw(&painter);
     }
 }
 
@@ -130,11 +130,18 @@ void NoteArea::mouseMoveEvent(QMouseEvent *event){//появление обла�
     ex->update();
     position = event->pos();    //где расположена мышь на экране в целом
     ex->ex_note_position = position - lbl_ex->pos();   //координаты мыши в области доп линий
-    if ((position.x() >= (x_ex)) && (position.x() < (x_ex + 30)) && (position.y() >= y_ex) && (position.y() <= (y_ex+160))){//для рисования кружочка в области доп линий
-//
+
+    if ((position.x() >= (x_ex)) && (position.x() < (x_ex + 30)) && (position.y() >= y_ex) &&
+            (position.y() <= (y_ex+120)) /*&& appear_ex*/){//для рисования кружочка в области доп линий
         lbl_ex->setGeometry(QRect(x_ex, y_ex, 30, 120/*160*/));
-        lbl_ex->setVisible(true);
-        ex->setVisible(true);
+        if (!appear_ex){
+            ex->setVisible(false);
+            lbl_ex->setVisible(true);
+        }else{
+
+            lbl_ex->setVisible(true);
+            ex->setVisible(true);
+        }
     }
     else{
         lbl_ex->setVisible(false);
@@ -142,9 +149,6 @@ void NoteArea::mouseMoveEvent(QMouseEvent *event){//появление обла�
     }
 //    lbl_ex->update();
 //    ex->update();
-
-
-
 //    delete ex;
 }
 

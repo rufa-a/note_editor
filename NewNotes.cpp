@@ -17,10 +17,29 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
 
 
-    QToolBar *tools =  new QToolBar(codec->toUnicode("Инструменты"));
-    tools->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/2b.png"), "1", this, SLOT(slotFunc()));
-    tools->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/2d.png"), "1", this, SLOT(slotFunc()));
+    QToolBar *ms_values =  new QToolBar(codec->toUnicode("Длительности"));
+//    tools->addAction()
+    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Целая", this,SLOT(set1Value()));
+    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"), "Половинная", this,SLOT(set2Value()));
+    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"), "Четвертная", this, SLOT(set4Value()));
+    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"), "Восьмая", this, SLOT(set8Value()));
+    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"), "Шестнадцатая", this, SLOT(set16Value()));
 //    tools->addФ
+
+    QToolBar *note_pause = new QToolBar(codec->toUnicode("Ввод нот/пауз"), this);
+    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Ввод нот", this,SLOT(NoteInput()));
+    note_pause->addSeparator();
+    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/pause_icon.svg"), "Ввод пауз", this,SLOT(PauseInput()));
+    note_pause->addSeparator();
+    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/4rest.svg.png"), "Ввод случайных знаков", this,SLOT(PauseInput()));
+//    QToolButton *note = new QToolButton(note_pause);
+//    note->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+////    note->setText("Ввод нот");
+//    note_pause->addSeparator();
+//    note_pause->addWidget(note);
+//    note->setEnabled(false);
+//    note->setToolTip("Нажмите для ввода нот");
+
 
 
 
@@ -41,7 +60,7 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
     scr = new QScrollArea(this);
        area = new NoteArea(scr);
-       scr->setFixedSize(1150, 500);
+       scr->resize(1150, 500);
        scr->setWidget(area);
        scr->setBackgroundRole(QPalette::Light);
 
@@ -82,10 +101,11 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
     QVBoxLayout *layout2 = new QVBoxLayout;
     mainLayout->addLayout(layout1);
     mainLayout->addLayout(layout2);
+//    mainLayout->setMenuBar(note_pause);
     layout2->addWidget(scr);
-//    layout2->addWidget(btn_exit);
-    layout1->addWidget(tools);
-//    connect(btn_exit, SIGNAL(clicked(bool)),this,SLOT(SaveFile()));
+    layout1->addWidget(note_pause);
+    layout1->addWidget(ms_values);
+
 
 
 //    lbl->setStyleSheet("font:  bold italic large 'FreeSerifMscore'");
@@ -242,16 +262,48 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //        QVBoxLayout * layout = new QVBoxLayout;
 
         mainLayout->setMenuBar(mainMenu);
+
+
+//        string_note_file = new QString();
+//        scr->viewport();
+//        scr->setMouseTracking(true);
+//        area->setMouseTracking(true);
 }
 
 void NewNotes::slotFunc(){
     QMessageBox::information(0, "Message", "Not implemented");
-    QWidget *w = new QWidget(area);
-    w->setStyleSheet("background-color: rgba(60, 204, 200, 50);");
-    w->setGeometry(150, 150, 50, 50);
-//    QPushButton *psh = new QPushButton("shiiiiiiiiit", area);
-//    psh->setGeometry(0, 0, 50, 30);
+}
 
+void NewNotes::NoteInput(){
+    note_pause_input = true;
+    area->appear_ex = true;
+}
+
+void NewNotes::PauseInput(){
+    note_pause_input = false;
+    area->appear_ex = false;
+}
+
+void NewNotes::set1Value(){
+    notes_value = 1.0;
+    note_value = 1;
+//    string_note_file = "C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png";
+}
+void NewNotes::set2Value(){
+    notes_value = 0.5;
+    note_value = 2;
+}
+void NewNotes::set4Value(){
+    notes_value = 0.25;
+    note_value = 4;
+}
+void NewNotes::set8Value(){
+    notes_value = 0.125;
+    note_value = 8;
+}
+void NewNotes::set16Value(){
+    notes_value = 0.0625;
+    note_value = 16;
 }
 
 //void NewNotes::draw_note(QPainter *painter){
@@ -272,35 +324,102 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
 
     int xx = e->pos().x() - scr->pos().x();//не то
     int xxx = area->lbl_ex->pos().x();//(ex_note_position.x()-5)/25*25+9), ((ex_note_position.y()-8)/5*5+5)
-    if (e->button() == Qt::LeftButton && (e->pos().x() - scr->pos().x()) >= (area->lbl_ex->pos().x())/* + 20*/ &&
-                                            (e->pos().y() - scr->pos().y()) >= area->lbl_ex->pos().y() &&
-                                            (e->pos().y() - scr->pos().y()) <= (area->lbl_ex->pos().y() + area->lbl_ex->height())/*(area->ex->ex_note_position.x() + 20)*/){
+
+    int don_know = scr->mapFromGlobal(e->pos()).x();
+    int not_know = scr->mapFromParent(e->pos()).x();
+    if (e->button() == Qt::LeftButton && (e->pos().x() - scr->pos().x()) >= (area->x_ex) &&
+                                            (e->pos().y() - scr->pos().y()) >= area->y_ex &&
+                                            (e->pos().y() - scr->pos().y()) <= (area->y_ex + area->lbl_ex->height()) &&
+                                            (e->pos().x() - scr->pos().x()) <= (area->x_ex + area->lbl_ex->width())){/*(area->ex->ex_note_position.x() + 20)*/
+
+
+//        lbl_ms.append(new QLabel(area));
+//        lbl_ms[notes_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
+
+
+////        new_note.append(new MsNote(/*0,0,*/(area->ex->ex_note_position.x()-5)/25*25+9,
+////                                   (area->ex->ex_note_position.y()-8)/5*5+5, 11,9, notes_value));
+////        new_note[notes_amount] = new MsNote(0, 0, 11, 9);
+//        QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_ms[notes_amount]);
+//        lbl_ms[notes_amount]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
+////        lbl_note[notes_amount]->setPixmap(notes_value_image);
+////        v_note/*[notes_amount]*/->addWidget(new_note[notes_amount]);
+////        v_note/*[notes_amount]*/->setMargin(0);
+
+////        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 30, 120/*12, 10*/);
+//        lbl_ms[notes_amount]->setGeometry(area->x_ex, area->y_ex, 30, 120);
+
+////        notes_value_image.append(new QPixmap(string_note_file));
+////        notes_value_image[notes_amount] = string_note_file;
+//        lbl_note.append(new QLabel(lbl_ms[notes_amount]));
+////        v_note->addWidget(lbl_note[notes_amount]);
+////        v_note->setMargin(0);
+////        QTextStream(&str) << "C:/Users/User/qt_projects/try/try2/images/note_values/" << note_value << "note.svg.png";
+//        lbl_note[notes_amount]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/note_values/" + QVariant(note_value).toString() + "_note.png").scaled(20, 30));
+//        lbl_note[notes_amount]->setGeometry(area->ex->ex_note_position.x(), area->ex->ex_note_position.y(), 20, 30);
+//        lbl_note[notes_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(255, 60, 255, 50);");
+//        lbl_ms[notes_amount]->setVisible(true);//иначе не отображается
+//        lbl_note[notes_amount]->setVisible(true);
+
+
+
 
         lbl_note.append(new QLabel(area));
-        lbl_note[notes_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
+        lbl_note[ms_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
 
 
-        new_note.append(new MsNote(/*0,0,*/(area->ex->ex_note_position.x()-5)/25*25+9,
-                                   (area->ex->ex_note_position.y()-10)/5*5+5, 11,9));
-//        new_note[notes_amount] = new MsNote(0, 0, 11, 9);
-        QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_note[notes_amount]);
-        lbl_note[notes_amount]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
-        v_note/*[notes_amount]*/->addWidget(new_note[notes_amount]);
-        v_note/*[notes_amount]*/->setMargin(0);
+//                int ar = area->ex->ex_note_position.x();
 
-//        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 30, 120/*12, 10*/);
-        lbl_note[notes_amount]->setGeometry(area->x_ex, area->y_ex, 30, 120);
-        lbl_note[notes_amount]->setVisible(true);
 
-        qDebug() << "Value " << notes_amount << ": " << lbl_note[notes_amount];
+                int a1 = (area->ex->ex_note_position.y()-8)/5*5+5;
+                int a2 = (area->ex->height()/* - 5*/) / 2;
+        if (note_pause_input){
+                if (note_value != 1){
+                    if ((area->ex->ex_note_position.y()-8)/5*5+5 >= (area->ex->height()/* - 5*/) / 2)//в какую строну рисовать хвостик
+                        up_down = true;
+                     else up_down = false;
+                    if (up_down){
+                        if ((area->ex->ex_note_position.y()-8)/5*5+2 - 30 > area->ex->height()/2)
+                            long_tail = true;
+                        else long_tail = false;
+                    }else{
+                        if ((area->ex->ex_note_position.y()-8)/5*5+2 + 40 < area->ex->height()/2)
+                            long_tail = true;
+                        else long_tail = false;
+                    }
+                }
+                new_note.append(new MsNote(/*0,0,*/(area->ex->ex_note_position.x()-5)/25*25+9,
+                                           (area->ex->ex_note_position.y()-8)/5*5+6/*5*/, 11,9, notes_value, up_down, long_tail));
+        //        new_note[notes_amount] = new MsNote(0, 0, 11, 9);
+                QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_note[ms_amount]);
+                lbl_note[ms_amount]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
+                v_note/*[notes_amount]*/->addWidget(new_note[notes_amount]);
+                v_note/*[notes_amount]*/->setMargin(0);
+                notes_amount++;
+        }else{
+            lbl_note[ms_amount]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/pause_values/" +
+                                                      QVariant(note_value).toString() + "_rest.svg.png").scaled(30, 40));
+        }
 
-        notes_amount++;
-        area->x_ex += 30;/////
+        //        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 30, 120/*12, 10*/);
+                lbl_note[ms_amount]->setGeometry(area->x_ex, area->y_ex, 30, 120);
+                lbl_note[ms_amount]->setVisible(true);
+
+//                area->ex->setVisible(false);
+                area->lbl_ex->setVisible(false);
+
+
+//        qDebug() << "Value " << notes_amount << ": " << lbl_note[notes_amount];
+
+        ms_amount++;
+
+        area->x_ex += 30;/////для переноса области вспомогательных линий
+
         int pos_x_area = scr->pos().x();
         int width_area = area->width();
         int pos_x_ex = area->x_ex;
-        if (area->x_ex > /*area->pos().x() + area->width()*/area->width()){
-            area->y_ex += 140;
+        if (area->x_ex + 30 > /*area->pos().x() + area->width()*/area->width()){
+            area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
             area->x_ex = area->first_x_ex;
         }
 
@@ -396,7 +515,7 @@ NewNotes::~NewNotes()
 
 
 //    delete[] lbl_signs;
-    for (int i=0; i<8; i++){
+    for (int i=0; i<6/*8*/; i++){
         delete lbl_signs[i];
     }
     delete area;

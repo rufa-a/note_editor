@@ -68,9 +68,10 @@ private:
     friend NewScore;
 //    QVBoxLayout *v_ex;
 //    ~NoteArea();
-    MyLine *line[8][5], *connectLine[8];
+    MyLine *line[6/*8*/][5]/*, *connectLine[8]*/;
 
     ExLines *ex;
+    bool appear_ex;
 
 //    QPainter *note;
 protected:
