@@ -171,6 +171,7 @@ void NewScore::accept(){
     wnNewNotes.str_temp = "=" + field("temp").toString();
     wnNewNotes.lbl_tempo->setText(wnNewNotes.str_temp);
 
+    //задаем первоначально положение области вспомогательных линий
     wnNewNotes.area->x_ex = wnNewNotes.area->first_x_ex = x_signature + w_sign + wnNewNotes.fr_signature->width() + 10;
 
     wnNewNotes.area->y_ex = wnNewNotes.area->first_y_ex = y_signature - 28/*48*/;

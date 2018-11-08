@@ -5,10 +5,15 @@
 #include <QVector>
 #include "NoteArea.h"
 #include "MsNote.h"
+
+//class MsNote;
+//extern int note_sign = 3;
 class NewNotes : public QMainWindow/*QWidget*/
 {
     Q_OBJECT
 public:
+//    friend MsNote;
+
     QTextCodec *codec;
     NoteArea * area;         // область отображения рисунка
 //    QMdiArea */*note_window*/scr;//for trying to make MDI
@@ -30,6 +35,7 @@ public:
 //    QGraphicsItemGroup  *group_1;
     int ms_amount = 0, notes_amount = 0, //для вектора
     note_value = 1;//для типа ноты (1, 2, 4, 8, 16, 32...)
+//    /*friend */int note_sign = 3;//случайные знаки, по умолчанию 3 - нет знака
 
     float notes_value = 1.0;//для длительности ноты
     bool up_down, //для хвостика
@@ -54,14 +60,21 @@ public:
 
 public slots:
     void slotFunc();
+
     void NoteInput();
     void PauseInput();
+
     void set1Value();
     void set2Value();
     void set4Value();
     void set8Value();
     void set16Value();
 
+    void Add2Sharp();
+    void AddSharp();
+    void AddNatural();
+    void AddFlat();
+    void Add2Flat();
 
     void SaveFile();
 //    void createNote(QMouseEvent *e);//для создания ноты при нажатии ЛКМ

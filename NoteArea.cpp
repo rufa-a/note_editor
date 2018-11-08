@@ -11,7 +11,7 @@ void MyLine::draw(QPainter *Painter)
 
 ExLines::ExLines(){
     setStyleSheet("background-color: rgba(102, 204, 255, 50);");//фон+прозрачность
-    int x1 = 0, x2 = 30, y = 10;
+    int x1 = 0, x2 = 40, y = 10;
     for (int i=0; i<11/*15*/; i++){
         lines[i]=new MyLine(x1,y, x2, y);// создаем объект Линия
         y += 10;
@@ -27,7 +27,7 @@ void ExLines::paintEvent(QPaintEvent *){    //рисование дополни�
     }
     QPainter note(this);    //расположение ноты
     note.setPen(Qt::red);
-    note.drawEllipse(QRect(((ex_note_position.x()-5)/25*25+9), ((ex_note_position.y()-8)/5*5+5), 11, 9));//рисуем кружочек в области дополнительных линий
+    note.drawEllipse(QRect(((ex_note_position.x()-5)/40*40+/*9*/19), ((ex_note_position.y()-8)/5*5+5), 11, 9));//рисуем кружочек в области дополнительных линий
     //x - серединка линии(области разделяются по 25), y - между линиями
     //    note.drawEllipse(QRect(ex_note_position.x(), /*((ex_note_position.y()-3)/5*5+3)*/ex_note_position.y(), 10, 7));
 }
@@ -95,8 +95,8 @@ NoteArea::NoteArea(QWidget *parent)
 //}
 void NoteArea::paintEvent(QPaintEvent *)    //рисование 6(8) нотоносцев
 {
-    QPainter painter(this);    // создаем контент рисования на Холсте
-    painter.setPen(Qt::black);      // задаем черное Перо
+    QPainter painter(this);
+    painter.setPen(Qt::black);
 //    line1[0]->draw(&painter);
     for (int j=0; j<6/*8*/; j++){
         for (int i=0; i<5; i++){
@@ -131,9 +131,9 @@ void NoteArea::mouseMoveEvent(QMouseEvent *event){//появление обла�
     position = event->pos();    //где расположена мышь на экране в целом
     ex->ex_note_position = position - lbl_ex->pos();   //координаты мыши в области доп линий
 
-    if ((position.x() >= (x_ex)) && (position.x() < (x_ex + 30)) && (position.y() >= y_ex) &&
+    if ((position.x() >= (x_ex)) && (position.x() < (x_ex + 40)) && (position.y() >= y_ex) &&
             (position.y() <= (y_ex+120)) /*&& appear_ex*/){//для рисования кружочка в области доп линий
-        lbl_ex->setGeometry(QRect(x_ex, y_ex, 30, 120/*160*/));
+        lbl_ex->setGeometry(QRect(x_ex, y_ex, 40, 120/*160*/));
         if (!appear_ex){
             ex->setVisible(false);
             lbl_ex->setVisible(true);
