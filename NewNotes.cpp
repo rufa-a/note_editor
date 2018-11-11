@@ -4,8 +4,7 @@
 //#include <QtSvg>
 //#include <QFont>
 //#include <QTextCodec>
-
-//extern int note_sign = 3;
+int note_sign;// = 3;
 NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 {
     codec = QTextCodec::codecForName("UTF-8");
@@ -19,16 +18,41 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
     note_sign = 3;
 
-    QToolBar *ms_values =  new QToolBar(codec->toUnicode("Длительности"));
+    ms_values =  new QToolBar(codec->toUnicode("Длительности"));
 //    tools->addAction()
-    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Целая", this,SLOT(set1Value()));
-    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"), "Половинная", this,SLOT(set2Value()));
-    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"), "Четвертная", this, SLOT(set4Value()));
-    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"), "Восьмая", this, SLOT(set8Value()));
-    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"), "Шестнадцатая", this, SLOT(set16Value()));
+    note1 = new QToolButton(ms_values);
+    note1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
+    note1->setToolTip("Целая");
+    note2 = new QToolButton(ms_values);
+    note2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"));
+    note2->setToolTip("Половинная");
+    note4 = new QToolButton(ms_values);
+    note4->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"));
+    note4->setToolTip("Четвертная");
+    note8 = new QToolButton(ms_values);
+    note8->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+    note8->setToolTip("Восьмая");
+    note16 = new QToolButton(ms_values);
+    note16->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"));
+    note16->setToolTip("Шестнадцатая");
+    ms_values->addWidget(note1);
+    ms_values->addWidget(note2);
+    ms_values->addWidget(note4);
+    ms_values->addWidget(note8);
+    ms_values->addWidget(note16);
+    connect(note1, SIGNAL(clicked(bool)), this, SLOT(set1Value()));
+    connect(note2, SIGNAL(clicked(bool)), this, SLOT(set2Value()));
+    connect(note4, SIGNAL(clicked(bool)), this, SLOT(set4Value()));
+    connect(note8, SIGNAL(clicked(bool)), this, SLOT(set8Value()));
+    connect(note16, SIGNAL(clicked(bool)), this, SLOT(set16Value()));
+//    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Целая", this,SLOT(set1Value()));
+//    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"), "Половинная", this,SLOT(set2Value()));
+//    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"), "Четвертная", this, SLOT(set4Value()));
+//    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"), "Восьмая", this, SLOT(set8Value()));
+//    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"), "Шестнадцатая", this, SLOT(set16Value()));
 //    tools->addФ
 
-    QToolBar *note_pause = new QToolBar(codec->toUnicode("Ввод нот/пауз"), this);
+    note_pause = new QToolBar(codec->toUnicode("Ввод нот/пауз"), this);
     note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Ввод нот", this,SLOT(NoteInput()));
     note_pause->addSeparator();
     note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/pause_icon.svg"), "Ввод пауз", this,SLOT(PauseInput()));
@@ -42,7 +66,7 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    note->setEnabled(false);
 //    note->setToolTip("Нажмите для ввода нот");
 
-    QToolBar *note_signs = new QToolBar("Случайные знаки");
+    note_signs = new QToolBar("Случайные знаки");
     note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/2sharp.svg"), "Дубль-диез", this,SLOT(Add2Sharp()));
     note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/sharp.svg"), "Диез", this,SLOT(AddSharp()));
     note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/natural.svg"), "Бекар", this,SLOT(AddNatural()));
@@ -395,10 +419,6 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
         lbl_note.append(new QLabel(area));
         lbl_note[ms_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
 
-
-//                int ar = area->ex->ex_note_position.x();
-
-
                 int a1 = (area->ex->ex_note_position.y()-8)/5*5+5;
                 int a2 = (area->ex->height()/* - 5*/) / 2;
         if (note_pause_input){//если вводим ноты
@@ -430,11 +450,11 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
         }
 
         //        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 30, 120/*12, 10*/);
-                lbl_note[ms_amount]->setGeometry(area->x_ex, area->y_ex, /*30*/40, 120);
-                lbl_note[ms_amount]->setVisible(true);
+        lbl_note[ms_amount]->setGeometry(area->x_ex, area->y_ex, /*30*/40, 120);
+        lbl_note[ms_amount]->setVisible(true);
 
 //                area->ex->setVisible(false);
-                area->lbl_ex->setVisible(false);
+        area->lbl_ex->setVisible(false);
 
 
 //        qDebug() << "Value " << notes_amount << ": " << lbl_note[notes_amount];
@@ -532,6 +552,48 @@ void NewNotes::SaveFile(){
         }
 
     }
+}
+
+void NewNotes::closeEvent(QCloseEvent *event){
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                                                                    ("Сохранить?\n"),
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+    if (resBtn == QMessageBox::Cancel) {
+           event->ignore();
+       } else {
+        if (resBtn == QMessageBox::No){
+           event->accept();
+
+//           delete[] *new_note;
+           for (int i=0; i<notes_amount; i++)
+               delete new_note[i];
+//               qDeleteAll(new_note[i]);
+           new_note.clear();
+//           delete[] lbl_ms;
+//           delete[] *lbl_note;
+           for (int i=0; i<ms_amount; i++)
+               delete lbl_note[i];
+//               qDeleteAll(lbl_note[i]);
+           lbl_note.clear();
+           ms_amount = 0;
+           notes_amount = 0;
+//           delete[] lbl_ms;
+//           delete
+        }
+        else{ //Вызвать
+            QString filename = QFileDialog::getSaveFileName(
+                                this,
+                                ("Сохранить"),
+                                QDir::currentPath(),
+                                tr("Documents (*.msnote)") );
+            if( !filename.isNull() )
+                qDebug(filename.toUtf8() );
+            else
+                event->ignore();
+        }
+
+       }
 }
 
 NewNotes::~NewNotes()

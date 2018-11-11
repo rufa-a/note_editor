@@ -7,13 +7,14 @@
 #include "MsNote.h"
 
 //class MsNote;
-//extern int note_sign = 3;
+//int note_sign;
 class NewNotes : public QMainWindow/*QWidget*/
 {
     Q_OBJECT
 public:
 //    friend MsNote;
 
+//    int note_sign;
     QTextCodec *codec;
     NoteArea * area;         // область отображения рисунка
 //    QMdiArea */*note_window*/scr;//for trying to make MDI
@@ -24,10 +25,10 @@ public:
     QLineEdit *lblName, *lblComp;
     QLabel /**lblName, *lblComp,*/ *lbl_clef[8], *lbl_share, *lbl_length, *lbl_signs[8], *lbl_note_tempo, *lbl_tempo/*, *lbl_note[10]*/;//*[10];
     QString str_share, str_length, str_temp/*, str*//*, string_note_file*/;
-//    QPushButton * btn_exit;
 
-//    QVector<QLabel*> lbl_note;
-//    QVBoxLayout *v_note[];
+    QToolBar *ms_values,  *note_pause, *note_signs;
+    QToolButton *note1, *note2, *note4, *note8, *note16;
+
     QList<QLabel*> lbl_ms, lbl_note;//вектор лэйблов, на которых ноты
     QList<MsNote*> new_note;//вектор нот
 //    MsNote *new_note[];
@@ -55,6 +56,7 @@ public:
 
     void draw_note(QPainter *painter);
     void mousePressEvent(QMouseEvent *e);////////////для создания ноты при нажатии ЛКМ
+    void closeEvent(QCloseEvent *event);
 //    void paintEvent(QPaintEvent *);
 //    bool eventFilter(QObject *watched, QEvent *event);
 

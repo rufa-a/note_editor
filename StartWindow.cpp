@@ -112,10 +112,8 @@ void StartWindow::openDir(){
                         tr("Save Document"),
                         QDir::currentPath(),
                         tr("Documents (*.txt)") );
-            if( !filename.isNull() )
-    {
+    if( !filename.isNull() )
         qDebug(filename.toUtf8() );
-    }
 }
 
 //void MainWindow::showNewNotes()//работает

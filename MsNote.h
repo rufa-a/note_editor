@@ -2,7 +2,8 @@
 #define MSNOTE_H
 #include <QtWidgets>
 //class NewNotes;
-extern int note_sign/* = 3*/;
+//static int note_sign;
+extern int note_sign;
 class MsNote : public QWidget
 {
 public:
