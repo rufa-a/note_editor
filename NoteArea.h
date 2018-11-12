@@ -1,6 +1,8 @@
 #ifndef NOTEAREA_H
 #define NOTEAREA_H
 #include <QtWidgets>
+//#include <QList>
+//#include "MsNote.h"
 
 //static QPoint area_position;
 //class MyLabel : public QLabel
@@ -43,6 +45,7 @@ class ExLines : public QWidget
 
 protected:
     void paintEvent(QPaintEvent *event);
+//    void mousePressEvent(QMouseEvent *event);
 //    void mouseMoveEvent(QMoveEvent *event);
 };
 
@@ -68,7 +71,10 @@ private:
     friend NewScore;
 //    QVBoxLayout *v_ex;
 //    ~NoteArea();
-    MyLine *line[6/*8*/][5]/*, *connectLine[8]*/;
+    QList<MyLine *> line;
+    int x1 = 20, x2 = 1110, y = 130,//для рисования нотоносцев
+    stave_amount = 1;//количество нотоносцев
+//    MyLine *line[6/*8*/][5]/*, *connectLine[8]*/;
 
     ExLines *ex;
     bool appear_ex;

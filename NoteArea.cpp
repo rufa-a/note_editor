@@ -16,6 +16,7 @@ ExLines::ExLines(){
         lines[i]=new MyLine(x1,y, x2, y);// создаем объект Линия
         y += 10;
     }
+    this->resize(40, 120);
     setMouseTracking(true);
 }
 
@@ -58,18 +59,23 @@ void ExLines::paintEvent(QPaintEvent *){    //рисование дополни�
 
 NoteArea::NoteArea(QWidget *parent)
 {
-    setFixedSize(QSize(1115,1250)); // фиксируем размер Холста
+//    setFixedSize(QSize(1115,1250)); // фиксируем размер Холста
+    resize(QSize(1115, 970/*1250*/));
 //    this->setStyleSheet("color: white");
-    int x1 = 20, x2 = 1110, y = 130;
+//    int x1 = 20, x2 = 1110, y = 130;
 
-    for (int j=0; j<6/*8*/; j++){
-        for (int i=0; i<5; i++){
-            line[j][i]=new MyLine(x1,y, x2, y);// создаем линии нотоносца
-            y += 10;
-        }
+//    for (int j=0; j<6/*8*/; j++){
+//        for (int i=0; i<5/*30*/; i++){
+////            if (i % 5 == 0)
+////                y += 90;//следующий нотоносец
+////            line[j][i]=new MyLine(x1,y, x2, y);// создаем линии нотоносца
+//            line.append(new MyLine(x1, y, x2, y));
+//            y += 10;
+
+//        }
 //        connectLine[j] = new MyLine(x2, y-50, x2, y-10);//убрать
-        y += 90;
-    }
+
+//    }
     setMouseTracking(true);
 
     ex = new ExLines();
@@ -95,15 +101,18 @@ NoteArea::NoteArea(QWidget *parent)
 //}
 void NoteArea::paintEvent(QPaintEvent *)    //рисование 6(8) нотоносцев
 {
+    update();
     QPainter painter(this);
     painter.setPen(Qt::black);
 //    line1[0]->draw(&painter);
-    for (int j=0; j<6/*8*/; j++){
-        for (int i=0; i<5; i++){
-            line[j][i]->draw(&painter);         // рисуем Линию
+//    for (int j=0; j<6/*8*/; j++){
+        for (int i=0; i<5*stave_amount; i++){
+//            if (i % 5 == 0)
+//                y += 90;//следующий нотоносец
+            line/*[j]*/[i]->draw(&painter);         // рисуем Линию
         }
 //        connectLine[j]->draw(&painter);
-    }
+//    }
 }
 
 
@@ -152,6 +161,9 @@ void NoteArea::mouseMoveEvent(QMouseEvent *event){//появление обла�
 //    delete ex;
 }
 
+//void NoteArea::mousePressEvent(QMouseEvent *e){
+
+//}
 
 //NoteArea::~NoteArea()
 //{

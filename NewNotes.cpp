@@ -203,15 +203,17 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    int x1 = 5, x2 = 90, y1 = 108, y2 = 90;
 
     //ключи
-    for (int i=0; i<8; i++){
-        lbl_clef[i] = new QLabel(area);
-    }
+//    lbl_clef.append(new QLabel(area));
+//    for (int i=0; i<8; i++){
+//        lbl_clef[i] = new QLabel(area);
+//    }
 
     //ключевые знаки
-    for (int i=0; i<8; i++){
-        lbl_signs[i] = new QLabel(area);
+//    lbl_signs.append(new QLabe/l(area));
+//    for (int i=0; i<8; i++){
+//        lbl_signs[i] = new QLabel(area);
 //        lbl_signs[i]->setAttribute(Qt::WA_DeleteOnClose);
-    }
+//    }
 //    lbl_signs->setText(QChar(9839));
 
     fr_signature = new QFrame(area);//размер
@@ -298,7 +300,7 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
 //        string_note_file = new QString();
 //        scr->viewport();
-//        scr->setMouseTracking(true);
+        scr->setMouseTracking(true);
 //        area->setMouseTracking(true);
 }
 
@@ -377,12 +379,23 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
     int xx = e->pos().x() - scr->pos().x();//не то
     int xxx = area->lbl_ex->pos().x();//(ex_note_position.x()-5)/25*25+9), ((ex_note_position.y()-8)/5*5+5)
 
-    int don_know = scr->mapFromGlobal(e->pos()).x();
-    int not_know = scr->mapFromParent(e->pos()).x();
-    if (e->button() == Qt::LeftButton && (e->pos().x() - scr->pos().x()) >= (area->x_ex) &&
+    int don_know = area->mapFromGlobal(e->pos()).x();//scr->mapFromGlobal(e->pos()).x();
+    int not_know = area->mapFromParent(e->pos()).x();//scr->mapFromParent(e->pos()).x();
+    int d = scr->mapFromGlobal(e->pos()).x();
+    int n = scr->mapFromParent(e->pos()).x();
+    int aaaa = area->mapToGlobal(e->pos()).x();
+    int aa = area->mapToParent(e->pos()).x();
+    /*if (e->button() == Qt::LeftButton && (e->pos().x() - scr->pos().x()) >= (area->x_ex) &&
                                             (e->pos().y() - scr->pos().y()) >= area->y_ex &&
                                             (e->pos().y() - scr->pos().y()) <= (area->y_ex + area->lbl_ex->height()) &&
-                                            (e->pos().x() - scr->pos().x()) <= (area->x_ex + area->lbl_ex->width())){/*(area->ex->ex_note_position.x() + 20)*/
+                                            (e->pos().x() - scr->pos().x()) <= (area->x_ex + area->lbl_ex->width()))*/
+    int potit = pos().x();
+    int gg = area->mapFromParent(e->pos()).x() - scr->pos().x();
+    int aaaaaa = area->x_ex;
+    if (e->button() == Qt::LeftButton && area->mapFromParent(e->pos()).x() - scr->pos().x() >= (area->x_ex) &&
+                                          area->mapFromParent(e->pos()).y() - scr->pos().y() >= (area->y_ex) &&
+            area->mapFromParent(e->pos()).x() - scr->pos().x() <= (area->x_ex) + area->lbl_ex->width() &&
+            area->mapFromParent(e->pos()).y() - scr->pos().y() <= (area->y_ex) + area->lbl_ex->height()){/*(area->ex->ex_note_position.x() + 20)*/
 
 
 //        lbl_ms.append(new QLabel(area));
@@ -469,6 +482,35 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
         if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->width()){
             area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
             area->x_ex = area->first_x_ex;
+
+            area->y += 90;//следующий нотоносец
+            for (int i = 0; i < 5; i++){
+                area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
+                area->y += 10;
+            }
+            lbl_clef.append(new QLabel(area));//ключ
+            lbl_clef[lbl_clef.size() - 1]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+            lbl_clef[lbl_clef.size() - 1]->setGeometry(x_clef, y_clef, w_clef, h_clef);
+            lbl_clef[lbl_clef.size() - 1]->setVisible(true);
+            lbl_signs.append(new QLabel(area));//ключевые знаки
+            lbl_signs[lbl_signs.size() - 1]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+            lbl_signs[lbl_signs.size() - 1]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+            lbl_signs[lbl_signs.size() - 1]->setVisible(true);
+
+            y_clef += 140;
+            y_sign += 140;
+            area->stave_amount += 1;
+//            lbl_clef[0]->setGeometry(0,0,30,70);
+        }
+        int ra = area->y_ex;
+        int asdf = area->ex->height();
+        int qwer = area->height();
+        if (area->y_ex + area->ex->height() > area->height()){//ляботает
+//            area->resize((1115, (area->y + 140)));
+//            area->y += 90;
+//            area->line.append(new MyLine(20, area->y, 1110, area->y));
+//            area->y += 140;
+            area->resize(QSize(1115, area->height() + 150));
         }
 
 
@@ -576,8 +618,19 @@ void NewNotes::closeEvent(QCloseEvent *event){
                delete lbl_note[i];
 //               qDeleteAll(lbl_note[i]);
            lbl_note.clear();
+           for (int i = 0; i < area->stave_amount; i++)
+               delete lbl_clef[i];
+           lbl_clef.clear();
+           for (int i = 0; i < area->stave_amount; i++)
+               delete lbl_signs[i];
+           lbl_signs.clear();
+           for (int i = 0; i < area->stave_amount*5; i++)
+               delete area->line[i];
+           area->line.clear();
+           area->x1 = 20, area->x2 = 1110, area->y = 130;
            ms_amount = 0;
            notes_amount = 0;
+           area->stave_amount = 1;
 //           delete[] lbl_ms;
 //           delete
         }
@@ -605,9 +658,9 @@ NewNotes::~NewNotes()
 
 
 //    delete[] lbl_signs;
-    for (int i=0; i<6/*8*/; i++){
-        delete lbl_signs[i];
-    }
+//    for (int i=0; i<6/*8*/; i++){
+//        delete lbl_signs[i];
+//    }
     delete area;
     delete scr;
 //    qDeleteAll(lbl_note);

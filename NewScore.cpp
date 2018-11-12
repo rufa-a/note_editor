@@ -68,8 +68,8 @@ void NewScore::accept(){
 //    wnNewNotes.area->setVisible(true);
 
 
-
-    int x_clef, y_clef, w_clef, h_clef, x_sign, y_sign, w_sign = 0, h_sign = 0;//габариты ключей
+    wnNewNotes.lbl_clef.append(new QLabel(wnNewNotes.area));
+    int x_clef, y_clef, w_clef, h_clef, x_sign, y_sign, w_sign = 0, h_sign = 0;//габариты ключей и знаков
     if (field("treble.btn").toBool()){
         file_clef = "C:/Users/User/qt_projects/try/try2/images/treble-clef.png";
 //        QPixmap(file_clef).scaled(70, 70, Qt::KeepAspectRatio);
@@ -82,22 +82,31 @@ void NewScore::accept(){
         x_clef = 20, y_clef = 122, w_clef = 30, h_clef = 50;
         x_sign = 55, y_sign = 121;
     }
-    for (int i = 0; i < 6/*8*/; i++){//расстановка ключей
-        wnNewNotes.lbl_clef[i]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+//    for (int i = 0; i < 6/*8*/; i++){//расстановка ключей
+
+        wnNewNotes.lbl_clef[0]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
 //        wnNewNotes.area->lbl[i]->setPixmap(QPixmap(file_clef).scaled(w, h, Qt::KeepAspectRatio));
-        wnNewNotes./*area->*/lbl_clef[i]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
+        wnNewNotes./*area->*/lbl_clef[0]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
+         wnNewNotes.lbl_clef[0]->setVisible(true);
         y_clef += 140;
-    }
+        wnNewNotes.x_clef = x_clef;
+        wnNewNotes.y_clef = y_clef;
+        wnNewNotes.w_clef = w_clef;
+        wnNewNotes.h_clef = h_clef;
+        wnNewNotes.file_clef = file_clef;
+//    }
 
 
+        wnNewNotes.lbl_signs.append(new QLabel(wnNewNotes.area));
     if (field("r0").toBool()){//размещение размера при наличии ключевых знаков
-        for (int i=0; i<6/*8*/; i++){
+//        for (int i=0; i<6/*8*/; i++){
 //            wnNewNotes.lbl_signs[i]->setGeometry(0,0,0,0);
-            wnNewNotes.lbl_signs[i]->setVisible(false);//невидимые лейблы ключевых знаков
-        }
+            wnNewNotes.lbl_signs[0]->setVisible(false);//невидимые лейблы ключевых знаков
+//        }
     }
     else{//ключевые знаки
         QString file_sign = "C:/Users/User/qt_projects/try/try2/images/";
+
         if (field("1d").toBool()){
             w_sign = 10, h_sign = 60;
             file_sign += "1d_clef_2.svg.png";
@@ -155,12 +164,19 @@ void NewScore::accept(){
             w_sign = 70, h_sign = 55, y_sign += 6;
             file_sign += "7b_clef.svg.png";
         }
-        for (int i=0; i<6/*8*/; i++){
-            wnNewNotes.lbl_signs[i]->setVisible(true);
-            wnNewNotes.lbl_signs[i]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
-            wnNewNotes.lbl_signs[i]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+        wnNewNotes.file_sign = file_sign;
+//        for (int i=0; i<6/*8*/; i++){
+
+            wnNewNotes.lbl_signs[0]->setVisible(true);
+            wnNewNotes.lbl_signs[0]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+            wnNewNotes.lbl_signs[0]->setGeometry(x_sign, y_sign, w_sign, h_sign);
             y_sign+=140;
-        }
+            wnNewNotes.x_sign = x_sign;
+            wnNewNotes.y_sign = y_sign;//?????
+            wnNewNotes.w_sign = w_sign;
+            wnNewNotes.h_sign = h_sign;
+//
+//        }
 
     }
     //размер
@@ -175,6 +191,11 @@ void NewScore::accept(){
     wnNewNotes.area->x_ex = wnNewNotes.area->first_x_ex = x_signature + w_sign + wnNewNotes.fr_signature->width() + 10;
 
     wnNewNotes.area->y_ex = wnNewNotes.area->first_y_ex = y_signature - 28/*48*/;
+    //первый нотоносец
+    for (int i=0; i<5/*30*/; i++){
+        wnNewNotes.area->line.append(new MyLine(wnNewNotes.area->x1, wnNewNotes.area->y, wnNewNotes.area->x2, wnNewNotes.area->y));
+        wnNewNotes.area->y += 10;
+    }
 
     QDialog::accept();
 

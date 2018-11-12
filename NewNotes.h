@@ -23,13 +23,17 @@ public:
     QFrame *fr_signature, *fr_tempo;
 
     QLineEdit *lblName, *lblComp;
-    QLabel /**lblName, *lblComp,*/ *lbl_clef[8], *lbl_share, *lbl_length, *lbl_signs[8], *lbl_note_tempo, *lbl_tempo/*, *lbl_note[10]*/;//*[10];
-    QString str_share, str_length, str_temp/*, str*//*, string_note_file*/;
+    QLabel /**lblName, *lblComp,*/ /**lbl_clef[8],*/ *lbl_share, *lbl_length, /**lbl_signs[8],*/ *lbl_note_tempo, *lbl_tempo/*, *lbl_note[10]*/;//*[10];
+    QString str_share, str_length, str_temp,
+    file_sign, file_clef;//картинка знаков и ключа
+    int x_sign, y_sign, w_sign, h_sign,//геометрия лэйбла ключевых знаков
+    x_clef, y_clef, w_clef, h_clef;//геометрия лэйбла ключа
 
     QToolBar *ms_values,  *note_pause, *note_signs;
     QToolButton *note1, *note2, *note4, *note8, *note16;
 
-    QList<QLabel*> lbl_ms, lbl_note;//вектор лэйблов, на которых ноты
+    QList<QLabel*> lbl_ms, lbl_note,//вектор лэйблов, на которых ноты
+    lbl_clef, lbl_signs;//ключи и ключевые знаки
     QList<MsNote*> new_note;//вектор нот
 //    MsNote *new_note[];
 //    QGraphicsScene *note_scene;
@@ -56,7 +60,7 @@ public:
 
     void draw_note(QPainter *painter);
     void mousePressEvent(QMouseEvent *e);////////////для создания ноты при нажатии ЛКМ
-    void closeEvent(QCloseEvent *event);
+    void closeEvent(QCloseEvent *e);
 //    void paintEvent(QPaintEvent *);
 //    bool eventFilter(QObject *watched, QEvent *event);
 
