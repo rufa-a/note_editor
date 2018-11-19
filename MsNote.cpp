@@ -27,7 +27,7 @@ void MsNote::draw_note(QPainter *painter/*, int x, int y, int w, int h*/){
             }
         }
     }
-    qDebug() << "end_x: " << end_x << "y: " << end_y;
+
     //рисуем дополнительные линии
     if (y < 30)
         painter->drawLine(x - 5, 30, x + 15, 30);
@@ -83,74 +83,82 @@ void MsNote::draw_note(QPainter *painter/*, int x, int y, int w, int h*/){
 }
 
 void MsNote::paintEvent(QPaintEvent *){
-    QPainter painter(this);
-//    painter.setBrush(Qt::black);
-    painter.setPen(QPen(Qt::black, 2));
+    if (NotePauseTakt == 1){
+        QPainter painter(this);
+    //    painter.setBrush(Qt::black);
+        painter.setPen(QPen(Qt::black, 2));
 
-    if (NoteValue < 0.5)
-        painter.setBrush(Qt::black);
-//    QPainterPath tail();
-    draw_note(&painter);
+        if (NoteValue < 0.5)
+            painter.setBrush(Qt::black);
+    //    QPainterPath tail();
+        draw_note(&painter);
 
-    QPainter sign_painter(this);
-    sign_painter.setPen(QPen(Qt::black, 2));
-    if (NoteSign == 2){
-        sign_painter.setPen(QPen(Qt::black, 1));
-        sign_painter.drawLine(x - 13, y, x - 4, y + 9);
-        sign_painter.drawLine(x - 4, y + 1, x - 13, y + 9);
+        QPainter sign_painter(this);
+        sign_painter.setPen(QPen(Qt::black, 2));
+        if (NoteSign == 2){
+            sign_painter.setPen(QPen(Qt::black, 1));
+            sign_painter.drawLine(x - 13, y, x - 4, y + 9);
+            sign_painter.drawLine(x - 4, y + 1, x - 13, y + 9);
 
-//        sign_painter.drawLine(x - 11, y - 2, x - 4, y + 9);
-//        sign_painter.drawLine(x - 4, y + 1, x - 11, y + 7);
+    //        sign_painter.drawLine(x - 11, y - 2, x - 4, y + 9);
+    //        sign_painter.drawLine(x - 4, y + 1, x - 11, y + 7);
 
 
-        sign_painter.setBrush(Qt::black);
-        sign_painter.drawRect(x - 13, y, 3, 3);
-        sign_painter.drawRect(x - 7, y, 3, 3);
-        sign_painter.drawRect(x - 13, y + 6, 3, 3);
-        sign_painter.drawRect(x - 7, y + 6, 3, 3);
+            sign_painter.setBrush(Qt::black);
+            sign_painter.drawRect(x - 13, y, 3, 3);
+            sign_painter.drawRect(x - 7, y, 3, 3);
+            sign_painter.drawRect(x - 13, y + 6, 3, 3);
+            sign_painter.drawRect(x - 7, y + 6, 3, 3);
 
+        }
+        if (NoteSign == 1){
+            sign_painter.drawLine(x - 9, y - 5, x - 9, y + 14);
+            sign_painter.drawLine(x - 5, y - 7, x - 5, y + 12);
+            sign_painter.drawLine(x - 11, y + 2, x - 3, y - 2);
+            sign_painter.drawLine(x - 11, y + 11, x - 3, y + 7);
+        }
+
+        if (NoteSign == 0){
+            sign_painter.drawLine(x - 11, y - 7, x - 11, y + 10);
+            sign_painter.drawLine(x - 5, y - 1, x - 5, y + 16);
+            sign_painter.drawLine(x - 11, y + 1, x - 5, y - 1);
+            sign_painter.drawLine(x - 11, y + 12, x - 5, y + 10);
+        }
+        if (NoteSign == -1){
+            QPainterPath half_heart;
+            half_heart.moveTo(x - 10, y);
+            half_heart.cubicTo(x + 5, y - 5, x - 9, y + 12, x - 10, y + 12);
+
+            sign_painter.drawPath(half_heart);
+            sign_painter.drawLine(x - 10, y - 12, x - 10, y + 12);
+        }
+        if (NoteSign == -2){
+            QPainterPath half_heart;
+            half_heart.moveTo(x - 10, y);
+            half_heart.cubicTo(x + 5, y - 5, x - 9, y + 12, x - 10, y + 12);
+
+            half_heart.moveTo(x - 16, y);
+            half_heart.cubicTo(x - 1, y - 5, x - 15, y + 12, x - 16, y + 12);
+
+            sign_painter.drawPath(half_heart);
+            sign_painter.drawLine(x - 10, y - 12, x - 10, y + 12);
+            sign_painter.drawLine(x - 16, y - 12, x - 16, y + 12);
+        }
     }
-    if (NoteSign == 1){
-        sign_painter.drawLine(x - 9, y - 5, x - 9, y + 14);
-        sign_painter.drawLine(x - 5, y - 7, x - 5, y + 12);
-        sign_painter.drawLine(x - 11, y + 2, x - 3, y - 2);
-        sign_painter.drawLine(x - 11, y + 11, x - 3, y + 7);
-    }
-
-    if (NoteSign == 0){
-        sign_painter.drawLine(x - 11, y - 7, x - 11, y + 10);
-        sign_painter.drawLine(x - 5, y - 1, x - 5, y + 16);
-        sign_painter.drawLine(x - 11, y + 1, x - 5, y - 1);
-        sign_painter.drawLine(x - 11, y + 12, x - 5, y + 10);
-    }
-    if (NoteSign == -1){
-        QPainterPath half_heart;
-        half_heart.moveTo(x - 10, y);
-        half_heart.cubicTo(x + 5, y - 5, x - 9, y + 12, x - 10, y + 12);
-
-        sign_painter.drawPath(half_heart);
-        sign_painter.drawLine(x - 10, y - 12, x - 10, y + 12);
-    }
-    if (NoteSign == -2){
-        QPainterPath half_heart;
-        half_heart.moveTo(x - 10, y);
-        half_heart.cubicTo(x + 5, y - 5, x - 9, y + 12, x - 10, y + 12);
-
-        half_heart.moveTo(x - 16, y);
-        half_heart.cubicTo(x - 1, y - 5, x - 15, y + 12, x - 16, y + 12);
-
-        sign_painter.drawPath(half_heart);
-        sign_painter.drawLine(x - 10, y - 12, x - 10, y + 12);
-        sign_painter.drawLine(x - 16, y - 12, x - 16, y + 12);
+    else if (NotePauseTakt == 0){
+        QPainter painter(this);
+        painter.setPen(QPen(Qt::black));
+        painter.drawLine(5, 40, 5, 80);
     }
 
 }
 
 void MsNote::mousePressEvent(QMouseEvent *e){
-    this->update();
-//    NoteSign = 1;//ляботает
-    NoteSign = note_sign;
-    qDebug() << "end_x: " << end_x << "y: " << end_y;
+    if (NotePauseTakt == 1){
+        this->update();
+    //    NoteSign = 1;//ляботает
+        NoteSign = note_sign;
+    }
 //    if (e->button() == Qt::LeftButton && NoteSign != 3){
 //        if (NoteSign == 1){
 ////            QPainter *sign_painter = new QPainter(this);

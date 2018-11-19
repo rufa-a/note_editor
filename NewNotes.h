@@ -27,10 +27,14 @@ public:
     QString str_share, str_length, str_temp,
     file_sign, file_clef;//картинка знаков и ключа
     int x_sign, y_sign, w_sign, h_sign,//геометрия лэйбла ключевых знаков
-    x_clef, y_clef, w_clef, h_clef;//геометрия лэйбла ключа
+    x_clef, y_clef, w_clef, h_clef,//геометрия лэйбла ключа
+    x_signature, y_signature; // для размера
 
-    QToolBar *ms_values,  *note_pause, *note_signs;
-    QToolButton *note1, *note2, *note4, *note8, *note16;
+    QToolBar /**ms_values,*/  *note_pause, *note_signs;
+    QMenu *ms_values;
+//    QMenuBar *ms_values;
+//    QToolButton *note1, *note2, *note4, *note8, *note16;
+    QAction *note1, *note2, *note4, *note8, *note16;
 
     QList<QLabel*> lbl_ms, lbl_note,//вектор лэйблов, на которых ноты
     lbl_clef, lbl_signs;//ключи и ключевые знаки
@@ -39,13 +43,15 @@ public:
 //    QGraphicsScene *note_scene;
 //    QGraphicsItemGroup  *group_1;
     int ms_amount = 0, notes_amount = 0, //для вектора
-    note_value = 1;//для типа ноты (1, 2, 4, 8, 16, 32...)
+    note_value = 1,//для типа ноты (1, 2, 4, 8, 16, 32...)
+    note_pause_input;
 //    /*friend */int note_sign = 3;//случайные знаки, по умолчанию 3 - нет знака
 
-    float notes_value = 1.0;//для длительности ноты
+    float notes_value = 1.0, takt_value = 0, share_length;//для длительности ноты
     bool up_down, //для хвостика
     long_tail,
-    note_pause_input = true;
+//    note_pause_input = true,
+    draw_takt =false;
 //    int note_value = 1;
 //    QString string_note_file;
 //    QList<QPixmap*> notes_value_image;
@@ -60,9 +66,10 @@ public:
 
     void draw_note(QPainter *painter);
     void mousePressEvent(QMouseEvent *e);////////////для создания ноты при нажатии ЛКМ
-    void closeEvent(QCloseEvent *e);
+    void closeEvent(/*bool change_flag*/QCloseEvent *e);
 //    void paintEvent(QPaintEvent *);
 //    bool eventFilter(QObject *watched, QEvent *event);
+    void DeleteWidgets();
 
 public slots:
     void slotFunc();
@@ -83,6 +90,7 @@ public slots:
     void Add2Flat();
 
     void SaveFile();
+    void LoadFile();
 //    void createNote(QMouseEvent *e);//для создания ноты при нажатии ЛКМ
 };
 #endif // NEWNOTES_H

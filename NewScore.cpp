@@ -87,7 +87,7 @@ void NewScore::accept(){
         wnNewNotes.lbl_clef[0]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
 //        wnNewNotes.area->lbl[i]->setPixmap(QPixmap(file_clef).scaled(w, h, Qt::KeepAspectRatio));
         wnNewNotes./*area->*/lbl_clef[0]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
-         wnNewNotes.lbl_clef[0]->setVisible(true);
+        wnNewNotes.lbl_clef[0]->setVisible(true);
         y_clef += 140;
         wnNewNotes.x_clef = x_clef;
         wnNewNotes.y_clef = y_clef;
@@ -101,7 +101,8 @@ void NewScore::accept(){
     if (field("r0").toBool()){//размещение размера при наличии ключевых знаков
 //        for (int i=0; i<6/*8*/; i++){
 //            wnNewNotes.lbl_signs[i]->setGeometry(0,0,0,0);
-            wnNewNotes.lbl_signs[0]->setVisible(false);//невидимые лейблы ключевых знаков
+        wnNewNotes.lbl_signs[0]->setVisible(false);//невидимые лейблы ключевых знаков
+        wnNewNotes.file_sign = "null";
 //        }
     }
     else{//ключевые знаки
@@ -171,21 +172,25 @@ void NewScore::accept(){
             wnNewNotes.lbl_signs[0]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
             wnNewNotes.lbl_signs[0]->setGeometry(x_sign, y_sign, w_sign, h_sign);
             y_sign+=140;
-            wnNewNotes.x_sign = x_sign;
-            wnNewNotes.y_sign = y_sign;//?????
-            wnNewNotes.w_sign = w_sign;
-            wnNewNotes.h_sign = h_sign;
+
 //
 //        }
 
     }
+    wnNewNotes.x_sign = x_sign;
+    wnNewNotes.y_sign = y_sign;//?????
+    wnNewNotes.w_sign = w_sign;
+    wnNewNotes.h_sign = h_sign;
     //размер
     int x_signature = 45, y_signature = 118;
+    wnNewNotes.x_signature = 45;
+    wnNewNotes.y_signature = 118;
     wnNewNotes.lbl_share->setText(field("share").toString());
     wnNewNotes.lbl_length->setText(field("length").toString());
     wnNewNotes.fr_signature->setGeometry(x_signature+w_sign, y_signature+10, 36, 44);
     wnNewNotes.str_temp = "=" + field("temp").toString();
     wnNewNotes.lbl_tempo->setText(wnNewNotes.str_temp);
+    wnNewNotes.share_length = (field("share")).toFloat() / (field("length")).toFloat();
 
     //задаем первоначально положение области вспомогательных линий
     wnNewNotes.area->x_ex = wnNewNotes.area->first_x_ex = x_signature + w_sign + wnNewNotes.fr_signature->width() + 10;
@@ -196,6 +201,32 @@ void NewScore::accept(){
         wnNewNotes.area->line.append(new MyLine(wnNewNotes.area->x1, wnNewNotes.area->y, wnNewNotes.area->x2, wnNewNotes.area->y));
         wnNewNotes.area->y += 10;
     }
+
+    if (float signature = field("share").toFloat() / field("length").toFloat() < 1){
+        wnNewNotes.note1->setEnabled(false);
+        if (float signature = field("share").toFloat() / field("length").toFloat() < 0.5){
+            wnNewNotes.note2->setEnabled(false);
+            if (float signature = field("share").toFloat() / field("length").toFloat() < 0.25){
+                wnNewNotes.note4->setEnabled(false);
+                if (float signature = field("share").toFloat() / field("length").toFloat() < 0.125){
+                    wnNewNotes.note8->setEnabled(false);
+                    if (float signature = field("share").toFloat() / field("length").toFloat() < 0.0625){
+                        wnNewNotes.note16->setEnabled(false);
+                    }
+                }
+            }
+        }
+    }
+    else{
+        wnNewNotes.note1->setEnabled(true);
+        wnNewNotes.note2->setEnabled(true);
+        wnNewNotes.note4->setEnabled(true);
+        wnNewNotes.note8->setEnabled(true);
+        wnNewNotes.note16->setEnabled(true);
+    }
+
+//    QFile *temp_file= new QFile("temp_file.msnote");
+//    temp_file->
 
     QDialog::accept();
 
