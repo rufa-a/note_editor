@@ -12,7 +12,7 @@ class StartWindow : public QWidget/*QMainWindow*///QWidget
     QPushButton *btnExit, *btnCreate, *btnLoad;
 
     NewScore wnNewScore;
-//    NewNotes wnNewNotes;
+    NewNotes wnNewNotes;
 
 public:
     StartWindow(/*QWidget *parent = 0*/);

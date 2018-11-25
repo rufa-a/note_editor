@@ -60,6 +60,9 @@ void NewScore::accept(){
 ////    note_name += field("NewName").toString();
 //    NoteFile.write(note_name);
 
+    wnNewNotes.area->resize(QSize(1115, 300));
+    wnNewNotes.note_pause_input = 1;
+    wnNewNotes.save_file = false;
     QString file_clef;
 
     wnNewNotes.lblName->setText(field("NewName").toString()); //Ставим название и композитора

@@ -3,8 +3,12 @@
 
 #include <QtWidgets>
 #include <QVector>
+//#include "NewScore.h"
+//#include "StartWindow.h"
 #include "NoteArea.h"
 #include "MsNote.h"
+//class NewScore;
+class StartWindow;
 
 //class MsNote;
 //int note_sign;
@@ -14,9 +18,12 @@ class NewNotes : public QMainWindow/*QWidget*/
 public:
 //    friend MsNote;
 
+//    friend NewScore;
+//    friend StartWindow;
 //    int note_sign;
     QTextCodec *codec;
     NoteArea * area;         // область отображения рисунка
+//    NewScore wnNewScore;
 //    QMdiArea */*note_window*/scr;//for trying to make MDI
     QScrollArea *scr;
 
@@ -29,9 +36,10 @@ public:
     int x_sign, y_sign, w_sign, h_sign,//геометрия лэйбла ключевых знаков
     x_clef, y_clef, w_clef, h_clef,//геометрия лэйбла ключа
     x_signature, y_signature; // для размера
+//    save_file_name/* = "null"*/;
 
-    QToolBar /**ms_values,*/  *note_pause, *note_signs;
-    QMenu *ms_values;
+    QToolBar *ms_values,  *note_pause, *note_signs;
+//    QMenu *ms_values;
 //    QMenuBar *ms_values;
 //    QToolButton *note1, *note2, *note4, *note8, *note16;
     QAction *note1, *note2, *note4, *note8, *note16;
@@ -59,6 +67,14 @@ public:
     QPoint ex_coordinates; //
 //    ExLines * extended_lines;
 
+//    QSignalMapper *signalMapper;
+
+    bool repaint_note = false;
+    int repaint_note_number, last_x_ex, last_y_ex;
+
+    QString save_file_name;
+    bool save_file = false;
+
 
 public:
     NewNotes(QWidget *parent = 0);
@@ -70,6 +86,9 @@ public:
 //    void paintEvent(QPaintEvent *);
 //    bool eventFilter(QObject *watched, QEvent *event);
     void DeleteWidgets();
+
+//    void slotCustomMenuRequested(QPoint p);
+//    void EditMenu(QMouseEvent *, MsNote *);
 
 public slots:
     void slotFunc();
@@ -88,9 +107,16 @@ public slots:
     void AddNatural();
     void AddFlat();
     void Add2Flat();
+    void DeleteSign();
 
+    void CreateNote();
     void SaveFile();
     void LoadFile();
 //    void createNote(QMouseEvent *e);//для создания ноты при нажатии ЛКМ
+
+    void slotCustomMenuRequested(QPoint p);
+    void EditMenu(QMouseEvent *ev, MsNote *note);
+//    void slotEditNote();
+//    void slotRemoveNote();
 };
 #endif // NEWNOTES_H

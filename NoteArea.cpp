@@ -18,6 +18,7 @@ ExLines::ExLines(){
     }
     this->resize(40, 120);
     setMouseTracking(true);
+    setCursor( QCursor( Qt::PointingHandCursor ));
 }
 
 void ExLines::paintEvent(QPaintEvent *){    //рисование дополнительных мигающих линий
@@ -60,7 +61,7 @@ void ExLines::paintEvent(QPaintEvent *){    //рисование дополни�
 NoteArea::NoteArea(QWidget *parent)
 {
 //    setFixedSize(QSize(1115,1250)); // фиксируем размер Холста
-    resize(QSize(1115, 970/*1250*/));
+    resize(QSize(1115, 300/*970*//*1250*/));
 //    this->setStyleSheet("color: white");
 //    int x1 = 20, x2 = 1110, y = 130;
 
@@ -141,7 +142,7 @@ void NoteArea::mouseMoveEvent(QMouseEvent *event){//появление обла�
     ex->ex_note_position = position - lbl_ex->pos();   //координаты мыши в области доп линий
 
     if ((position.x() >= (x_ex)) && (position.x() < (x_ex + 40)) && (position.y() >= y_ex) &&
-            (position.y() <= (y_ex+120)) /*&& appear_ex*/){//для рисования кружочка в области доп линий
+            (position.y() <= (y_ex+120 - 5)) /*&& appear_ex*/){//для рисования кружочка в области доп линий
         lbl_ex->setGeometry(QRect(x_ex, y_ex, 40, 120/*160*/));
         if (!appear_ex){
             ex->setVisible(false);
