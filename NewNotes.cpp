@@ -729,8 +729,8 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
             new_note[repaint_note_number]->resize(40, 120);
             new_note[repaint_note_number]->repaint();
 //            new_note[repaint_note_number]->update();
-            area->x_ex = last_x_ex;
-            area->y_ex = last_y_ex;
+            area->x_ex = new_note[ms_amount - 1]->x_pos + new_note[ms_amount - 1]->width();//last_x_ex;
+            area->y_ex = new_note[ms_amount - 1]->y_pos;//last_y_ex;
             repaint_note = false;
         } else {
             lbl_note.append(new QLabel(area));
@@ -856,7 +856,18 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                     note_value = note_value * 2;
                     notes_value = (notes_value / 2);
                 }
-
+                note1->setStyleSheet("null");
+                note2->setStyleSheet("null");
+                note4->setStyleSheet("null");
+                note8->setStyleSheet("null");
+                note16->setStyleSheet("null");
+                if (note_value == 2)
+                    note2->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+                else if (note_value == 4)
+                        note4->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+                    else if (note_value == 8)
+                            note8->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+                        else note16->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
             }
 //            if (fabs(takt_value - share_length) == )
             if (share_length < 1){
@@ -921,8 +932,8 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                 note16->setEnabled(true);
             }
 
-            last_x_ex = area->x_ex;
-            last_y_ex = area->y_ex;
+//            last_x_ex = area->x_ex;
+//            last_y_ex = area->y_ex;
 
             //        lbl_note[notes_amount]/*[notes_amount]*/->setGeometry(((e->pos().x() - scr->pos().x()-5)/25*25+9), ((e->pos().y() - scr->pos().y()-8)/5*5+5), 30, 120/*12, 10*/);
 
@@ -940,9 +951,8 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
             int pos_x_area = scr->pos().x();
             int width_area = area->width();
             int pos_x_ex = area->x_ex;
-            if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->x2){
-                area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
-                area->x_ex = area->first_x_ex;
+            if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->x2){//следующий нотоносец
+
 
                 if (area->stave_amount == (area->line.size() / 5)){
                     area->y += 90;//следующий нотоносец
@@ -967,9 +977,12 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                 }
     //            lbl_clef[0]->setGeometry(0,0,30,70);
             }
-            int ra = area->y_ex;
-            int asdf = area->ex->height();
-            int qwer = area->height();
+
+
+        }
+        if (area->x_ex + 40 > area->x2){
+            area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
+            area->x_ex = area->first_x_ex;
             if (area->y_ex + area->ex->height() > area->height()){
     //            area->resize((1115, (area->y + 140)));
     //            area->y += 90;
@@ -1496,14 +1509,15 @@ void NewNotes::LoadFile(){
     if (takt_value != 0 && takt_value > fabs(takt_value - share_length)){//чтобы не сломался счет
         while (notes_value > fabs(takt_value - share_length)){
             note_value = note_value * 2;
-            notes_value = (notes_value / 2);
+            notes_value = (notes_value / 2);    
         }
 
     }
-    if (takt_value == 0){
+//    if (takt_value == 0){
         note_value = 16;
         notes_value = 0.0625;
-    }
+        note16->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+//    }
 
 //    if (takt_value == 0)
     exit = true;
@@ -1633,6 +1647,7 @@ void NewNotes::EditMenu(QMouseEvent *ev, MsNote *note){
             note_pause_input = 1;
                 note->NotePauseTakt = 1;
             area->appear_ex = true;
+            area->ex->setCursor( QCursor( Qt::PointingHandCursor ));
             note->setVisible(true);
 
     //        this->area->x_ex = x_ex_rem;//перемещаем область синих линий обратно
@@ -1660,6 +1675,7 @@ void NewNotes::EditMenu(QMouseEvent *ev, MsNote *note){
 
                 this->area->x_ex = note->x_pos;//перемещаем область синих линий
                 this->area->y_ex = note->y_pos;
+                area->ex->setCursor( QCursor( Qt::PointingHandCursor ));
 
                 note->repaint();
         //        note->setGeometry(0,0,0,0);
@@ -1694,7 +1710,7 @@ void NewNotes::EditMenu(QMouseEvent *ev, MsNote *note){
     //            delete new_note[note->NoteNumber];
                 ms_amount--;
             }
-            if (note->NoteNumber == (ms_amount - 2)){
+            if (note->NoteNumber == (ms_amount - 2)){//если с тактом
                 takt_value  = share_length - note->NoteValue;
                 delete new_note[ms_amount - 1];
                 new_note.removeLast();
@@ -1714,13 +1730,13 @@ void NewNotes::EditMenu(QMouseEvent *ev, MsNote *note){
     }
 
     if (note->NotePauseTakt == 0){
-        QAction *Takt1 = new QAction("Двойная тактовая черта", this);
+        QAction *Takt1 = new QAction("Простая тактовая черта", this);
 //        QAction *changeTakt = new QAction(("Одинарная тактовая черта"), this);
         connect(Takt1, &QAction::triggered, [this, note](){
             note->TaktType = 1;
             note->repaint();
         });
-        QAction *Takt0 = new QAction("Простая тактовая черта", this);
+        QAction *Takt0 = new QAction("Двойная тактовая черта", this);
         connect(Takt0, &QAction::triggered, [this, note](){
             note->TaktType = 0;
             note->repaint();

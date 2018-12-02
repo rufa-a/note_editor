@@ -84,6 +84,7 @@ NoteArea::NoteArea(QWidget *parent)
     lbl_ex->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
     QVBoxLayout *v_ex = new QVBoxLayout(lbl_ex);
     lbl_ex->setLayout(v_ex);
+    lbl_ex->setCursor( QCursor( Qt::PointingHandCursor ));
     v_ex->addWidget(ex);
     v_ex->setMargin(0);
 //    v_ex->setGeometry(QRect(0, 0, 50, 100));

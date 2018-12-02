@@ -71,7 +71,7 @@ public:
 //    QSignalMapper *signalMapper;
 
     bool repaint_note = false;//для "Редактировать"
-    int repaint_note_number, last_x_ex, last_y_ex;
+    int repaint_note_number/*, last_x_ex, last_y_ex*/;
 
     QString save_file_name, save_temp_file;//Для файла
     bool save_file = false, from_start = false;
