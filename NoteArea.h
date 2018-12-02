@@ -72,12 +72,12 @@ private:
 //    QVBoxLayout *v_ex;
 //    ~NoteArea();
     QList<MyLine *> line;
-    int x1 = 20, x2 = 1110, y = 130,//для рисования нотоносцев
+    int x1 = 20, x2 = 1600/*1550*//*1110*/, y = 130,//для рисования нотоносцев
     stave_amount = 1;//количество нотоносцев
 //    MyLine *line[6/*8*/][5]/*, *connectLine[8]*/;
 
     ExLines *ex;
-    bool appear_ex;
+    bool appear_ex = true;
 
 //    QPainter *note;
 protected:

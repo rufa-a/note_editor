@@ -61,7 +61,7 @@ void ExLines::paintEvent(QPaintEvent *){    //рисование дополни�
 NoteArea::NoteArea(QWidget *parent)
 {
 //    setFixedSize(QSize(1115,1250)); // фиксируем размер Холста
-    resize(QSize(1115, 300/*970*//*1250*/));
+//    resize(QSize(1115, 300/*970*//*1250*/));
 //    this->setStyleSheet("color: white");
 //    int x1 = 20, x2 = 1110, y = 130;
 

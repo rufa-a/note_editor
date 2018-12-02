@@ -8,7 +8,15 @@ int note_sign;// = 3;
 NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 {
     codec = QTextCodec::codecForName("UTF-8");
-    this->setWindowTitle(codec->toUnicode("Обработка событий"));
+    this->setWindowTitle(codec->toUnicode("Редактор партитур"));
+    resize(1870, 500);
+    setWindowIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/ms_note.png"));
+
+
+    winNewScore = new NewScore(/*this*/);
+//    winNewScore->setParent(this);
+
+    save_temp_file = "temp_file.msnote";
 
     note_sign = 0;
 
@@ -22,47 +30,54 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
     ms_values->setOrientation(Qt::Vertical);
 //    ms_values
 //    ms_values->setTitle("Длительности нот/пауз");
-    note1 = new QAction("Целая", ms_values);
-    note1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
-    note1->setToolTip("Целая");
-//    QWidget *spacer = new QWidget;
-//    ms_values->setS
-//    ms_values->addWidget(spacer);
-    ms_values->addAction(note1);
-    note2 = new QAction("Половинная", ms_values);
-    note2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
-    note2->setToolTip("Половинная");
-//    ms_values->addWidget(spacer);
-    ms_values->addAction(note2);
-    note4 = new QAction("Четвертная", ms_values);
-    note4->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
-    note4->setToolTip("Четвертная");
-    ms_values->addAction(note4);
-    note8 = new QAction("Восьмая", ms_values);
-    note8->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
-    note8->setToolTip("Восьмая");
-    ms_values->addAction(note8);
-    note16 = new QAction("Шестнадцатая", ms_values);
-    note16->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
-    note16->setToolTip("Шестнадцатая");
-    QString  menuStyle(
-               "QMenu::item{"
-               "background-color: rgb(0, 170, 0);"
-               "color: rgb(255, 255, 255);"
-               "}"
-               "QMenu::item:selected{"
-               "background-color: rgb(0, 85, 127);"
-               "color: rgb(255, 255, 255);"
-               "}"
-            );
-//    note16->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
-    ms_values->addAction(note16);
+    QLabel *ms_name = new QLabel("Длительности нот/пауз", ms_values);
+    ms_values->addWidget(ms_name);
+//    note1 = new QAction("Целая", ms_values);
+//    note1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
+//    note1->setToolTip("Целая");
+////    QWidget *spacer = new QWidget;
+////    ms_values->setS
+////    ms_values->addWidget(spacer);
+//    ms_values->addAction(note1);
+//    note2 = new QAction("Половинная", ms_values);
+//    note2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"));
+//    note2->setToolTip("Половинная");
+////    ms_values->addWidget(spacer);
+//    ms_values->addAction(note2);
+//    note4 = new QAction("Четвертная", ms_values);
+//    note4->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"));
+//    note4->setToolTip("Четвертная");
+//    ms_values->addAction(note4);
+//    note8 = new QAction("Восьмая", ms_values);
+//    note8->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+//    note8->setToolTip("Восьмая");
+//    ms_values->addAction(note8);
+//    note16 = new QAction("Шестнадцатая", ms_values);
+//    note16->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"));
+//    note16->setToolTip("Шестнадцатая");
+//    QString  menuStyle(
+//               "QMenu::item{"
+//               "background-color: rgb(0, 170, 0);"
+//               "color: rgb(255, 255, 255);"
+//               "}"
+//               "QMenu::item:selected{"
+//               "background-color: rgb(0, 85, 127);"
+//               "color: rgb(255, 255, 255);"
+//               "}"
+//            );
+
+////    note16->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
+//    ms_values->addAction(note16);
+
+
+
 //    ms_values->setStyleSheet(menuStyle);
-    note16->setObjectName("unique");
-    setStyleSheet("QToolButton#unique{border: 3px solid #FF00FF;}");
+//    note16->setObjectName("unique");
+//    setStyleSheet("QToolButton#unique{border: 3px solid #FF00FF;}");
 
 //    ms_values->setStyleSheet("QMenu:hover{background: rgba(50, 150, 255, 50);}");
-    ms_values->setStyleSheet("border: 3px solid");
+//    ms_values->setStyleSheet("border:1px solid");
+//    ms_values->setStyleSheet("QToolBar { border: 0px }");
 //    QToolButton* toolButton = new QToolButton(this);//Выпадающий список
 //      toolButton->setToolTip(tr("Добавить новый узел"));
 ////      toolButton->setIcon(QIcon(":/addNodeToolButton.png"));
@@ -70,40 +85,96 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //      toolButton->setPopupMode(QToolButton::InstantPopup);
 
 //    tools->addAction()
-//    note1 = new QToolButton(ms_values);
-//    note1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
+    note1 = new QToolButton(ms_values);
+    note1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
+    note1->setText("Целая");
 //    note1->setToolTip("Целая");
-//    note2 = new QToolButton(ms_values);
-//    note2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"));
+    note1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    note1->setFocusPolicy(Qt::ClickFocus);
+//    note1->setFocusPolicy(Qt::StrongFocus);
+    note2 = new QToolButton(ms_values);
+    note2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"));
 //    note2->setToolTip("Половинная");
-//    note4 = new QToolButton(ms_values);
-//    note4->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"));
+    note2->setText("Половинная");
+//    note2->setFocusPolicy(Qt::ClickFocus);
+//    note2->setFocusPolicy(Qt::StrongFocus);
+
+    note2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    note4 = new QToolButton(ms_values);
+    note4->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"));
 //    note4->setToolTip("Четвертная");
-//    note8 = new QToolButton(ms_values);
-//    note8->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+    note4->setText("Четвертная");
+    note4->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    note4->setFocusPolicy(Qt::ClickFocus);
+    note8 = new QToolButton(ms_values);
+    note8->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
 //    note8->setToolTip("Восьмая");
-//    note16 = new QToolButton(ms_values);
-//    note16->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"));
+    note8->setText("Восьмая");
+    note8->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    note8->setFocusPolicy(Qt::ClickFocus);
+    note16 = new QToolButton(ms_values);
+    note16->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"));
 //    note16->setToolTip("Шестнадцатая");
+    note16->setText("Шестнадцатая");
+    note16->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    note16->setFocusPolicy(Qt::ClickFocus);
+//    note16->setFocusPolicy(Qt::NoFocus);
+//    note8->setFocusPolicy(Qt::StrongFocus);
+//    note16->setChecked(true);
+//    note16->setStyleSheet("QToolButton {border: 1px solid red;}");
+    note16->setStyleSheet("QToolButton {border: 1px solid green; background-color:#D8BFD8}");
+//    ms_values->setFocusPolicy(Qt::NoFocus);
+//    ms_values->setAttribute(Qt::);
+//    note16->setAttribute(Qt::WA_ShowWithoutActivating);
+//    area->setAttribute(Qt::WA_ShowWithoutActivating);
+//    ms_values->setAc
 //    QAction *asdf = new QAction("asdf");
 //    asdf->setEnabled();
 //    ms_ms->add
 
-//    ms_values->addWidget(note1);
-//    ms_values->addWidget(note2);
-//    ms_values->addWidget(note4);
-//    ms_values->addWidget(note8);
-//    ms_values->addWidget(note16);
-    connect(note1, SIGNAL(triggered()), this, SLOT(set1Value()));
-    connect(note2, SIGNAL(triggered()), this, SLOT(set2Value()));
-    connect(note4, SIGNAL(triggered()), this, SLOT(set4Value()));
-    connect(note8, SIGNAL(triggered()), this, SLOT(set8Value()));
-    connect(note16, SIGNAL(triggered()), this, SLOT(set16Value()));
-//    connect(note1, SIGNAL(clicked(bool)), this, SLOT(set1Value()));
-//    connect(note2, SIGNAL(clicked(bool)), this, SLOT(set2Value()));
-//    connect(note4, SIGNAL(clicked(bool)), this, SLOT(set4Value()));
-//    connect(note8, SIGNAL(clicked(bool)), this, SLOT(set8Value()));
-//    connect(note16, SIGNAL(clicked(bool)), this, SLOT(set16Value()));
+//    ms_values->setStyleSheet(/*"QToolButton:focus {border: 1px solid red;}"*/ "QToolBar {border: 1px solid;}");
+//    QString  ms_style(
+//               "QTooBar{"
+//               "border: 1px solid;"
+////               "QToolButton:focus {border: 1px solid red;}"
+//               "}"
+//            );
+//    ms_values->setStyleSheet(ms_style);
+//    note4->setObjectName("ms");
+//    note4->setChecked(true);
+//    note4->setFocus();
+//    note4->
+//    note2->setObjectName("ms");
+//    ms_values->setStyleSheet("QToolBar  {border: 1px solid;} QToolButton:focus {border: 1px solid red; background-color: lightblue}");
+    ms_values->setStyleSheet("QToolBar  {border: 1px solid;} QToolButton:pressed {border: 1px solid red; background-color: lightblue}"
+                             "QToolButton:checked {border: 1px solid red; background-color: lightblue}"
+                             "QToolButton:checked:pressed {border: 1px solid red; background-color: lightblue}"
+                             "QToolButton:focus {border: 1px solid red; background-color: lightblue}");
+//    ms_values->setFocus(QEvent::MouseButtonPress);
+    ms_values->addWidget(note1);
+    ms_values->addWidget(note2);
+    ms_values->addWidget(note4);
+    ms_values->addWidget(note8);
+    ms_values->addWidget(note16);
+//    ms_values->setFocusProxy(note1);
+//    ms_values->setFocusProxy(note8);
+//    ms_values->setFocusProxy(note16);
+//    note1->setFocusProxy(ms_values);
+//    note2->setFocusProxy(ms_values);
+//    note4->setFocusProxy(ms_values);
+//    note8->setFocusProxy(ms_values);
+//    note16->setFocusProxy(ms_values);
+
+//    connect(note1, SIGNAL(triggered()), this, SLOT(set1Value()));
+//    connect(note2, SIGNAL(triggered()), this, SLOT(set2Value()));
+//    connect(note4, SIGNAL(triggered()), this, SLOT(set4Value()));
+//    connect(note8, SIGNAL(triggered()), this, SLOT(set8Value()));
+//    connect(note16, SIGNAL(triggered()), this, SLOT(set16Value()));
+    connect(note1, SIGNAL(clicked(bool)), this, SLOT(set1Value()));
+    connect(note2, SIGNAL(clicked(bool)), this, SLOT(set2Value()));
+    connect(note4, SIGNAL(clicked(bool)), this, SLOT(set4Value()));
+    connect(note8, SIGNAL(clicked(bool)), this, SLOT(set8Value()));
+    connect(note16, SIGNAL(clicked(bool)), this, SLOT(set16Value()));
 //    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Целая", this,SLOT(set1Value()));
 //    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"), "Половинная", this,SLOT(set2Value()));
 //    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"), "Четвертная", this, SLOT(set4Value()));
@@ -111,11 +182,55 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    ms_values->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"), "Шестнадцатая", this, SLOT(set16Value()));
 //    tools->addФ
 
-    note_pause = new QToolBar(codec->toUnicode("Ввод нот/пауз"), this);
+    note_pause = new QToolBar("Ввод нот/пауз", this);
+    note_pause->setOrientation(Qt::Vertical);
+//    note_pause->setFocusProxy(ms_values);
+//    note_pause->setFocusPolicy(Qt::TabFocus);
 //    note_pause->set
-    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Ввод нот", this,SLOT(NoteInput()));
+//    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"), "Ввод нот", this,SLOT(NoteInput()));
+//    note_pause->addSeparator();
+//    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/pause_icon.svg"), "Ввод пауз", this,SLOT(PauseInput()));
+//    note_pause->setFocusPolicy(Qt::ClickFocus);
+//    note_pause->setStyleSheet("QToolBar {border: 1px solid;}");
+    note_pause_n = new QToolButton(note_pause);
+    note_pause_n->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+//    note_pause_n->setFocusPolicy(Qt::ClickFocus);
+    note_pause_n->setText("Ввод нот");
+//    note_pause->setWindowFlags(Qt::FocusReason);
+//    note_pause->setAttribute(Qt::FocusReason, true);
+//    note_pause_n->setChecked(true);
+//    note_pause_n->setChecked(true);
+    note_pause_n->setToolTip("Ввод нот");
+//    note_pause_n->setFocusProxy(note_pause);
+    note_pause_n->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    note_pause->setFocus();
+
+//    ms_values->setFocus();
+
+    note_pause_p = new QToolButton(note_pause);
+    note_pause_p->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/pause_values/pause_icon.svg"));
+//    note_pause_p->setFocusPolicy(Qt::ClickFocus);
+    note_pause_p->setToolTip("Ввод пауз");
+    note_pause_p->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    note_pause_p->setText("Ввод пауз");
+    note_pause_n->setStyleSheet("QToolButton {border: 1px solid purple; background-color:lightgrey}");
+//    note_pause->setFocusProxy(note_pause_p);
+//    note_pause->setFocusProxy(note_pause_n);
+//    note_pause_n->setFocusProxy(note_pause);
+//    note_pause_p->setFocusProxy(note_pause);
+
+//    QLabel *note_pause_name = new QLabel("Ввод нот/пауз", note_pause);
+//    note_pause->addWidget(note_pause_name);
+//    note_pause->add
+    note_pause->addWidget(note_pause_n);
     note_pause->addSeparator();
-    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/pause_icon.svg"), "Ввод пауз", this,SLOT(PauseInput()));
+    note_pause->addWidget(note_pause_p);
+    connect(note_pause_n, SIGNAL(clicked(bool)), this, SLOT(NoteInput()));
+    connect(note_pause_p, SIGNAL(clicked(bool)), this, SLOT(PauseInput()));
+//    note_pause->setStyleSheet("QToolBar {border: 1px solid;} QToolButton:focus {border: 1px solid green; background-color: lightblue}");
+//    note_pause->setMaximumWidth(90);
+//    note_pause->setFocusPolicy(Qt::NoFocus);
+//    ms_values->setFocusPolicy(Qt::NoFocus);
 //    note_pause->addSeparator();
 //    note_pause->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/4rest.svg.png"), "Ввод случайных знаков", this,SLOT(PauseInput()));
 //    QToolButton *note = new QToolButton(note_pause);
@@ -130,13 +245,53 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    connect(btn, &QPushButton::clicked, [](){qDebug() << "sasdflkw;gaakja";});
 
     note_signs = new QToolBar("Случайные знаки");
-    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/2sharp.svg"), "Дубль-диез", this,SLOT(Add2Sharp()));
-    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/sharp.svg"), "Диез", this,SLOT(AddSharp()));
-    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/natural.svg"), "Бекар", this,SLOT(AddNatural()));
-    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/flat.svg"), "Бемоль", this,SLOT(AddFlat()));
-    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/2flat.svg"), "Дубль-бемоль", this,SLOT(Add2Flat()));
-    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/no.jpg"), "Удалить знак", this, SLOT(DeleteSign()));
 
+//    note_signs->setFocusPolicy(Qt::ClickFocus);
+    sh1 = new QToolButton(note_signs);
+    sh1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/sharp.svg"));
+    sh1->setToolTip("Диез");
+//    sh1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    sh2 = new QToolButton(note_signs);
+    sh2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/2sharp.svg"));
+    sh2->setToolTip("Дубль-диез");
+//    sh2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    f1 = new QToolButton(note_signs);
+    f1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/flat.svg"));
+    f1->setToolTip("Бемоль");
+//    f1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    f2 = new QToolButton(note_signs);
+    f2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/2flat.svg"));
+    f2->setToolTip("Дубль-бемоль");
+//    f2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    nat = new QToolButton(note_signs);
+    nat->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/natural.svg"));
+    nat->setToolTip("Бекар");
+//    nat->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    no = new QToolButton(note_signs);
+    no->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/no.jpg"));
+    no->setToolTip("Удалить знак");
+    no->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+//    no->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+//    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/2sharp.svg"), "Дубль-диез", this,SLOT(Add2Sharp()));
+//    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/sharp.svg"), "Диез", this,SLOT(AddSharp()));
+//    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/natural.svg"), "Бекар", this,SLOT(AddNatural()));
+//    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/flat.svg"), "Бемоль", this,SLOT(AddFlat()));
+//    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/2flat.svg"), "Дубль-бемоль", this,SLOT(Add2Flat()));
+//    note_signs->addAction(QPixmap("C:/Users/User/qt_projects/try/try2/images/signs/no.jpg"), "Удалить знак", this, SLOT(DeleteSign()));
+
+    note_signs->addWidget(sh2);
+    note_signs->addWidget(sh1);
+    note_signs->addWidget(nat);
+    note_signs->addWidget(f1);
+    note_signs->addWidget(f2);
+    note_signs->addWidget(no);
+    connect(sh2, SIGNAL(clicked(bool)), this, SLOT(Add2Sharp()));
+    connect(sh1, SIGNAL(clicked(bool)), this, SLOT(AddSharp()));
+    connect(nat, SIGNAL(clicked(bool)), this, SLOT(AddNatural()));
+    connect(f1, SIGNAL(clicked(bool)), this, SLOT(AddFlat()));
+    connect(f2, SIGNAL(clicked(bool)), this, SLOT(Add2Flat()));
+    connect(no, SIGNAL(clicked(bool)), this, SLOT(DeleteSign()));
+    note_signs->setStyleSheet("QToolBar  {border: 1px solid;}");
 
 
 //    /*note_window*/scr = new QMdiArea(this);/////////////////////
@@ -154,11 +309,18 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //        setCentralWidget(/*note_window*/scr);
 
     scr = new QScrollArea(this);
+
     area = new NoteArea(scr);
-    scr->resize(1150, 500);
+//    scr->setFixedWidth(area->width());
+    scr->resize(1600, 500);
     scr->setWidget(area);
     scr->setBackgroundRole(QPalette::Light);
-
+    scr->setObjectName("scr");
+    scr->setStyleSheet("QScrollBar {border: 1px solid}");
+//    scr->setFrameRect(QRect(3, 3, area->width(), area->height()));
+    scr->setFrameStyle(1);
+//    area->setStyleSheet("MsNote {border: 1px solid black}");
+//note1->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
 //    scr->setWidget(area);
 
 
@@ -169,16 +331,18 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
     lblComp = new QLineEdit(area);
     lblName->setText("Name");
     lblName->setStyleSheet("font: 24pt 'Courier New' bond; border:  1px dashed");
-    lblName->setGeometry(10, 5, 1100, 1.5*lblName->height());
+    lblName->setGeometry(10, 5, 1590, 1.5*lblName->height());
     lblName->setAlignment(Qt::AlignCenter);
     lblName->setMaxLength(50);
+//    lblName->setMaxLength(50);
 //    lblName->setFrame(false);
 
     lblComp->setText("Composer");
     lblComp->setStyleSheet("font: 14pt 'Courier New';  border:  1px dashed");
-    lblComp->setGeometry(10, 55, 1100, lblComp->height());
+    lblComp->setGeometry(10, 55, 1590, lblComp->height());
     lblComp->setAlignment(Qt::AlignRight);
-    lblComp->setMaxLength(60);
+    lblComp->setMaxLength(80);
+//    lblComp->setMaxLength(60);
 //    lblComp->setFrame(false);
 
 
@@ -201,7 +365,12 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
     layout1->addWidget(note_pause);
 //    layout1->addWidget(ms_ms);
     layout1->addWidget(/*frame_*/ms_values);
+    layout1->addStretch();
     layout1->addWidget(note_signs);
+    layout1->setAlignment(Qt::AlignCenter);
+//    note_pause->resize(15, note_pause->height());
+
+
 //    layout1->addWidget(btn);
 
 
@@ -342,9 +511,9 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    L->addWidget(sb);
 
     QMenu *fileMenu = new QMenu("&Файл");
-    QMenu *editMenu = new QMenu("&Редактировать");
+//    QMenu *editMenu = new QMenu("&Редактировать");
     QMenu *helpMenu = new QMenu("&Помощь");
-    helpMenu->addAction("&AboutQt", this, SLOT(aboutQt()));
+    helpMenu->addAction("Помощь", this, SLOT(slotFunc()));
 
     fileMenu->addAction("Создать...", this, SLOT(CreateNote()));
     fileMenu->addAction("Открыть...", this, SLOT(LoadFile()));
@@ -385,64 +554,140 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 }
 
 void NewNotes::slotFunc(){
-    QMessageBox::information(0, "Message", "Not implemented");
+    QMessageBox::information(0, "Message", "Для выбора режима ввода (нот или пауз), выберите иконку в левом верхнем углу.\n"
+                             "Для выбора длительности ноты/паузы нажмите на соответствующую иконку в средней секции слева.\n"
+                             "Для выбора случайного знака нажмите на соответствующую иконку в левом нижнем углу окна.\n"
+                             "Для начала ввода нот/пауз наведите мышь на область ввода. После появления вспомогательной синей области, нажмите для ввода ноты/паузы левую кнопку мыши.\n"
+                             "Для редактирования введенной ноты/паузы нажмите по ней правой кнопкой мыши и выберите соответствующее изменение.");
 }
 
 void NewNotes::NoteInput(){
     note_pause_input = 1;
     area->appear_ex = true;
+//    note_pause_n->setObjectName("note");
+//    setStyleSheet("QToolButton#note{border: 1px solid #FF00FF;}");
+    note_pause_n->setStyleSheet("QToolButton {border: 1px solid purple; background-color: lightgrey}");
+    note_pause_p->setStyleSheet("null");
 }
 
 void NewNotes::PauseInput(){
     note_pause_input = -1;
     area->appear_ex = false;
+    note_pause_p->setObjectName("note");
+//    setStyleSheet("QToolButton#note{border: 1px solid #FF00FF;}");
+    note_pause_p->setStyleSheet("QToolButton {border: 1px solid purple; background-color: lightgrey}");
+    note_pause_n->setStyleSheet("null");
 }
 
 void NewNotes::set1Value(){
     notes_value = 1.0;
     note_value = 1;
+    note1->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+    note2->setStyleSheet("null");
+    note4->setStyleSheet("null");
+    note8->setStyleSheet("null");
+    note16->setStyleSheet("null");
+//    note1->setFocusPolicy(Qt::ClickFocus);
+//    note1->setAttribute(Qt::WA_Hover, true);
 
 //    string_note_file = "C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png";
 }
 void NewNotes::set2Value(){
     notes_value = 0.5;
     note_value = 2;
+    note2->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+    note1->setStyleSheet("null");
+    note4->setStyleSheet("null");
+    note8->setStyleSheet("null");
+    note16->setStyleSheet("null");
 }
 void NewNotes::set4Value(){
     notes_value = 0.25;
     note_value = 4;
+    note4->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+    note2->setStyleSheet("null");
+    note1->setStyleSheet("null");
+    note8->setStyleSheet("null");
+    note16->setStyleSheet("null");
 }
 void NewNotes::set8Value(){
     notes_value = 0.125;
     note_value = 8;
+    note8->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+    note2->setStyleSheet("null");
+    note4->setStyleSheet("null");
+    note1->setStyleSheet("null");
+    note16->setStyleSheet("null");
 }
 void NewNotes::set16Value(){
     notes_value = 0.0625;
     note_value = 16;
+    note16->setStyleSheet("QToolButton {border: 1px solid red; background-color: #D8BFD8}");
+    note2->setStyleSheet("null");
+    note4->setStyleSheet("null");
+    note8->setStyleSheet("null");
+    note1->setStyleSheet("null");
 }
 
 void NewNotes::Add2Sharp(){
     note_sign = 2;
+    sh2->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+    sh1->setStyleSheet("null");
+    nat->setStyleSheet("null");
+    f1->setStyleSheet("null");
+    f2->setStyleSheet("null");
+    no->setStyleSheet("null");
+    //#FFA07A
 }
 
 void NewNotes::AddSharp(){
     note_sign = 1;
+    sh1->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+    sh2->setStyleSheet("null");
+    nat->setStyleSheet("null");
+    f1->setStyleSheet("null");
+    f2->setStyleSheet("null");
+    no->setStyleSheet("null");
 }
 
 void NewNotes::AddNatural(){
     note_sign = 3;
+    nat->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+    sh1->setStyleSheet("null");
+    sh2->setStyleSheet("null");
+    f1->setStyleSheet("null");
+    f2->setStyleSheet("null");
+    no->setStyleSheet("null");
 }
 
 void NewNotes::AddFlat(){
     note_sign = -1;
+    f1->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+    sh1->setStyleSheet("null");
+    nat->setStyleSheet("null");
+    sh2->setStyleSheet("null");
+    f2->setStyleSheet("null");
+    no->setStyleSheet("null");
 }
 
 void NewNotes::Add2Flat(){
     note_sign = -2;
+    f2->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+    sh1->setStyleSheet("null");
+    nat->setStyleSheet("null");
+    f1->setStyleSheet("null");
+    sh2->setStyleSheet("null");
+    no->setStyleSheet("null");
 }
 
 void NewNotes::DeleteSign(){
     note_sign = 0;
+    no->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
+    sh1->setStyleSheet("null");
+    nat->setStyleSheet("null");
+    f1->setStyleSheet("null");
+    f2->setStyleSheet("null");
+    sh2->setStyleSheet("null");
 }
 
 void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты по нажатию ЛКМ
@@ -457,6 +702,7 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
             area->mapFromParent(e->pos()).y() - scr->pos().y() <= (area->y_ex) + area->lbl_ex->height() - 5){//-5 - чтобы не было обрезанной ноты
 
 //        setCursor( QCursor( Qt::PointingHandCursor ));
+        has_changed = true; //произошли изменения
 
         if (repaint_note){
             note_pause_input = 1;
@@ -491,8 +737,19 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
     //        lbl_note.insert(ms_amount,
     //        lbl_note[ms_amount]/*[notes_amount]*/->setStyleSheet("background-color: rgba(60, 204, 255, 50);");
 
-                    int a1 = (area->ex->ex_note_position.y()-8)/5*5+5;
-                    int a2 = (area->ex->height()/* - 5*/) / 2;
+            int a1 = (area->ex->ex_note_position.y()-8)/5*5+5;
+            int a2 = (area->ex->height()/* - 5*/) / 2;
+
+
+            if (takt_value != 0 && takt_value > fabs(takt_value - share_length)){//чтобы не сломался счет
+                while (notes_value > fabs(takt_value - share_length)){
+                    note_value = note_value * 2;
+                    notes_value = (notes_value / 2);
+                }
+
+            }
+
+
             if (note_pause_input == 1){//если вводим ноты
                 if (note_value != 1){
                     if ((area->ex->ex_note_position.y()-8)/5*5+5 >= (area->ex->height()/* - 5*/) / 2)//в какую строну рисовать хвостик
@@ -530,7 +787,7 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                 new_note[ms_amount]->setMouseTracking(true);
 
             }
-            new_note[ms_amount]->setMouseTracking(true);//??
+            new_note[ms_amount]->setMouseTracking(true);
             lbl_note[ms_amount]->setMouseTracking(true);
 
 
@@ -581,12 +838,16 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
 
                 lbl_note[ms_amount]->setStyleSheet("QWidget:hover{background: rgba(150, 90, 255, 50);}");
                 new_note[ms_amount]->setContextMenuPolicy(Qt::CustomContextMenu);
+
+                //запись в файл
+
+
                 ms_amount++;
                 notes_amount++;
                 takt_value = 0;
 
                 //сделаем сохранение после каждого такта
-//                ЙАшду
+                save_file_func(save_temp_file);
 
 
             }
@@ -679,27 +940,31 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
             int pos_x_area = scr->pos().x();
             int width_area = area->width();
             int pos_x_ex = area->x_ex;
-            if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->width()){
+            if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->x2){
                 area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
                 area->x_ex = area->first_x_ex;
 
-                area->y += 90;//следующий нотоносец
-                for (int i = 0; i < 5; i++){
-                    area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
-                    area->y += 10;
-                }
-                lbl_clef.append(new QLabel(area));//ключ
-                lbl_clef[lbl_clef.size() - 1]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
-                lbl_clef[lbl_clef.size() - 1]->setGeometry(x_clef, y_clef, w_clef, h_clef);
-                lbl_clef[lbl_clef.size() - 1]->setVisible(true);
-                lbl_signs.append(new QLabel(area));//ключевые знаки
-                lbl_signs[lbl_signs.size() - 1]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
-                lbl_signs[lbl_signs.size() - 1]->setGeometry(x_sign, y_sign, w_sign, h_sign);
-                lbl_signs[lbl_signs.size() - 1]->setVisible(true);
+                if (area->stave_amount == (area->line.size() / 5)){
+                    area->y += 90;//следующий нотоносец
+                    for (int i = 0; i < 5; i++){
+                        area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
+                        area->y += 10;
+                    }
+                    if (area->height() > area->y)
+                        area->resize(area->width(), area->height() + 130);
+                    lbl_clef.append(new QLabel(area));//ключ
+                    lbl_clef[lbl_clef.size() - 1]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+                    lbl_clef[lbl_clef.size() - 1]->setGeometry(x_clef, y_clef, w_clef, h_clef);
+                    lbl_clef[lbl_clef.size() - 1]->setVisible(true);
+                    lbl_signs.append(new QLabel(area));//ключевые знаки
+                    lbl_signs[lbl_signs.size() - 1]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+                    lbl_signs[lbl_signs.size() - 1]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+                    lbl_signs[lbl_signs.size() - 1]->setVisible(true);
 
-                y_clef += 140;
-                y_sign += 140;
-                area->stave_amount += 1;
+                    y_clef += 140;
+                    y_sign += 140;
+                    area->stave_amount += 1;
+                }
     //            lbl_clef[0]->setGeometry(0,0,30,70);
             }
             int ra = area->y_ex;
@@ -710,10 +975,36 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
     //            area->y += 90;
     //            area->line.append(new MyLine(20, area->y, 1110, area->y));
     //            area->y += 140;
-                area->resize(QSize(1115, area->height() + 150));
+                area->resize(QSize(area->width(), area->height() + 150));
             }
         }
     }
+}
+
+void NewNotes::save_file_func(QString file_save){
+    QFile new_file(file_save);
+    if (!new_file.open(QIODevice::WriteOnly)) {
+        // error message
+    } else {
+        QTextStream data_stream(&new_file);
+        data_stream << lblName->text() << "\r\n" << lblComp->text() << "\r\n" << lbl_tempo->text() << "\r\n" <<
+                       area->stave_amount << "\r\n" << ms_amount << "\r\n" <<
+                       file_clef << "\r\n" << x_clef<< "\r\n" << y_clef << "\r\n" << w_clef << "\r\n" << h_clef
+                       << "\r\n" << file_sign << "\r\n" << x_sign << "\r\n" << y_sign << "\r\n" << w_sign << "\r\n" << h_sign
+                       << "\r\n" << lbl_share->text().toInt() << "\r\n" << lbl_length->text().toInt() << "\r\n" ;
+        for (int i = 0; i < ms_amount; i++){
+            data_stream << new_note[i]->NotePauseTakt << "\r\n" << new_note[i]->TaktType << "\r\n"  << new_note[i]->NoteValue << "\r\n"
+                        << new_note[i]->x << "\r\n"  << new_note[i]->y << "\r\n"  << new_note[i]->w << "\r\n"
+                        << new_note[i]->h << "\r\n"  << new_note[i]->UpDown << "\r\n"  << new_note[i]->LongTail << "\r\n"  <<
+                           new_note[i]->end_x << "\r\n"  << new_note[i]->end_y << "\r\n"  << new_note[i]->NoteSign << "\r\n"
+                        << new_note[i]->NoteSignHover << "\r\n"
+                        << new_note[i]->x_pos << "\r\n"  << new_note[i]->y_pos << "\r\n"  <<
+                           new_note[i]->MsNumber  << "\r\n" << new_note[i]->NoteNumber << "\r\n";
+        }
+        data_stream.flush();
+        new_file.close();
+    }
+//    has_changed = false;
 }
 
 void NewNotes::SaveFile(){
@@ -729,35 +1020,77 @@ void NewNotes::SaveFile(){
     if( !save_file_name.isNull()){
 //        qDebug(filename.toUtf8() );
 
-        QFile new_file(save_file_name);
-        if (!new_file.open(QIODevice::WriteOnly)) {
-            // error message
-        } else {
-            QTextStream data_stream(&new_file);
-            data_stream << lblName->text() << "\r\n" << lblComp->text() << "\r\n" << lbl_tempo->text() << "\r\n" <<
-                           area->stave_amount << "\r\n" << ms_amount << "\r\n" <<
-                           file_clef << "\r\n" << x_clef<< "\r\n" << y_clef << "\r\n" << w_clef << "\r\n" << h_clef
-                           << "\r\n" << file_sign << "\r\n" << x_sign << "\r\n" << y_sign << "\r\n" << w_sign << "\r\n" << h_sign
-                           << "\r\n" << lbl_share->text().toInt() << "\r\n" << lbl_length->text().toInt() << "\r\n" ;
-            for (int i = 0; i < ms_amount; i++){
-                data_stream << new_note[i]->NotePauseTakt << "\r\n" << new_note[i]->TaktType << "\r\n"  << new_note[i]->NoteValue << "\r\n"
-                            << new_note[i]->x << "\r\n"  << new_note[i]->y << "\r\n"  << new_note[i]->w << "\r\n"
-                            << new_note[i]->h << "\r\n"  << new_note[i]->UpDown << "\r\n"  << new_note[i]->LongTail << "\r\n"  <<
-                               new_note[i]->end_x << "\r\n"  << new_note[i]->end_y << "\r\n"  << new_note[i]->NoteSign << "\r\n"
-                            << new_note[i]->NoteSignHover << "\r\n"
-                            << new_note[i]->x_pos << "\r\n"  << new_note[i]->y_pos << "\r\n"  <<
-                               new_note[i]->MsNumber  << "\r\n" << new_note[i]->NoteNumber << "\r\n";
-            }
-            data_stream.flush();
-            new_file.close();
-        }
+        save_file_func(save_file_name);
+        has_changed = false;
+//        QFile new_file(save_file_name);
+//        if (!new_file.open(QIODevice::WriteOnly)) {
+//            // error message
+//        } else {
+//            QTextStream data_stream(&new_file);
+//            data_stream << lblName->text() << "\r\n" << lblComp->text() << "\r\n" << lbl_tempo->text() << "\r\n" <<
+//                           area->stave_amount << "\r\n" << ms_amount << "\r\n" <<
+//                           file_clef << "\r\n" << x_clef<< "\r\n" << y_clef << "\r\n" << w_clef << "\r\n" << h_clef
+//                           << "\r\n" << file_sign << "\r\n" << x_sign << "\r\n" << y_sign << "\r\n" << w_sign << "\r\n" << h_sign
+//                           << "\r\n" << lbl_share->text().toInt() << "\r\n" << lbl_length->text().toInt() << "\r\n" ;
+//            for (int i = 0; i < ms_amount; i++){
+//                data_stream << new_note[i]->NotePauseTakt << "\r\n" << new_note[i]->TaktType << "\r\n"  << new_note[i]->NoteValue << "\r\n"
+//                            << new_note[i]->x << "\r\n"  << new_note[i]->y << "\r\n"  << new_note[i]->w << "\r\n"
+//                            << new_note[i]->h << "\r\n"  << new_note[i]->UpDown << "\r\n"  << new_note[i]->LongTail << "\r\n"  <<
+//                               new_note[i]->end_x << "\r\n"  << new_note[i]->end_y << "\r\n"  << new_note[i]->NoteSign << "\r\n"
+//                            << new_note[i]->NoteSignHover << "\r\n"
+//                            << new_note[i]->x_pos << "\r\n"  << new_note[i]->y_pos << "\r\n"  <<
+//                               new_note[i]->MsNumber  << "\r\n" << new_note[i]->NoteNumber << "\r\n";
+//            }
+//            data_stream.flush();
+//            new_file.close();
+//        }
 
     }
 //    this->close();
+    exit = true;
 }
 
 void NewNotes::CreateNote(){
-//    wnNewScore.show();
+    exit = false;
+    winNewScore->note_parent = new NewNotes;
+    winNewScore->note_parent = this;
+//    close();
+//    winNewScore->
+//    winNewScore = new NewScore();
+
+    if (has_changed){
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                                                                    ("Сохранить изменения?"),
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+//    if (resBtn::QMessageBox::No)
+//        DeleteWidgets();
+        if (resBtn == QMessageBox::No)
+            winNewScore->show();
+        if (resBtn == QMessageBox::Yes){
+            SaveFile();
+            winNewScore->show();
+        }
+    } else {
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                                                                    ("Закрыть файл"),
+                                                                    QMessageBox::No | QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+//        if (resBtn == QMessageBox::No)
+//            winNewScore->show();
+        if (resBtn == QMessageBox::Yes){
+//            SaveFile();
+//            DeleteWidgets();///////////////////////??????
+            winNewScore->show();
+        }
+
+    }
+//    if (winNewScore->wnNewNotes->opened_win)
+//        close();
+//    NewScore wn;
+//    accept();
+//    NewScore::show();
+    exit = true;
 }
 
 
@@ -782,204 +1115,474 @@ void NewNotes::DeleteWidgets(){
     for (int i = 0; i < area->stave_amount*5; i++)
         delete area->line[i];
     area->line.clear();
-    area->x1 = 20, area->x2 = 1110, area->y = 130;
+    area->x1 = 20, area->x2 = 1600, area->y = 130;
     ms_amount = 0;
     notes_amount = 0;
     area->stave_amount = 1;
+
+//    QFile temp_file_name(save_temp_file);
+//    temp_file_name.de
+    if (QFile(save_temp_file).exists())
+        QFile(save_temp_file).remove();
 }
 
-void NewNotes::LoadFile(){
-//    DeleteWidgets();
-    save_file = true;//для Сохранить и Сохранить как
-
-    /*QString */save_file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::currentPath(), "Документы (*.msnote)");
-    QFile load_file(save_file_name);
-    if (!load_file.open(QIODevice::ReadOnly)){
-        //error message
-    } else {
-
-//        DeleteWidgets();
-        close();
-
-        QTextStream data_stream(&load_file);
+void NewNotes::load_file_func(QString file_name/*QFile load_file*/){
+    area->resize(QSize(1650, area->height()));
+    opened_win = true;
+    has_changed = false;
+    QFile load_file(file_name);
+    load_file.open(QIODevice::ReadOnly);
+    QTextStream data_stream(&load_file);
 //        qDebug(data_stream.readAll().toUtf8());
-        QString name = data_stream.readLine();
-        QString comp = data_stream.readLine();
-        QString share, length;
-        data_stream >> /*name >> comp >>*/ str_temp >> area->stave_amount >> ms_amount >>
-                       file_clef >> x_clef >> y_clef >> w_clef >> h_clef >>
-                       file_sign >> x_sign >> y_sign >> w_sign >> h_sign >>
-                       share >> length;
+    QString name = data_stream.readLine();
+    QString comp = data_stream.readLine();
+    QString share, length;
+    data_stream >> /*name >> comp >>*/ str_temp >> area->stave_amount >> ms_amount >>
+                   file_clef >> x_clef >> y_clef >> w_clef >> h_clef >>
+                   file_sign >> x_sign >> y_sign >> w_sign >> h_sign >>
+                   share >> length;
 //        QString adsfg = data_stream.readLine();
-        lblName->setText(name);
-        lblComp->setText(comp);
-        share_length = share.toFloat() / length.toFloat();//размер
-        this->show();
+    lblName->setText(name);
+    lblComp->setText(comp);
+    share_length = share.toFloat() / length.toFloat();//размер
+    this->show();
 
-        //первый нотоносец
+    //первый нотоносец
 
 
-        y_clef -= 140*area->stave_amount;
-        y_sign -= 140*area->stave_amount;
-        if (w_sign == 0){
+    y_clef -= 140*area->stave_amount;
+    y_sign -= 140*area->stave_amount;
+    if (w_sign == 0){
+        lbl_signs.append(new QLabel(area));
+        lbl_signs[0]->setVisible(false);
+    }
+    for (int i = 0; i < area->stave_amount; i++){
+        for (int j =0; j < 5; j++){
+            area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
+            area->y += 10;
+        }
+        area->y += 90;
+
+
+        lbl_clef.append(new QLabel(area));
+    //    x_clef = 20, y_clef = 118, w_clef = 30, h_clef = 70;
+//        x_sign = 50, y_sign = 111;//координаты ключевых знаков
+        lbl_clef[i]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+        lbl_clef[i]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
+        lbl_clef[i]->setVisible(true);
+        y_clef += 140;
+
+        if (w_sign != 0){
             lbl_signs.append(new QLabel(area));
-            lbl_signs[0]->setVisible(false);
+            lbl_signs[i]->setVisible(true);
+            lbl_signs[i]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+            lbl_signs[i]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+            y_sign += 140;
         }
-        for (int i = 0; i < area->stave_amount; i++){
-            for (int j =0; j < 5; j++){
-                area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
-                area->y += 10;
-            }
-            area->y += 90;
+
+    }
+    area->y -= 90;
+
+    lbl_tempo->setText(str_temp);
 
 
-            lbl_clef.append(new QLabel(area));
-        //    x_clef = 20, y_clef = 118, w_clef = 30, h_clef = 70;
-    //        x_sign = 50, y_sign = 111;//координаты ключевых знаков
-            lbl_clef[i]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
-            lbl_clef[i]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
-            lbl_clef[i]->setVisible(true);
-            y_clef += 140;
-
-            if (w_sign != 0){
-                lbl_signs.append(new QLabel(area));
-                lbl_signs[i]->setVisible(true);
-                lbl_signs[i]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
-                lbl_signs[i]->setGeometry(x_sign, y_sign, w_sign, h_sign);
-                y_sign += 140;
-            }
-
-        }
-        area->y -= 90;
-
-        lbl_tempo->setText(str_temp);
-
-
-        fr_signature->setGeometry(x_signature+w_sign, y_signature+10, 36, 44);
+    lbl_share->setText(share);
+//        lbl_share->setStyleSheet("background-color: rgba(102, 204, 255, 50);");
+//        lbl_share->setVisible(true);
+//        lbl_share->setStyleSheet("background-color: green;");
+    lbl_length->setText(length);
+    fr_signature->setGeometry(x_signature+w_sign, y_signature+10, 36, 44);
+//        fr_signature->setGeometry(0, 0, 100, 90);
+//        fr_signature->setStyleSheet("background-color: rgba(102, 204, 255, 100);");
+//        fr_signature->setVisible(true);
+//        qDebug() <<"fr_signature:" << fr_signature;
+//        qDebug() << "lbl_share: " << lbl_share;
 //        area->x_ex = area->first_x_ex = x_signature + w_sign + fr_signature->width() + 10;
 
 //        area->y_ex = area->first_y_ex = y_signature - 28/*48*/;
 
-        int takt_type;
-        takt_value = 0;
-        QString UpDown, LongTail;
-        if (ms_amount != 0){
-            for (int i = 0; i<ms_amount; i++){
-                data_stream >> note_pause_input >> takt_type >> notes_value;/* << new_note[i]->x <<
-                               new_note[i]->y << new_note[i]->w << new_note[i]->h << new_note[i]->UpDown << new_note[i]->LongTail <<
-                               new_note[i]->end_x << new_note[i]->end_y << new_note[i]->NoteSign << new_note[i]->x_pos << new_note[i]->y_pos;*/
-    //            if (note_pause_input == 0){
-                    new_note.append(new MsNote(note_pause_input, takt_type, notes_value));
-                    data_stream >> new_note[i]->x >> new_note[i]->y >> new_note[i]->w >> new_note[i]->h >> UpDown >>
-                                   LongTail >> new_note[i]->end_x >> new_note[i]->end_y >>new_note[i]->NoteSign >>new_note[i]->NoteSignHover >> new_note[i]->x_pos >> new_note[i]->y_pos >>
-                                   new_note[i]->MsNumber >> new_note[i]->NoteNumber ;
-    //                data_stream.
-                    if (LongTail == "1")
-                        new_note[i]->LongTail = true;
-                    else new_note[i]->LongTail = false;
-                    if (UpDown == "1")
-                        new_note[i]->UpDown = true;
-                    else new_note[i]->UpDown = false;
+    int takt_type;
+    takt_value = 0;
+    QString UpDown, LongTail;
+    if (ms_amount != 0){
+        for (int i = 0; i<ms_amount; i++){
+            data_stream >> note_pause_input >> takt_type >> notes_value;/* << new_note[i]->x <<
+                           new_note[i]->y << new_note[i]->w << new_note[i]->h << new_note[i]->UpDown << new_note[i]->LongTail <<
+                           new_note[i]->end_x << new_note[i]->end_y << new_note[i]->NoteSign << new_note[i]->x_pos << new_note[i]->y_pos;*/
+//            if (note_pause_input == 0){
+                new_note.append(new MsNote(note_pause_input, takt_type, notes_value));
+                data_stream >> new_note[i]->x >> new_note[i]->y >> new_note[i]->w >> new_note[i]->h >> UpDown >>
+                               LongTail >> new_note[i]->end_x >> new_note[i]->end_y >>new_note[i]->NoteSign >>new_note[i]->NoteSignHover >> new_note[i]->x_pos >> new_note[i]->y_pos >>
+                               new_note[i]->MsNumber >> new_note[i]->NoteNumber ;
 
-                    if (new_note[i]->NotePauseTakt == 0)//если тактовая черта
-                        takt_value = 0;
-                    else takt_value += new_note[i]->NoteValue;
+                if (LongTail == "1")
+                    new_note[i]->LongTail = true;
+                else new_note[i]->LongTail = false;
+                if (UpDown == "1")
+                    new_note[i]->UpDown = true;
+                else new_note[i]->UpDown = false;
 
-    //            }
-
-                lbl_note.append(new QLabel(area));
-                QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_note[i]);
-                lbl_note[i]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
-                v_note/*[notes_amount]*/->addWidget(new_note[i]);
-                v_note/*[notes_amount]*/->setMargin(0);
-                if (note_pause_input == 0)
-                    lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/10, 120);
-                else lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/40, 120);
-                lbl_note[i]->setVisible(true);
-                if (note_pause_input == -1){//if pause
-                    lbl_note[i]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/pause_values/" +
-                                                    QVariant(new_note[i]->MsNumber).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
-                }
+                if (new_note[i]->NotePauseTakt == 0)//если тактовая черта
+                    takt_value = 0;
+                else takt_value += new_note[i]->NoteValue;
 
 
-    //            data_stream >> new_note[i]
+
+            lbl_note.append(new QLabel(area));
+            QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_note[i]);
+            lbl_note[i]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
+            v_note/*[notes_amount]*/->addWidget(new_note[i]);
+            v_note/*[notes_amount]*/->setMargin(0);
+            if (note_pause_input == 0)
+                lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/15, 120);
+            else lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/40, 120);
+            lbl_note[i]->setVisible(true);
+            if (note_pause_input == -1){//if pause
+                lbl_note[i]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/pause_values/" +
+                                                QVariant(new_note[i]->MsNumber).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
             }
 
-            area->x_ex = new_note[ms_amount - 1]->x_pos + lbl_note[ms_amount - 1]->width();
-            area->y_ex = new_note[ms_amount - 1]->y_pos/* + lbl_note[ms_amount]->width()*/;
+            connect(new_note[i], SIGNAL(RightClickNote(QMouseEvent *, MsNote *)), this, SLOT(EditMenu(QMouseEvent *,MsNote *)));
+            lbl_note[i]->setStyleSheet("QWidget:hover{background: rgba(150, 90, 255, 50);}");
+            new_note[i]->setMouseTracking(true);
+            lbl_note[i]->setMouseTracking(true);
 
-            if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->width()){
-                area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
-                area->x_ex = area->first_x_ex;
-
-                area->y += 90;//следующий нотоносец
-                for (int i = 0; i < 5; i++){
-                    area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
-                    area->y += 10;
-                }
-                lbl_clef.append(new QLabel(area));//ключ
-                lbl_clef[lbl_clef.size() - 1]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
-                lbl_clef[lbl_clef.size() - 1]->setGeometry(x_clef, y_clef, w_clef, h_clef);
-                lbl_clef[lbl_clef.size() - 1]->setVisible(true);
-                lbl_signs.append(new QLabel(area));//ключевые знаки
-                lbl_signs[lbl_signs.size() - 1]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
-                lbl_signs[lbl_signs.size() - 1]->setGeometry(x_sign, y_sign, w_sign, h_sign);
-                lbl_signs[lbl_signs.size() - 1]->setVisible(true);
-
-                y_clef += 140;
-                y_sign += 140;
-                area->stave_amount += 1;
-    //            lbl_clef[0]->setGeometry(0,0,30,70);
-            }
+//            data_stream >> new_note[i]
         }
 
-        note1->setEnabled(true);
-        note2->setEnabled(true);
-        note4->setEnabled(true);
-        note8->setEnabled(true);
-        note16->setEnabled(true);
+        area->x_ex = new_note[ms_amount - 1]->x_pos + lbl_note[ms_amount - 1]->width();
+        area->y_ex = new_note[ms_amount - 1]->y_pos/* + lbl_note[ms_amount]->width()*/;
+        area->first_x_ex = new_note[0]->x_pos;
+        area->first_y_ex = new_note[0]->y_pos;
+        area->resize(area->width(), area->y_ex + area->ex->height());
+
+        if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->width()){
+            area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
+            area->x_ex = area->first_x_ex;
+
+            area->y += 90;//следующий нотоносец
+            for (int i = 0; i < 5; i++){
+                area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
+                area->y += 10;
+            }
+            lbl_clef.append(new QLabel(area));//ключ
+            lbl_clef[lbl_clef.size() - 1]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+            lbl_clef[lbl_clef.size() - 1]->setGeometry(x_clef, y_clef, w_clef, h_clef);
+            lbl_clef[lbl_clef.size() - 1]->setVisible(true);
+            lbl_signs.append(new QLabel(area));//ключевые знаки
+            lbl_signs[lbl_signs.size() - 1]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+            lbl_signs[lbl_signs.size() - 1]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+            lbl_signs[lbl_signs.size() - 1]->setVisible(true);
+
+            y_clef += 140;
+            y_sign += 140;
+            area->stave_amount += 1;
+//            lbl_clef[0]->setGeometry(0,0,30,70);
+        }
+    }
+    note_pause_input = 1;
+    area->resize(QSize(1650, area->height()));
+//    area->x_ex
+}
+
+void NewNotes::LoadFile(){
+//    DeleteWidgets();
+    exit = false;
+    save_file = true;//для Сохранить и Сохранить как
+//    qDebug() << save_file_name;
+
+//    /*QString */save_file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::currentPath(), "Документы (*.msnote)");
+//    QFile load_file(save_file_name);
+//    if (!/*load_file*/QFile(save_file_name).open(QIODevice::ReadOnly)){
+//        //error message
+//    } else {
+
+//        DeleteWidgets();
+        if (from_start){//если запуск со стартового окна
+            if(QFile(save_temp_file).exists()){
+                QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                                                                            ("Приложение было некорректно завершено.\nВосстановить данные?"),
+                                                                            QMessageBox::No | QMessageBox::Yes | QMessageBox::Cancel,
+                                                                            QMessageBox::Yes);
+                if (resBtn != QMessageBox::Cancel)
+                    if (resBtn == QMessageBox::Yes)
+                        load_file_func(/*load_file*/save_temp_file);
+                    else {
+                        save_file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::currentPath(), "Документы (*.msnote)");
+                        if (QFile(save_file_name).open(QIODevice::ReadOnly))
+                            load_file_func(/*load_file*/save_file_name);
+                    }
+            } else {
+                save_file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::currentPath(), "Документы (*.msnote)");
+                if (QFile(save_file_name).open(QIODevice::ReadOnly)){
+                    load_file_func(/*load_file*/save_file_name);
+                    area->setVisible(true);
+                }
+            }
+
+        } else {
+//            QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+//                                                                        ("Сохранить изменения?"),
+//                                                                        QMessageBox::No | QMessageBox::Yes | QMessageBox::Cancel,
+//                                                                        QMessageBox::Yes);
+            load_from_main = true;
+            close();
+            if (!return_exit){// !(Сохранить изменения? - отмена)
+                save_file_name = QFileDialog::getOpenFileName(this, "Открыть файл", QDir::currentPath(), "Документы (*.msnote)");
+                if (QFile(save_file_name).open(QIODevice::ReadOnly)){
+//                    close();
+                    DeleteWidgets();
+                    load_file_func(/*load_file*/save_file_name);
+//                    DeleteWidgets();
+                }
+            }
+        }
+        return_exit = false;
+//        QTextStream data_stream(&load_file);
+////        qDebug(data_stream.readAll().toUtf8());
+//        QString name = data_stream.readLine();
+//        QString comp = data_stream.readLine();
+//        QString share, length;
+//        data_stream >> /*name >> comp >>*/ str_temp >> area->stave_amount >> ms_amount >>
+//                       file_clef >> x_clef >> y_clef >> w_clef >> h_clef >>
+//                       file_sign >> x_sign >> y_sign >> w_sign >> h_sign >>
+//                       share >> length;
+////        QString adsfg = data_stream.readLine();
+//        lblName->setText(name);
+//        lblComp->setText(comp);
+//        share_length = share.toFloat() / length.toFloat();//размер
+//        this->show();
+
+//        //первый нотоносец
+
+
+//        y_clef -= 140*area->stave_amount;
+//        y_sign -= 140*area->stave_amount;
+//        if (w_sign == 0){
+//            lbl_signs.append(new QLabel(area));
+//            lbl_signs[0]->setVisible(false);
+//        }
+//        for (int i = 0; i < area->stave_amount; i++){
+//            for (int j =0; j < 5; j++){
+//                area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
+//                area->y += 10;
+//            }
+//            area->y += 90;
+
+
+//            lbl_clef.append(new QLabel(area));
+//        //    x_clef = 20, y_clef = 118, w_clef = 30, h_clef = 70;
+//    //        x_sign = 50, y_sign = 111;//координаты ключевых знаков
+//            lbl_clef[i]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+//            lbl_clef[i]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
+//            lbl_clef[i]->setVisible(true);
+//            y_clef += 140;
+
+//            if (w_sign != 0){
+//                lbl_signs.append(new QLabel(area));
+//                lbl_signs[i]->setVisible(true);
+//                lbl_signs[i]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+//                lbl_signs[i]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+//                y_sign += 140;
+//            }
+
+//        }
+//        area->y -= 90;
+
+//        lbl_tempo->setText(str_temp);
+
+
+//        lbl_share->setText(share);
+////        lbl_share->setStyleSheet("background-color: rgba(102, 204, 255, 50);");
+////        lbl_share->setVisible(true);
+////        lbl_share->setStyleSheet("background-color: green;");
+//        lbl_length->setText(length);
+//        fr_signature->setGeometry(x_signature+w_sign, y_signature+10, 36, 44);
+////        fr_signature->setGeometry(0, 0, 100, 90);
+////        fr_signature->setStyleSheet("background-color: rgba(102, 204, 255, 100);");
+////        fr_signature->setVisible(true);
+////        qDebug() <<"fr_signature:" << fr_signature;
+////        qDebug() << "lbl_share: " << lbl_share;
+////        area->x_ex = area->first_x_ex = x_signature + w_sign + fr_signature->width() + 10;
+
+////        area->y_ex = area->first_y_ex = y_signature - 28/*48*/;
+
+//        int takt_type;
+//        takt_value = 0;
+//        QString UpDown, LongTail;
+//        if (ms_amount != 0){
+//            for (int i = 0; i<ms_amount; i++){
+//                data_stream >> note_pause_input >> takt_type >> notes_value;/* << new_note[i]->x <<
+//                               new_note[i]->y << new_note[i]->w << new_note[i]->h << new_note[i]->UpDown << new_note[i]->LongTail <<
+//                               new_note[i]->end_x << new_note[i]->end_y << new_note[i]->NoteSign << new_note[i]->x_pos << new_note[i]->y_pos;*/
+//    //            if (note_pause_input == 0){
+//                    new_note.append(new MsNote(note_pause_input, takt_type, notes_value));
+//                    data_stream >> new_note[i]->x >> new_note[i]->y >> new_note[i]->w >> new_note[i]->h >> UpDown >>
+//                                   LongTail >> new_note[i]->end_x >> new_note[i]->end_y >>new_note[i]->NoteSign >>new_note[i]->NoteSignHover >> new_note[i]->x_pos >> new_note[i]->y_pos >>
+//                                   new_note[i]->MsNumber >> new_note[i]->NoteNumber ;
+
+//                    if (LongTail == "1")
+//                        new_note[i]->LongTail = true;
+//                    else new_note[i]->LongTail = false;
+//                    if (UpDown == "1")
+//                        new_note[i]->UpDown = true;
+//                    else new_note[i]->UpDown = false;
+
+//                    if (new_note[i]->NotePauseTakt == 0)//если тактовая черта
+//                        takt_value = 0;
+//                    else takt_value += new_note[i]->NoteValue;
+
+
+
+//                lbl_note.append(new QLabel(area));
+//                QVBoxLayout *v_note/*[notes_amount]*/ = new QVBoxLayout(lbl_note[i]);
+//                lbl_note[i]/*[notes_amount]*/->setLayout(v_note/*[notes_amount]*/);
+//                v_note/*[notes_amount]*/->addWidget(new_note[i]);
+//                v_note/*[notes_amount]*/->setMargin(0);
+//                if (note_pause_input == 0)
+//                    lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/15, 120);
+//                else lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/40, 120);
+//                lbl_note[i]->setVisible(true);
+//                if (note_pause_input == -1){//if pause
+//                    lbl_note[i]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/pause_values/" +
+//                                                    QVariant(new_note[i]->MsNumber).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
+//                }
+
+//                connect(new_note[i], SIGNAL(RightClickNote(QMouseEvent *, MsNote *)), this, SLOT(EditMenu(QMouseEvent *,MsNote *)));
+//                lbl_note[i]->setStyleSheet("QWidget:hover{background: rgba(150, 90, 255, 50);}");
+
+//    //            data_stream >> new_note[i]
+//            }
+
+//            area->x_ex = new_note[ms_amount - 1]->x_pos + lbl_note[ms_amount - 1]->width();
+//            area->y_ex = new_note[ms_amount - 1]->y_pos/* + lbl_note[ms_amount]->width()*/;
+
+//            if (area->x_ex + /*30*/40 > /*area->pos().x() + area->width()*/area->width()){
+//                area->y_ex += 140;//перенос области вспогательных линий на следующий нотоносец
+//                area->x_ex = area->first_x_ex;
+
+//                area->y += 90;//следующий нотоносец
+//                for (int i = 0; i < 5; i++){
+//                    area->line.append(new MyLine(area->x1, area->y, area->x2, area->y));
+//                    area->y += 10;
+//                }
+//                lbl_clef.append(new QLabel(area));//ключ
+//                lbl_clef[lbl_clef.size() - 1]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+//                lbl_clef[lbl_clef.size() - 1]->setGeometry(x_clef, y_clef, w_clef, h_clef);
+//                lbl_clef[lbl_clef.size() - 1]->setVisible(true);
+//                lbl_signs.append(new QLabel(area));//ключевые знаки
+//                lbl_signs[lbl_signs.size() - 1]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+//                lbl_signs[lbl_signs.size() - 1]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+//                lbl_signs[lbl_signs.size() - 1]->setVisible(true);
+
+//                y_clef += 140;
+//                y_sign += 140;
+//                area->stave_amount += 1;
+//    //            lbl_clef[0]->setGeometry(0,0,30,70);
+//            }
+//        }
+
+//        note1->setEnabled(true);
+//        note2->setEnabled(true);
+//        note4->setEnabled(true);
+//        note8->setEnabled(true);
+//        note16->setEnabled(true);
+
+//    }
+        load_from_main = false;
+    from_start = false;
+    note_pause_input = 1;
+    area->appear_ex = true;
+    if (takt_value != 0 && takt_value > fabs(takt_value - share_length)){//чтобы не сломался счет
+        while (notes_value > fabs(takt_value - share_length)){
+            note_value = note_value * 2;
+            notes_value = (notes_value / 2);
+        }
 
     }
+    if (takt_value == 0){
+        note_value = 16;
+        notes_value = 0.0625;
+    }
+
+//    if (takt_value == 0)
+    exit = true;
 }
 
 void NewNotes::closeEvent(/*bool change_flag,*/ QCloseEvent *event){
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
-                                                                    ("Сохранить изменения?"),
-                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-                                                                    QMessageBox::Yes);
-    if (resBtn == QMessageBox::Cancel) {
-           event->ignore();
-       } else {
-        if (resBtn == QMessageBox::No){
-           event->accept();
+    if (has_changed){
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                                                                        ("Сохранить изменения?"),
+                                                                        (QMessageBox::Cancel) | QMessageBox::No | QMessageBox::Yes,
+                                                                        QMessageBox::Yes);
 
-//           delete[] *new_note;
-           DeleteWidgets();
+        if (resBtn == QMessageBox::Cancel) {
+               event->ignore();
+               return_exit = true;
+    //           return;
+           } else {
+            if (resBtn == QMessageBox::No){
+                if (!load_from_main){
+                   event->accept();
 
-//           delete[] lbl_ms;
-//           delete
-        }
-        else{ //Вызвать
-            QString filename = QFileDialog::getSaveFileName(
-                                this,
-                                "Сохранить",
-                                QDir::currentPath(),
-                                "Документы(*.msnote)" );
-            if( !filename.isNull() ){
-//                qDebug(filename.toUtf8() );
-                event->accept();
+        //           delete[] *new_note;
+                   DeleteWidgets();
+                } else event->ignore();
 
-     //           delete[] *new_note;
-                DeleteWidgets();
-
-     //           delete[] lbl_ms;
-     //           delete
+    //           delete[] lbl_ms;
+    //           delete
             }
-            else
-                event->ignore();
-        }
+            else{ //Вызвать
+                QString filename = QFileDialog::getSaveFileName(
+                                    this,
+                                    "Сохранить",
+                                    QDir::currentPath(),
+                                    "Документы(*.msnote)" );
+                if( !filename.isNull() ){ //если сохраняем
+    //                qDebug(filename.toUtf8() );
+                    save_file_func(filename);
+                    if (!load_from_main){
+                        event->accept();
 
-       }
+         //           delete[] *new_note;
+                        DeleteWidgets();
+                    } else event->ignore();
+
+         //           delete[] lbl_ms;
+         //           delete
+                }
+                else {
+                    event->ignore();
+                    return_exit = true;
+                }
+            }
+
+        }
+    } else {
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                                                                        ("Закрыть файл?"),
+                                                                        QMessageBox::No | QMessageBox::Yes,
+                                                                        QMessageBox::Yes);
+        if (!load_from_main){
+            if (resBtn == QMessageBox::No)
+                event->ignore();
+            else
+                event->accept();
+        }
+        else {
+            if (resBtn == QMessageBox::No)
+                event->ignore();
+            else{
+
+
+                if (exit){
+                    DeleteWidgets();
+                    event->accept();
+                }
+                else event->ignore();
+            }
+        }
+    }
 }
 
 void NewNotes::slotCustomMenuRequested(QPoint p/*, QMouseEvent *e*/){

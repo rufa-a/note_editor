@@ -1,10 +1,25 @@
 #include "NewScore.h"
 #include <QFile>
-NewScore::NewScore()
+#include "StartWindow.h"
+//#include "main.cpp"
+//class StartWindow;
+NewScore::NewScore(/*NewNotes *note_par*/)
                  //: QWizard(parent)
 {
     QTextCodec *codec=QTextCodec::codecForName("UTF-8");
+    setWindowIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/ms_note.png"));
+    resize(600, 400);
+    setMaximumSize(1100, 500);
+//    note_parent = new NewNotes;
+//    note_parent = note_par;
+//    setWindowFlags(/*Qt::WindowStaysOnTopHint*/ /*| Qt::FramelessWindowHint*/ Qt::Popup |  Qt::WindowTitleHint /*| Qt::Sheet | Qt::Popup*/ /*| Qt::WindowSystemMenuHint*/);
+//    setWindowFlags(/*Qt::WindowStaysOnTopHint |*/ Qt::Sheet /*| Qt::MSWindowsFixedSizeDialogHint*//*| Qt::WindowTransparentForInput*/);
+//    this->setWindowState(Qt::WindowActive);
+    setModal(true);
 
+//    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::MSWindowsFixedSizeDialogHint);
+//    this->setWindowModality(Qt::
+//    setWindowModified(true);
 //    addPage(new pgName);
     setPage(Page_Name, new NewName);
     setPage(Page_Clef, new NewClef);
@@ -34,7 +49,16 @@ void NewScore::showHelp()
 
     switch (currentId()) {
     case Page_Name:
-        message = RUS("Укажите название записываемого произведения и автора.");
+        message = "Укажите название записываемого произведения и автора.";
+        break;
+    case Page_Clef:
+        message = "Выберите ключ.";
+        break;
+    case Page_Sign:
+        message = "Выберите ключевые знаки, которые определят тональность произведения. Эти знаки будут использоваться до конца произведения.";
+        break;
+    case Page_Rythm:
+        message = "Укажите размер и темп произведения. Размер определяет количество нот/пауз определенной длительностии в такте. Темп определяет количество ударов четвертных долей в минуту.";
         break;
 //    ...
     default:
@@ -51,6 +75,21 @@ void NewScore::showHelp()
 }
 
 void NewScore::accept(){
+
+//    qDebug () << /*w->*/note_parent;//->objectName();
+    if (note_parent == 0)
+        w->close();
+    else{
+        qDebug () << note_parent;
+//        note_parent->close();
+        note_parent->DeleteWidgets();
+        delete note_parent;
+//        note_parent->setVisible(false);
+    }
+
+//    NewNotes winParent = w->parent();
+//    wnNewNotes->DeleteWidgets();//////////////////////////////////////////////???????????????????????
+//    w->wnNewNotes->DeleteWidgets();
 //    QString strName = field("NewName").toString();
 //    QString strComposer = field("NewComposer").toString();
 
@@ -60,18 +99,19 @@ void NewScore::accept(){
 ////    note_name += field("NewName").toString();
 //    NoteFile.write(note_name);
 
-    wnNewNotes.area->resize(QSize(1115, 300));
-    wnNewNotes.note_pause_input = 1;
-    wnNewNotes.save_file = false;
+    wnNewNotes = new NewNotes();
+    wnNewNotes->area->resize(QSize(1650, 300));
+    wnNewNotes->note_pause_input = 1;
+    wnNewNotes->save_file = false;
     QString file_clef;
 
-    wnNewNotes.lblName->setText(field("NewName").toString()); //Ставим название и композитора
-    wnNewNotes.lblComp->setText(field("NewComposer").toString());
-    wnNewNotes.show();//////////////////////////////окно с нотным листом
+    wnNewNotes->lblName->setText(field("NewName").toString()); //Ставим название и композитора
+    wnNewNotes->lblComp->setText(field("NewComposer").toString());
+    wnNewNotes->show();//////////////////////////////окно с нотным листом
 //    wnNewNotes.area->setVisible(true);
 
 
-    wnNewNotes.lbl_clef.append(new QLabel(wnNewNotes.area));
+    wnNewNotes->lbl_clef.append(new QLabel(wnNewNotes->area));
     int x_clef, y_clef, w_clef, h_clef, x_sign, y_sign, w_sign = 0, h_sign = 0;//габариты ключей и знаков
     if (field("treble.btn").toBool()){
         file_clef = "C:/Users/User/qt_projects/try/try2/images/treble-clef.png";
@@ -87,25 +127,25 @@ void NewScore::accept(){
     }
 //    for (int i = 0; i < 6/*8*/; i++){//расстановка ключей
 
-        wnNewNotes.lbl_clef[0]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
+        wnNewNotes->lbl_clef[0]->setPixmap(QPixmap(file_clef).scaled(w_clef, h_clef, Qt::KeepAspectRatio));
 //        wnNewNotes.area->lbl[i]->setPixmap(QPixmap(file_clef).scaled(w, h, Qt::KeepAspectRatio));
-        wnNewNotes./*area->*/lbl_clef[0]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
-        wnNewNotes.lbl_clef[0]->setVisible(true);
+        wnNewNotes->/*area->*/lbl_clef[0]->setGeometry(x_clef, y_clef, w_clef, h_clef);//px.width(), px.height());///////////
+        wnNewNotes->lbl_clef[0]->setVisible(true);
         y_clef += 140;
-        wnNewNotes.x_clef = x_clef;
-        wnNewNotes.y_clef = y_clef;
-        wnNewNotes.w_clef = w_clef;
-        wnNewNotes.h_clef = h_clef;
-        wnNewNotes.file_clef = file_clef;
+        wnNewNotes->x_clef = x_clef;
+        wnNewNotes->y_clef = y_clef;
+        wnNewNotes->w_clef = w_clef;
+        wnNewNotes->h_clef = h_clef;
+        wnNewNotes->file_clef = file_clef;
 //    }
 
 
-        wnNewNotes.lbl_signs.append(new QLabel(wnNewNotes.area));
+        wnNewNotes->lbl_signs.append(new QLabel(wnNewNotes->area));
     if (field("r0").toBool()){//размещение размера при наличии ключевых знаков
 //        for (int i=0; i<6/*8*/; i++){
 //            wnNewNotes.lbl_signs[i]->setGeometry(0,0,0,0);
-        wnNewNotes.lbl_signs[0]->setVisible(false);//невидимые лейблы ключевых знаков
-        wnNewNotes.file_sign = "null";
+        wnNewNotes->lbl_signs[0]->setVisible(false);//невидимые лейблы ключевых знаков
+        wnNewNotes->file_sign = "null";
 //        }
     }
     else{//ключевые знаки
@@ -168,64 +208,64 @@ void NewScore::accept(){
             w_sign = 70, h_sign = 55, y_sign += 6;
             file_sign += "7b_clef.svg.png";
         }
-        wnNewNotes.file_sign = file_sign;
+        wnNewNotes->file_sign = file_sign;
 //        for (int i=0; i<6/*8*/; i++){
 
-            wnNewNotes.lbl_signs[0]->setVisible(true);
-            wnNewNotes.lbl_signs[0]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
-            wnNewNotes.lbl_signs[0]->setGeometry(x_sign, y_sign, w_sign, h_sign);
+            wnNewNotes->lbl_signs[0]->setVisible(true);
+            wnNewNotes->lbl_signs[0]->setPixmap(QPixmap(file_sign).scaled(w_sign, h_sign, Qt::KeepAspectRatio));
+            wnNewNotes->lbl_signs[0]->setGeometry(x_sign, y_sign, w_sign, h_sign);
             y_sign+=140;
 
 //
 //        }
 
     }
-    wnNewNotes.x_sign = x_sign;
-    wnNewNotes.y_sign = y_sign;//?????
-    wnNewNotes.w_sign = w_sign;
-    wnNewNotes.h_sign = h_sign;
+    wnNewNotes->x_sign = x_sign;
+    wnNewNotes->y_sign = y_sign;//?????
+    wnNewNotes->w_sign = w_sign;
+    wnNewNotes->h_sign = h_sign;
     //размер
     int x_signature = 45, y_signature = 118;
-    wnNewNotes.x_signature = 45;
-    wnNewNotes.y_signature = 118;
-    wnNewNotes.lbl_share->setText(field("share").toString());
-    wnNewNotes.lbl_length->setText(field("length").toString());
-    wnNewNotes.fr_signature->setGeometry(x_signature+w_sign, y_signature+10, 36, 44);
-    wnNewNotes.str_temp = "=" + field("temp").toString();
-    wnNewNotes.lbl_tempo->setText(wnNewNotes.str_temp);
-    wnNewNotes.share_length = (field("share")).toFloat() / (field("length")).toFloat();
+    wnNewNotes->x_signature = 45;
+    wnNewNotes->y_signature = 118;
+    wnNewNotes->lbl_share->setText(field("share").toString());
+    wnNewNotes->lbl_length->setText(field("length").toString());
+    wnNewNotes->fr_signature->setGeometry(x_signature+w_sign, y_signature+10, 36, 44);
+    wnNewNotes->str_temp = "=" + field("temp").toString();
+    wnNewNotes->lbl_tempo->setText(wnNewNotes->str_temp);
+    wnNewNotes->share_length = (field("share")).toFloat() / (field("length")).toFloat();
 
     //задаем первоначально положение области вспомогательных линий
-    wnNewNotes.area->x_ex = wnNewNotes.area->first_x_ex = x_signature + w_sign + wnNewNotes.fr_signature->width() + 10;
+    wnNewNotes->area->x_ex = wnNewNotes->area->first_x_ex = x_signature + w_sign + wnNewNotes->fr_signature->width() + 10;
 
-    wnNewNotes.area->y_ex = wnNewNotes.area->first_y_ex = y_signature - 28/*48*/;
+    wnNewNotes->area->y_ex = wnNewNotes->area->first_y_ex = y_signature - 28/*48*/;
     //первый нотоносец
     for (int i=0; i<5/*30*/; i++){
-        wnNewNotes.area->line.append(new MyLine(wnNewNotes.area->x1, wnNewNotes.area->y, wnNewNotes.area->x2, wnNewNotes.area->y));
-        wnNewNotes.area->y += 10;
+        wnNewNotes->area->line.append(new MyLine(wnNewNotes->area->x1, wnNewNotes->area->y, wnNewNotes->area->x2, wnNewNotes->area->y));
+        wnNewNotes->area->y += 10;
     }
 
     if (float signature = field("share").toFloat() / field("length").toFloat() < 1){
-        wnNewNotes.note1->setEnabled(false);
+        wnNewNotes->note1->setEnabled(false);
         if (float signature = field("share").toFloat() / field("length").toFloat() < 0.5){
-            wnNewNotes.note2->setEnabled(false);
+            wnNewNotes->note2->setEnabled(false);
             if (float signature = field("share").toFloat() / field("length").toFloat() < 0.25){
-                wnNewNotes.note4->setEnabled(false);
+                wnNewNotes->note4->setEnabled(false);
                 if (float signature = field("share").toFloat() / field("length").toFloat() < 0.125){
-                    wnNewNotes.note8->setEnabled(false);
+                    wnNewNotes->note8->setEnabled(false);
                     if (float signature = field("share").toFloat() / field("length").toFloat() < 0.0625){
-                        wnNewNotes.note16->setEnabled(false);
+                        wnNewNotes->note16->setEnabled(false);
                     }
                 }
             }
         }
     }
     else{
-        wnNewNotes.note1->setEnabled(true);
-        wnNewNotes.note2->setEnabled(true);
-        wnNewNotes.note4->setEnabled(true);
-        wnNewNotes.note8->setEnabled(true);
-        wnNewNotes.note16->setEnabled(true);
+        wnNewNotes->note1->setEnabled(true);
+        wnNewNotes->note2->setEnabled(true);
+        wnNewNotes->note4->setEnabled(true);
+        wnNewNotes->note8->setEnabled(true);
+        wnNewNotes->note16->setEnabled(true);
     }
 
 //    QFile *temp_file= new QFile("temp_file.msnote");
@@ -234,6 +274,7 @@ void NewScore::accept(){
     QDialog::accept();
 
     restart();
+//    wnStartWindow
 }
 
 NewName::NewName(QWidget *parent)
@@ -329,18 +370,18 @@ NewClef::NewClef(QWidget *parent)
     rd_bas->setIconSize(QSize(100, 100));
     h1box->addWidget(rd_bas);
 
-    QHBoxLayout *h2box = new QHBoxLayout;
-    rd_alt = new QRadioButton(tr("Альтовый ключ"));
-    QIcon r3("C:/Users/User/qt_projects/try/try2/images/alto_clef.png");
-    rd_alt->setIcon(r3);
-    rd_alt->setIconSize(QSize(100, 100));
-    h2box->addWidget(rd_alt);
+//    QHBoxLayout *h2box = new QHBoxLayout;
+//    rd_alt = new QRadioButton(tr("Альтовый ключ"));
+//    QIcon r3("C:/Users/User/qt_projects/try/try2/images/alto_clef.png");
+//    rd_alt->setIcon(r3);
+//    rd_alt->setIconSize(QSize(100, 100));
+//    h2box->addWidget(rd_alt);
 
-    rd_ten = new QRadioButton(tr("Теноровый ключ"));
-    QIcon r4("C:/Users/User/qt_projects/try/try2/images/tenor_clef.png");
-    rd_ten->setIcon(r4);
-    rd_ten->setIconSize(QSize(100, 100));
-    h2box->addWidget(rd_ten);
+//    rd_ten = new QRadioButton(tr("Теноровый ключ"));
+//    QIcon r4("C:/Users/User/qt_projects/try/try2/images/tenor_clef.png");
+//    rd_ten->setIcon(r4);
+//    rd_ten->setIconSize(QSize(100, 100));
+//    h2box->addWidget(rd_ten);
 
 
     QFrame *fr = new QFrame();
@@ -351,7 +392,7 @@ NewClef::NewClef(QWidget *parent)
     QVBoxLayout *vbox = new QVBoxLayout(fr);
 
     vbox->addLayout(h1box);
-    vbox->addLayout(h2box);
+//    vbox->addLayout(h2box);
 
 //    fr->setLayout(vbox);
 
@@ -359,7 +400,7 @@ NewClef::NewClef(QWidget *parent)
 
     fr -> setFrameShadow(QFrame::Raised);
     fr -> setFrameShape(QFrame::Panel);
-    fr->setStyleSheet("background-color:lightgrey");
+    fr->setStyleSheet("background-color:white");
 //    vbox->addWidget(fr);
 
     rd_treb->setChecked(true);
@@ -542,9 +583,9 @@ NewSign::NewSign(QWidget *parent)
     mainLayout->addLayout(hb);
 
     scr->setWidget(mainWidget);
-    this->resize(600, 300);
-    scr->setMinimumSize(600, 250);
-    scr->setMaximumSize(1000, 500);
+//    this->resize(600, 300);
+//    scr->setMinimumSize(600, 250);
+//    scr->setMaximumSize(1610, 500);
     scr->setAlignment(Qt::AlignTop);
 
     scr->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -644,8 +685,8 @@ NewRythm::NewRythm(QWidget *parent)
     length->addItem("4", 1);
     length->addItem("8", 2);
     length->addItem("16", 3);
-    length->addItem("32", 4);
-    length->addItem("64", 5);
+//    length->addItem("32", 4);
+//    length->addItem("64", 5);
     length->setCurrentIndex(1);
     length->setStyleSheet("background-color:white");
     length->setFixedWidth(50);
