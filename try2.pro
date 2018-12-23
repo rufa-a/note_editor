@@ -32,3 +32,6 @@ HEADERS  += \
     NewNotes.h \
     MsNote.h \
     StartWindow.h
+
+RESOURCES += \
+    resources.qrc

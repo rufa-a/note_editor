@@ -5,7 +5,11 @@ StartWindow::StartWindow()/*(QWidget *parent): QMainWindow(parent)*///QWidget(pa
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     this->setWindowTitle(RUS("Редактор партитур - Стартовое окно"));
     wnNewScore = new NewScore(/*this*/);
-    setWindowIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/ms_note.png"));
+//    setWindowIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/ms_note.png"));
+    setWindowIcon(QIcon(":/images/ms_note.png"));
+//    QDir dir;
+//    qDebug() << dir.cd(QDir::currentPath());
+//    qDebug() << QDir::cd(QDir::currentPath());
 //    wnNewScore->setParent(this);
 //    setWindowModified(true);
 //    wnNewNotes = new NewNotes();
@@ -76,7 +80,7 @@ StartWindow::StartWindow()/*(QWidget *parent): QMainWindow(parent)*///QWidget(pa
 
     vl->addStretch();//пружина
 
-    QPixmap bckgnd("C:/Users/User/qt_projects/try/try2/images/ms_note_fone.jpg");////фон
+    QPixmap bckgnd(":/images/ms_note_fone.jpg");////фон
     bckgnd = bckgnd.scaled(this->size(), Qt::KeepAspectRatio);
     this->setFixedSize(bckgnd.size());
     QPalette palette;

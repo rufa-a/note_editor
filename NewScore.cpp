@@ -7,7 +7,7 @@ NewScore::NewScore(/*NewNotes *note_par*/)
                  //: QWizard(parent)
 {
     QTextCodec *codec=QTextCodec::codecForName("UTF-8");
-    setWindowIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/ms_note.png"));
+    setWindowIcon(QIcon(":/images/ms_note.png"));
     resize(600, 400);
     setMaximumSize(1100, 500);
 //    note_parent = new NewNotes;
@@ -41,7 +41,7 @@ void NewScore::showHelp()
     QTextCodec *codec=QTextCodec::codecForName("UTF-8");
 
 
-    static QString lastHelpMessage;
+
 
 //    setPixmap(QWizard::LogoPixmap, QPixmap(":/images/treble_clef.jpg"));
 
@@ -49,7 +49,7 @@ void NewScore::showHelp()
 
     switch (currentId()) {
     case Page_Name:
-        message = "Укажите название записываемого произведения и автора.";
+        message = "Укажите название записываемого произведения и композитора.";
         break;
     case Page_Clef:
         message = "Выберите ключ.";
@@ -60,18 +60,11 @@ void NewScore::showHelp()
     case Page_Rythm:
         message = "Укажите размер и темп произведения. Размер определяет количество нот/пауз определенной длительностии в такте. Темп определяет количество ударов четвертных долей в минуту.";
         break;
-//    ...
-    default:
-        message = tr("This help is likely not to be of any help.");
     }
 
-    if (lastHelpMessage == message)
-        message = tr("Sorry, I already gave what help I could. "
-                     "Maybe you should try asking a human?");
 
-    QMessageBox::information(this, tr("License Wizard Help"), message);
+    QMessageBox::information(this, "Справка", message);
 
-    lastHelpMessage = message;
 }
 
 void NewScore::accept(){
@@ -114,13 +107,13 @@ void NewScore::accept(){
     wnNewNotes->lbl_clef.append(new QLabel(wnNewNotes->area));
     int x_clef, y_clef, w_clef, h_clef, x_sign, y_sign, w_sign = 0, h_sign = 0;//габариты ключей и знаков
     if (field("treble.btn").toBool()){
-        file_clef = "C:/Users/User/qt_projects/try/try2/images/treble-clef.png";
+        file_clef = ":/images/treble-clef.png";
 //        QPixmap(file_clef).scaled(70, 70, Qt::KeepAspectRatio);
         x_clef = 20, y_clef = 118, w_clef = 30, h_clef = 70;
         x_sign = 50, y_sign = 111;//координаты ключевых знаков
     }
     if (field("bass.btn").toBool()){//ключевые знаки на 10 ниже при басовом ключе
-        file_clef = "C:/Users/User/qt_projects/try/try2/images/Bas_Clef.png";
+        file_clef = ":/images/bas_clef.png";
 //        QPixmap(file_clef).scaled(40, 40, Qt::KeepAspectRatio);
         x_clef = 20, y_clef = 122, w_clef = 30, h_clef = 50;
         x_sign = 55, y_sign = 121;
@@ -149,7 +142,7 @@ void NewScore::accept(){
 //        }
     }
     else{//ключевые знаки
-        QString file_sign = "C:/Users/User/qt_projects/try/try2/images/";
+        QString file_sign = ":/images/";
 
         if (field("1d").toBool()){
             w_sign = 10, h_sign = 60;
@@ -247,14 +240,19 @@ void NewScore::accept(){
 
     if (float signature = field("share").toFloat() / field("length").toFloat() < 1){
         wnNewNotes->note1->setEnabled(false);
+        wnNewNotes->v_1->setEnabled(false);
         if (float signature = field("share").toFloat() / field("length").toFloat() < 0.5){
             wnNewNotes->note2->setEnabled(false);
+            wnNewNotes->v_2->setEnabled(false);
             if (float signature = field("share").toFloat() / field("length").toFloat() < 0.25){
                 wnNewNotes->note4->setEnabled(false);
+                wnNewNotes->v_4->setEnabled(false);
                 if (float signature = field("share").toFloat() / field("length").toFloat() < 0.125){
                     wnNewNotes->note8->setEnabled(false);
+                    wnNewNotes->v_8->setEnabled(false);
                     if (float signature = field("share").toFloat() / field("length").toFloat() < 0.0625){
                         wnNewNotes->note16->setEnabled(false);
+                        wnNewNotes->v_16->setEnabled(false);
                     }
                 }
             }
@@ -266,6 +264,11 @@ void NewScore::accept(){
         wnNewNotes->note4->setEnabled(true);
         wnNewNotes->note8->setEnabled(true);
         wnNewNotes->note16->setEnabled(true);
+        wnNewNotes->v_1->setEnabled(true);
+        wnNewNotes->v_2->setEnabled(true);
+        wnNewNotes->v_4->setEnabled(true);
+        wnNewNotes->v_8->setEnabled(true);
+        wnNewNotes->v_16->setEnabled(true);
     }
 
 //    QFile *temp_file= new QFile("temp_file.msnote");
@@ -360,12 +363,12 @@ NewClef::NewClef(QWidget *parent)
 
 
     rd_treb = new QRadioButton(RUS("Скрипичный ключ"));
-    QIcon r1("C:/Users/User/qt_projects/try/try2/images/treble_clef.png");
+    QIcon r1(":/images/treble_clef.png");
     rd_treb->setIcon(r1);
     rd_treb->setIconSize(QSize(100, 100));
     h1box->addWidget(rd_treb);
     rd_bas = new QRadioButton(tr("Басовый ключ"));
-    QIcon r2("C:/Users/User/qt_projects/try/try2/images/bass_clef.png");
+    QIcon r2(":/images/bass_clef.png");
     rd_bas->setIcon(r2);
     rd_bas->setIconSize(QSize(100, 100));
     h1box->addWidget(rd_bas);
@@ -468,7 +471,7 @@ NewSign::NewSign(QWidget *parent)
 
     QHBoxLayout *h0 = new QHBoxLayout;
     r0 = new QRadioButton;
-    QIcon r_0("C:/Users/User/qt_projects/try/try2/images/0db.svg.png");
+    QIcon r_0(":/images/0db.svg.png");
     r0->setIcon(r_0);
     r0->setIconSize(QSize(100, 100));
     r0->setToolTip(RUS("До мажор, ля минор"));
@@ -479,49 +482,49 @@ NewSign::NewSign(QWidget *parent)
 
     QHBoxLayout *hd = new QHBoxLayout;
     rd_1d = new QRadioButton;
-    QIcon d1("C:/Users/User/qt_projects/try/try2/images/1d.svg.png");
+    QIcon d1(":/images/1d.svg.png");
     rd_1d->setIcon(d1);
     rd_1d->setIconSize(QSize(100, 100));
     rd_1d->setToolTip(RUS("Соль мажор, ми минор"));
     rd_1d->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hd->addWidget(rd_1d);
     rd_2d = new QRadioButton;
-    QIcon d2("C:/Users/User/qt_projects/try/try2/images/2d.svg.png");
+    QIcon d2(":/images/2d.svg.png");
     rd_2d->setIcon(d2);
     rd_2d->setIconSize(QSize(100, 100));
     rd_2d->setToolTip(RUS("Ре мажор, си минор"));
     rd_2d->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hd->addWidget(rd_2d);
     rd_3d = new QRadioButton;
-    QIcon d3("C:/Users/User/qt_projects/try/try2/images/3d.svg.png");
+    QIcon d3(":/images/3d.svg.png");
     rd_3d->setIcon(d3);
     rd_3d->setIconSize(QSize(100, 100));
     rd_3d->setToolTip(RUS("Ля мажор, фа-диез минор"));
     rd_3d->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hd->addWidget(rd_3d);
     rd_4d = new QRadioButton;
-    QIcon d4("C:/Users/User/qt_projects/try/try2/images/4d.svg.png");
+    QIcon d4(":/images/4d.svg.png");
     rd_4d->setIcon(d4);
     rd_4d->setIconSize(QSize(100, 100));
     rd_4d->setToolTip(RUS("Ми мажор, до-диез минор"));
     rd_4d->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hd->addWidget(rd_4d);
     rd_5d = new QRadioButton;
-    QIcon d5("C:/Users/User/qt_projects/try/try2/images/5d.svg.png");
+    QIcon d5(":/images/5d.svg.png");
     rd_5d->setIcon(d5);
     rd_5d->setIconSize(QSize(100, 100));
     rd_5d->setToolTip(RUS("Си мажор, соль-диез минор"));
     rd_5d->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hd->addWidget(rd_5d);
     rd_6d = new QRadioButton;
-    QIcon d6("C:/Users/User/qt_projects/try/try2/images/6d.svg.png");
+    QIcon d6(":/images/6d.svg.png");
     rd_6d->setIcon(d6);
     rd_6d->setIconSize(QSize(100, 100));
     rd_6d->setToolTip(RUS("Фа-диез мажор, ре-диез минор"));
     rd_6d->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hd->addWidget(rd_6d);
     rd_7d = new QRadioButton;
-    QIcon d7("C:/Users/User/qt_projects/try/try2/images/7d.svg.png");
+    QIcon d7(":/images/7d.svg.png");
     rd_7d->setIcon(d7);
     rd_7d->setIconSize(QSize(100, 100));
     rd_7d->setToolTip(RUS("До-диез мажор, ля-диез минор"));
@@ -531,49 +534,49 @@ NewSign::NewSign(QWidget *parent)
 
     QHBoxLayout *hb = new QHBoxLayout;
     rd_1b = new QRadioButton;
-    QIcon b1("C:/Users/User/qt_projects/try/try2/images/1b.svg.png");
+    QIcon b1(":/images/1b.svg.png");
     rd_1b->setIcon(b1);
     rd_1b->setIconSize(QSize(100, 100));
     rd_1b->setToolTip(RUS("Фа мажор, ре минор"));
     rd_1b->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hb->addWidget(rd_1b);
     rd_2b = new QRadioButton;
-    QIcon b2("C:/Users/User/qt_projects/try/try2/images/2b.svg.png");
+    QIcon b2(":/images/2b.svg.png");
     rd_2b->setIcon(b2);
     rd_2b->setIconSize(QSize(100, 100));
     rd_2b->setToolTip(RUS("Си-бемоль мажор, соль минор"));
     rd_2b->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hb->addWidget(rd_2b);
     rd_3b = new QRadioButton;
-    QIcon b3("C:/Users/User/qt_projects/try/try2/images/3b.svg.png");
+    QIcon b3(":/images/3b.svg.png");
     rd_3b->setIcon(b3);
     rd_3b->setIconSize(QSize(100, 100));
     rd_3b->setToolTip(RUS("Ми-бемоль мажор, до минор"));
     rd_3b->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hb->addWidget(rd_3b);
     rd_4b = new QRadioButton;
-    QIcon b4("C:/Users/User/qt_projects/try/try2/images/4b.svg.png");
+    QIcon b4(":/images/4b.svg.png");
     rd_4b->setIcon(b4);
     rd_4b->setIconSize(QSize(100, 100));
     rd_4b->setToolTip(RUS("Ля-бемоль мажор, фа минор"));
     rd_4b->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hb->addWidget(rd_4b);
     rd_5b = new QRadioButton;
-    QIcon b5("C:/Users/User/qt_projects/try/try2/images/5b.svg.png");
+    QIcon b5(":/images/5b.svg.png");
     rd_5b->setIcon(b5);
     rd_5b->setIconSize(QSize(100, 100));
     rd_5b->setToolTip(RUS("Ре-бемоль мажор, си-бемоль минор"));
     rd_5b->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hb->addWidget(rd_5b);
     rd_6b = new QRadioButton;
-    QIcon b6("C:/Users/User/qt_projects/try/try2/images/6b.svg.png");
+    QIcon b6(":/images/6b.svg.png");
     rd_6b->setIcon(b6);
     rd_6b->setIconSize(QSize(100, 100));
     rd_6b->setToolTip(RUS("Соль-бемоль мажор, ми-бемоль минор"));
     rd_6b->setStyleSheet("QToolTip { color: black; background-color: lightblue; border: 1px solid white; }");
     hb->addWidget(rd_6b);
     rd_7b = new QRadioButton;
-    QIcon b7("C:/Users/User/qt_projects/try/try2/images/7b.svg.png");
+    QIcon b7(":/images/7b.svg.png");
     rd_7b->setIcon(b7);
     rd_7b->setIconSize(QSize(100, 100));
     rd_7b->setToolTip(RUS("До-бемоль мажор, ля-бемоль минор"));

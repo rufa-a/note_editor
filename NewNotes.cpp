@@ -10,7 +10,7 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
     codec = QTextCodec::codecForName("UTF-8");
     this->setWindowTitle(codec->toUnicode("Редактор партитур"));
     resize(1870, 500);
-    setWindowIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/ms_note.png"));
+    setWindowIcon(QIcon(":/images/ms_note.png"));
 
 
     winNewScore = new NewScore(/*this*/);
@@ -86,14 +86,14 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
 //    tools->addAction()
     note1 = new QToolButton(ms_values);
-    note1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/1note.svg.png"));
+    note1->setIcon(QIcon(":/images/note_values/1note.svg.png"));
     note1->setText("Целая");
 //    note1->setToolTip("Целая");
     note1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 //    note1->setFocusPolicy(Qt::ClickFocus);
 //    note1->setFocusPolicy(Qt::StrongFocus);
     note2 = new QToolButton(ms_values);
-    note2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/2note.svg.png"));
+    note2->setIcon(QIcon(":/images/note_values/2note.svg.png"));
 //    note2->setToolTip("Половинная");
     note2->setText("Половинная");
 //    note2->setFocusPolicy(Qt::ClickFocus);
@@ -101,19 +101,19 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
     note2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     note4 = new QToolButton(ms_values);
-    note4->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/4note.svg.png"));
+    note4->setIcon(QIcon(":/images/note_values/4note.svg.png"));
 //    note4->setToolTip("Четвертная");
     note4->setText("Четвертная");
     note4->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 //    note4->setFocusPolicy(Qt::ClickFocus);
     note8 = new QToolButton(ms_values);
-    note8->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+    note8->setIcon(QIcon(":/images/note_values/8note.svg.png"));
 //    note8->setToolTip("Восьмая");
     note8->setText("Восьмая");
     note8->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 //    note8->setFocusPolicy(Qt::ClickFocus);
     note16 = new QToolButton(ms_values);
-    note16->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/16note.svg.png"));
+    note16->setIcon(QIcon(":/images/note_values/16note.svg.png"));
 //    note16->setToolTip("Шестнадцатая");
     note16->setText("Шестнадцатая");
     note16->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -193,7 +193,7 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    note_pause->setFocusPolicy(Qt::ClickFocus);
 //    note_pause->setStyleSheet("QToolBar {border: 1px solid;}");
     note_pause_n = new QToolButton(note_pause);
-    note_pause_n->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/note_values/8note.svg.png"));
+    note_pause_n->setIcon(QIcon(":/images/note_values/8note.svg.png"));
 //    note_pause_n->setFocusPolicy(Qt::ClickFocus);
     note_pause_n->setText("Ввод нот");
 //    note_pause->setWindowFlags(Qt::FocusReason);
@@ -208,7 +208,7 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //    ms_values->setFocus();
 
     note_pause_p = new QToolButton(note_pause);
-    note_pause_p->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/pause_values/pause_icon.svg"));
+    note_pause_p->setIcon(QIcon(":/images/pause_values/pause_icon.svg"));
 //    note_pause_p->setFocusPolicy(Qt::ClickFocus);
     note_pause_p->setToolTip("Ввод пауз");
     note_pause_p->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -248,27 +248,27 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 
 //    note_signs->setFocusPolicy(Qt::ClickFocus);
     sh1 = new QToolButton(note_signs);
-    sh1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/sharp.svg"));
+    sh1->setIcon(QIcon(":/images/signs/sharp.svg"));
     sh1->setToolTip("Диез");
 //    sh1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     sh2 = new QToolButton(note_signs);
-    sh2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/2sharp.svg"));
+    sh2->setIcon(QIcon(":/images/signs/2sharp.svg"));
     sh2->setToolTip("Дубль-диез");
 //    sh2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     f1 = new QToolButton(note_signs);
-    f1->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/flat.svg"));
+    f1->setIcon(QIcon(":/images/signs/flat.svg"));
     f1->setToolTip("Бемоль");
 //    f1->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     f2 = new QToolButton(note_signs);
-    f2->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/2flat.svg"));
+    f2->setIcon(QIcon(":/images/signs/2flat.svg"));
     f2->setToolTip("Дубль-бемоль");
 //    f2->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     nat = new QToolButton(note_signs);
-    nat->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/natural.svg"));
+    nat->setIcon(QIcon(":/images/signs/natural.svg"));
     nat->setToolTip("Бекар");
 //    nat->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     no = new QToolButton(note_signs);
-    no->setIcon(QIcon("C:/Users/User/qt_projects/try/try2/images/signs/no.jpg"));
+    no->setIcon(QIcon(":/images/signs/no.jpg"));
     no->setToolTip("Удалить знак");
     no->setStyleSheet("QToolButton {border: 1px solid green; background-color:#FFDAB9}");
 //    no->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -513,11 +513,11 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
     QMenu *fileMenu = new QMenu("&Файл");
 //    QMenu *editMenu = new QMenu("&Редактировать");
     QMenu *helpMenu = new QMenu("&Помощь");
-    helpMenu->addAction("Помощь", this, SLOT(slotFunc()));
+    helpMenu->addAction("Помощь  F1", this, SLOT(slotFunc()));
 
-    fileMenu->addAction("Создать...", this, SLOT(CreateNote()));
-    fileMenu->addAction("Открыть...", this, SLOT(LoadFile()));
-    fileMenu->addAction("Сохранить", this, SLOT(SaveFile()));
+    fileMenu->addAction("Создать...  CTRL+N", this, SLOT(CreateNote()));
+    fileMenu->addAction("Открыть...  CTRL+O", this, SLOT(LoadFile()));
+    fileMenu->addAction("Сохранить  CTRL+S", this, SLOT(SaveFile()));
     QAction *SaveAs = new QAction("Сохранить как...", this);
     connect(SaveAs, &QAction::triggered, [this/*, note*/](){
        save_file = false;
@@ -551,14 +551,65 @@ NewNotes::NewNotes(QWidget *parent): QMainWindow(parent)
 //        signalMapper = new QSignalMapper(this);
 //        connect(signalMapper, SIGNAL(customMenuRequested(QPoint)), this, SLOT(slotCustomMenuRequested(QPoint)));
 //                        connect(new_note[ms_amount], SIGNAL(customContextMenuRequested(QPoint/*, QMouseEvent*/)), this, SLOT(slotCustomMenuRequested(QPoint)));
+
+        //горячие клавиши для длительностей нот/пауз
+
+        v_1 = new QShortcut(this);
+        v_1->setKey(Qt::CTRL + Qt::Key_1);
+        connect(v_1, SIGNAL(activated()), this, SLOT(set1Value()));
+
+        v_2 = new QShortcut(this);
+        v_2->setKey(Qt::CTRL + Qt::Key_2);
+        connect(v_2, SIGNAL(activated()), this, SLOT(set2Value()));
+
+        v_4 = new QShortcut(this);
+        v_4->setKey(Qt::CTRL + Qt::Key_3);
+        connect(v_4, SIGNAL(activated()), this, SLOT(set4Value()));
+
+        v_8 = new QShortcut(this);
+        v_8->setKey(Qt::CTRL + Qt::Key_4);
+        connect(v_8, SIGNAL(activated()), this, SLOT(set8Value()));
+
+
+        v_16 = new QShortcut(this);
+        v_16->setKey(Qt::CTRL + Qt::Key_5);
+        connect(v_16, SIGNAL(activated()), this, SLOT(set16Value()));
+
+        inp = new QShortcut(this);
+        inp->setKey(Qt::Key_F2);
+//        disconnect(inp, SIGNAL(activated()), this, SLOT(NoteInput()));
+        connect(inp, SIGNAL(activated()), this, SLOT(PauseInput()));
+
+        save_hot = new QShortcut(this);
+        save_hot->setKey(Qt::CTRL + Qt::Key_S);
+        connect(save_hot, SIGNAL(activated()), this, SLOT(SaveFile()));
+
+        sign_hot = new QShortcut(this);
+        sign_hot->setKey(Qt::CTRL + Qt::Key_A);
+        connect(sign_hot, SIGNAL(activated()), this, SLOT(Add2Sharp()));
+
+        new_hot = new QShortcut(this);
+        new_hot->setKey(Qt::CTRL + Qt::Key_N);
+        connect(new_hot, SIGNAL(activated()), this, SLOT(CreateNote()));
+
+        open_hot = new QShortcut(this);
+        open_hot->setKey(Qt::CTRL + Qt::Key_O);
+        connect(open_hot, SIGNAL(activated()), this, SLOT(LoadFile()));
+
+        help_hot = new QShortcut(this);
+        help_hot->setKey(/*Qt::CTRL + */Qt::Key_F1);
+        connect(help_hot, SIGNAL(activated()), this, SLOT(slotFunc()));
 }
 
 void NewNotes::slotFunc(){
-    QMessageBox::information(0, "Message", "Для выбора режима ввода (нот или пауз), выберите иконку в левом верхнем углу.\n"
+    QMessageBox::information(0, "Справка", "Для выбора режима ввода (нот или пауз), выберите иконку в левом верхнем углу.\n"
                              "Для выбора длительности ноты/паузы нажмите на соответствующую иконку в средней секции слева.\n"
                              "Для выбора случайного знака нажмите на соответствующую иконку в левом нижнем углу окна.\n"
                              "Для начала ввода нот/пауз наведите мышь на область ввода. После появления вспомогательной синей области, нажмите для ввода ноты/паузы левую кнопку мыши.\n"
-                             "Для редактирования введенной ноты/паузы нажмите по ней правой кнопкой мыши и выберите соответствующее изменение.");
+                             "Для редактирования введенной ноты/паузы нажмите по ней правой кнопкой мыши и выберите соответствующее изменение.\n"
+                             "Для быстрой смены режима ввода нот/пауз используйте сочетание клавиш F2.\n"
+                             "Для быстрого выбора длительности используйте сочетание клавиш CTRL+1..5.\n"
+                             "Для быстрого выбоа случайного знака используйте сочетание клавиш CTRL+A.");
 }
 
 void NewNotes::NoteInput(){
@@ -568,6 +619,8 @@ void NewNotes::NoteInput(){
 //    setStyleSheet("QToolButton#note{border: 1px solid #FF00FF;}");
     note_pause_n->setStyleSheet("QToolButton {border: 1px solid purple; background-color: lightgrey}");
     note_pause_p->setStyleSheet("null");
+    disconnect(inp, SIGNAL(activated()), this, SLOT(NoteInput()));
+    connect(inp, SIGNAL(activated()), this, SLOT(PauseInput()));
 }
 
 void NewNotes::PauseInput(){
@@ -577,6 +630,8 @@ void NewNotes::PauseInput(){
 //    setStyleSheet("QToolButton#note{border: 1px solid #FF00FF;}");
     note_pause_p->setStyleSheet("QToolButton {border: 1px solid purple; background-color: lightgrey}");
     note_pause_n->setStyleSheet("null");
+    disconnect(inp, SIGNAL(activated()), this, SLOT(PauseInput()));
+    connect(inp, SIGNAL(activated()), this, SLOT(NoteInput()));
 }
 
 void NewNotes::set1Value(){
@@ -637,6 +692,8 @@ void NewNotes::Add2Sharp(){
     f1->setStyleSheet("null");
     f2->setStyleSheet("null");
     no->setStyleSheet("null");
+    disconnect(sign_hot, SIGNAL(activated()), this, SLOT(Add2Sharp()));
+    connect(sign_hot, SIGNAL(activated()), this, SLOT(AddSharp()));
     //#FFA07A
 }
 
@@ -648,6 +705,8 @@ void NewNotes::AddSharp(){
     f1->setStyleSheet("null");
     f2->setStyleSheet("null");
     no->setStyleSheet("null");
+    disconnect(sign_hot, SIGNAL(activated()), this, SLOT(AddSharp()));
+    connect(sign_hot, SIGNAL(activated()), this, SLOT(AddNatural()));
 }
 
 void NewNotes::AddNatural(){
@@ -658,6 +717,8 @@ void NewNotes::AddNatural(){
     f1->setStyleSheet("null");
     f2->setStyleSheet("null");
     no->setStyleSheet("null");
+    disconnect(sign_hot, SIGNAL(activated()), this, SLOT(AddNatural()));
+    connect(sign_hot, SIGNAL(activated()), this, SLOT(AddFlat()));
 }
 
 void NewNotes::AddFlat(){
@@ -668,6 +729,8 @@ void NewNotes::AddFlat(){
     sh2->setStyleSheet("null");
     f2->setStyleSheet("null");
     no->setStyleSheet("null");
+    disconnect(sign_hot, SIGNAL(activated()), this, SLOT(AddFlat()));
+    connect(sign_hot, SIGNAL(activated()), this, SLOT(Add2Flat()));
 }
 
 void NewNotes::Add2Flat(){
@@ -678,6 +741,8 @@ void NewNotes::Add2Flat(){
     f1->setStyleSheet("null");
     sh2->setStyleSheet("null");
     no->setStyleSheet("null");
+    disconnect(sign_hot, SIGNAL(activated()), this, SLOT(Add2Flat()));
+    connect(sign_hot, SIGNAL(activated()), this, SLOT(DeleteSign()));
 }
 
 void NewNotes::DeleteSign(){
@@ -688,6 +753,8 @@ void NewNotes::DeleteSign(){
     f1->setStyleSheet("null");
     f2->setStyleSheet("null");
     sh2->setStyleSheet("null");
+    disconnect(sign_hot, SIGNAL(activated()), this, SLOT(DeleteSign()));
+    connect(sign_hot, SIGNAL(activated()), this, SLOT(Add2Sharp()));
 }
 
 void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты по нажатию ЛКМ
@@ -775,7 +842,7 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
 
             }else if (note_pause_input == -1){//если вводим паузы
                 new_note.append(new MsNote(note_pause_input, 0, notes_value));//для записи
-                lbl_note[ms_amount]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/pause_values/" +
+                lbl_note[ms_amount]->setPixmap(QPixmap(":/images/pause_values/" +
                                                           QVariant(note_value).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
                 lbl_note[ms_amount]->setAlignment(Qt::AlignCenter);
 
@@ -872,14 +939,19 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
 //            if (fabs(takt_value - share_length) == )
             if (share_length < 1){
                 note1->setEnabled(false);
+                v_1->setEnabled(false);
                 if (share_length < 0.5){
                     note2->setEnabled(false);
+                    v_2->setEnabled(false);
                     if (share_length < 0.25){
                         note4->setEnabled(false);
+                        v_4->setEnabled(false);
                         if (share_length < 0.125){
                             note8->setEnabled(false);
+                            v_8->setEnabled(false);
                             if (share_length < 0.0625){
                                 note16->setEnabled(false);
+                                v_16->setEnabled(false);
                             }
                         }
                     }
@@ -891,30 +963,48 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                 note4->setEnabled(true);
                 note8->setEnabled(true);
                 note16->setEnabled(true);
+                v_1->setEnabled(true);
+                v_2->setEnabled(true);
+                v_4->setEnabled(true);
+                v_8->setEnabled(true);
+                v_16->setEnabled(true);
             }
 
             if (fabs (share_length - takt_value) < 1){
                 note1->setEnabled(false);
+                v_1->setEnabled(false);
                 if (fabs (share_length - takt_value) < 0.5){
                     note2->setEnabled(false);
+                    v_2->setEnabled(false);
                     if (fabs (share_length - takt_value) < 0.25){
                         note4->setEnabled(false);
+                        v_4->setEnabled(false);
                         if (fabs (share_length - takt_value) < 0.125){
                             note8->setEnabled(false);
+                            v_8->setEnabled(false);
                             if (fabs (share_length - takt_value) < 0.0625){
                                 note16->setEnabled(false);
+                                v_16->setEnabled(false);
                             }
-                            else note16->setEnabled(true);
+                            else{ note16->setEnabled(true);
+                                v_16->setEnabled(true);
+//                                note16->setEnabled(true);
+                            }
                         }
                         else {
                             note8->setEnabled(true);
                             note16->setEnabled(true);
+                            v_8->setEnabled(true);
+                            v_16->setEnabled(true);
                         }
                     }
                     else {
                         note4->setEnabled(true);
                         note8->setEnabled(true);
                         note16->setEnabled(true);
+                        v_4->setEnabled(true);
+                        v_8->setEnabled(true);
+                        v_16->setEnabled(true);
                     }
                 }
                 else {
@@ -922,6 +1012,10 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                     note4->setEnabled(true);
                     note8->setEnabled(true);
                     note16->setEnabled(true);
+                    v_2->setEnabled(true);
+                    v_4->setEnabled(true);
+                    v_8->setEnabled(true);
+                    v_16->setEnabled(true);
                 }
             }
             else {
@@ -930,6 +1024,11 @@ void NewNotes::mousePressEvent(QMouseEvent *e){ // Рисование ноты �
                 note4->setEnabled(true);
                 note8->setEnabled(true);
                 note16->setEnabled(true);
+                v_1->setEnabled(true);
+                v_2->setEnabled(true);
+                v_4->setEnabled(true);
+                v_8->setEnabled(true);
+                v_16->setEnabled(true);
             }
 
 //            last_x_ex = area->x_ex;
@@ -1072,7 +1171,7 @@ void NewNotes::CreateNote(){
 //    winNewScore = new NewScore();
 
     if (has_changed){
-        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Сохранение",
                                                                     ("Сохранить изменения?"),
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
                                                                     QMessageBox::Yes);
@@ -1085,8 +1184,8 @@ void NewNotes::CreateNote(){
             winNewScore->show();
         }
     } else {
-        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
-                                                                    ("Закрыть файл"),
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Закрытие файла",
+                                                                    ("Закрыть файл?"),
                                                                     QMessageBox::No | QMessageBox::Yes,
                                                                     QMessageBox::Yes);
 //        if (resBtn == QMessageBox::No)
@@ -1251,7 +1350,7 @@ void NewNotes::load_file_func(QString file_name/*QFile load_file*/){
             else lbl_note[i]->setGeometry(new_note[i]->x_pos, new_note[i]->y_pos, /*30*/40, 120);
             lbl_note[i]->setVisible(true);
             if (note_pause_input == -1){//if pause
-                lbl_note[i]->setPixmap(QPixmap(/*string_note_file*/"C:/Users/User/qt_projects/try/try2/images/pause_values/" +
+                lbl_note[i]->setPixmap(QPixmap(":/images/pause_values/" +
                                                 QVariant(new_note[i]->MsNumber).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
             }
 
@@ -1313,7 +1412,7 @@ void NewNotes::LoadFile(){
 //        DeleteWidgets();
         if (from_start){//если запуск со стартового окна
             if(QFile(save_temp_file).exists()){
-                QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+                QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Восстановление данных",
                                                                             ("Приложение было некорректно завершено.\nВосстановить данные?"),
                                                                             QMessageBox::No | QMessageBox::Yes | QMessageBox::Cancel,
                                                                             QMessageBox::Yes);
@@ -1521,11 +1620,44 @@ void NewNotes::LoadFile(){
 
 //    if (takt_value == 0)
     exit = true;
+
+    if (share_length < 1){
+        note1->setEnabled(false);
+        v_1->setEnabled(false);
+        if (share_length < 0.5){
+            note2->setEnabled(false);
+            v_2->setEnabled(false);
+            if (share_length < 0.25){
+                note4->setEnabled(false);
+                v_4->setEnabled(false);
+                if (share_length < 0.125){
+                    note8->setEnabled(false);
+                    v_8->setEnabled(false);
+                    if (share_length < 0.0625){
+                        note16->setEnabled(false);
+                        v_16->setEnabled(false);
+                    }
+                }
+            }
+        }
+    }
+    else{
+        note1->setEnabled(true);
+        note2->setEnabled(true);
+        note4->setEnabled(true);
+        note8->setEnabled(true);
+        note16->setEnabled(true);
+        v_1->setEnabled(true);
+        v_2->setEnabled(true);
+        v_4->setEnabled(true);
+        v_8->setEnabled(true);
+        v_16->setEnabled(true);
+    }
 }
 
 void NewNotes::closeEvent(/*bool change_flag,*/ QCloseEvent *event){
     if (has_changed){
-        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Сохранение",
                                                                         ("Сохранить изменения?"),
                                                                         (QMessageBox::Cancel) | QMessageBox::No | QMessageBox::Yes,
                                                                         QMessageBox::Yes);
@@ -1573,7 +1705,7 @@ void NewNotes::closeEvent(/*bool change_flag,*/ QCloseEvent *event){
 
         }
     } else {
-        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "NewNotes",
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Закрытие файла",
                                                                         ("Закрыть файл?"),
                                                                         QMessageBox::No | QMessageBox::Yes,
                                                                         QMessageBox::Yes);
@@ -1633,8 +1765,6 @@ void NewNotes::EditMenu(QMouseEvent *ev, MsNote *note){
         QAction * editDevice = new QAction("Редактировать", this);
         QAction * deleteDevice = new QAction("Заменить на паузу", this);
         connect(editDevice, &QAction::triggered, [this, note](){
-    //        int x_ex_rem = this->area->x_ex;
-    //        int y_ex_rem = this->area->y_ex;
 
             this->area->x_ex = note->x_pos;//перемещаем область синих линий
             this->area->y_ex = note->y_pos;
@@ -1659,7 +1789,7 @@ void NewNotes::EditMenu(QMouseEvent *ev, MsNote *note){
                 note->NotePauseTakt = -1;
                 note->repaint();
     //            qDebug() << note->MsNumber;
-                lbl_note[note->NoteNumber]->setPixmap(QPixmap("C:/Users/User/qt_projects/try/try2/images/pause_values/" + QVariant(note->MsNumber).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
+                lbl_note[note->NoteNumber]->setPixmap(QPixmap(":/images/pause_values/" + QVariant(note->MsNumber).toString() + "_rest.svg.png").scaled(30/*40*/, 40));
                 lbl_note[note->NoteNumber]->setAlignment(Qt::AlignCenter);
             }
         }/*, SLOT(slotEditNote())*/);     // Обработчик вызова диалога редактирования

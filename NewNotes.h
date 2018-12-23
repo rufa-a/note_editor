@@ -78,6 +78,8 @@ public:
     bool opened_win = false;//если открылся новый нотный лист
     bool return_exit = false, load_from_main = false, has_changed = true, exit = true;
 
+    QShortcut *v_1, *v_2, *v_4, *v_8, *v_16, *inp, *save_hot, *sign_hot, *new_hot, *open_hot, *help_hot;
+
 
 public:
     NewNotes(QWidget *parent = 0);
